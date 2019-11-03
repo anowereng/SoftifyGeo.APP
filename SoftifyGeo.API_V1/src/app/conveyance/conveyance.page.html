@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar class="ion-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Conveyance</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-col text-center size-md="4" size-lg="4" size-xs="4">
+    <ion-list>
+      <ion-item>
+        <ion-label>Cutomer Type</ion-label>
+        <ion-select [(ngModel)]="type" interface="popover" (ionChange)="SearchData($event)">
+          <ion-select-option value="old">Old</ion-select-option>
+          <ion-select-option value="new">New</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+  </ion-col>
+
+  <ion-col text-center size-md="4" size-lg="4" size-xs="4">
+    <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="SearchData($event)"></ion-searchbar>
+  </ion-col>
+
+  <ion-virtual-scroll [items]="customerlist" approxItemHeight="320px">
+    <ion-item *virtualItem="let data" [routerLink]="['/', 'customer-details']">
+      <ion-label text-wrap>
+        <h3> {{ data.custName }}</h3>
+        <p>{{ data.CustType }}</p>
+        <p>{{ data.address }}</p>
+      </ion-label>
+    </ion-item>
+
+  </ion-virtual-scroll>

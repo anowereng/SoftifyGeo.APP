@@ -1,0 +1,68 @@
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <h3 text-center>Last Check Info </h3>
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+   
+      <ion-grid>
+        <ion-row *ngIf="checkInInfo.CustName">
+            <ion-col size="6">
+                Location Cust Id
+              </ion-col>
+              <ion-col size="6">
+                {{checkInInfo.LocationCustId}}
+              </ion-col>
+          <ion-col size="6">
+            Cutomer Name
+          </ion-col>
+          <ion-col size="6">
+            {{checkInInfo.CustName}}
+          </ion-col>
+
+          <ion-col size="6">
+            Type
+          </ion-col>
+          <ion-col size="6">
+            {{checkInInfo.CustType}}
+          </ion-col>
+
+          <ion-col size="6">
+            Latitude
+          </ion-col>
+          <ion-col size="6">
+            {{checkInInfo.CheckInLatitude}}
+          </ion-col>
+
+          <ion-col size="6">
+            Longitude
+          </ion-col>
+          <ion-col size="6">
+            {{checkInInfo.CheckInLongitude}}
+          </ion-col>
+
+          <ion-col size="6">
+            <ion-label>Address</ion-label>
+          </ion-col>
+          <ion-col size="6">
+            <Address> {{checkInInfo.CheckInAddress}}</Address>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="!checkInInfo.CustName">
+            <ion-label> last check in not found </ion-label>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-row>
+    <ion-col>
+      <ion-button type="submit" expand="block" class="ion-btn-submit" [disabled]="checkInInfo.CheckOutlongitude>1"
+        (click)="UpdateCheckOut()">Check-Out</ion-button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

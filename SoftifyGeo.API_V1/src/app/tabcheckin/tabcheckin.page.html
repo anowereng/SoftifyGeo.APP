@@ -1,0 +1,60 @@
+<ion-content>
+  
+  <ion-row>
+      <ion-col text-center size-md="12" size-lg="12" size-xs="12">
+          <ion-card>
+            <ion-card-content>
+              <div>
+                {{userId}}
+                  <p>Latitude : {{checkIn.CheckInLatitude}}</p>
+                  <p>Longitude : {{checkIn.CheckInLongitude}}</p>
+                  <p class="address-text">
+                    Address : {{checkIn.CheckInAddress }}
+                  </p>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+    <ion-col text-center size-md="12" size-lg="12" size-xs="12">
+      <ion-list>
+        <ion-item>
+          <ion-label>Cutomer Type</ion-label>
+          <ion-select [(ngModel)]="checkIn.CustType" interface="popover">
+            <ion-select-option value="old">Old</ion-select-option>
+            <ion-select-option value="new">New</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="checkIn.CustType=='old'">
+    <ion-col>
+      <ion-item>
+        <ion-label> Select Customer </ion-label>
+        <ionic-selectable [(ngModel)]="searchTerm" itemValueField="CustId" itemTextField="CustName"
+          [items]="customerlist" [canSearch]="true" (onChange)="customerSelect($event)" (onSearch)="SearchData($event)">
+        </ionic-selectable>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+
+  <ion-row *ngIf="checkIn.CustType=='new'">
+    <ion-col>
+      <ion-item>
+        <ion-label position="floating">Customer Name</ion-label>
+        <ion-input name="text" [(ngModel)]="checkIn.CustName" required ></ion-input>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-button type="submit" expand="block" class="ion-btn-submit" [disabled]="!checkValidation()"
+        (click)="SaveCheckInCustomer()">Check-In</ion-button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

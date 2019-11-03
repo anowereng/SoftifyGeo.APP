@@ -1,0 +1,33 @@
+.my-toolbar{
+  
+    --background:  var(--ion-color-009688);
+}
+ion-content{
+    margin-top: 100px;
+}
+
+ion-title{
+    color: white;
+    font-size: 15px;
+}
+
+fa-icon{
+color:white;
+}
+ion-grid{
+    background: #FFFFFF;
+}
+ion-card{
+    margin:0px;
+}
+
+ion-toolbar{
+    color: #009688 !important;
+    background-color: #009688 !important;
+    background: #009688 !important;
+}
+
+
+ion-grid{   
+    margin-top: 56px;
+}

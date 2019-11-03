@@ -1,0 +1,51 @@
+<ion-header>
+    <ion-toolbar class="ion-toolbar">
+        <ion-buttons slot="start"> 
+          <ion-back-button defaultHref="/home" ></ion-back-button>
+        </ion-buttons>
+      <ion-title>Attendance Entry</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content padding> 
+      <ion-grid>
+          <form>
+          <ion-row>
+                <ion-col text-center size-md="12" size-sm="8" offset-sm="2" offset-md="0">
+                <ion-card>
+                    <ion-card-header>
+                        <ion-card-title>
+                            <h3 text-center>Attendance Location Info </h3>
+                          </ion-card-title>
+                      </ion-card-header>
+                      <ion-card-content>
+
+                          <div>
+                              <p>Latitude : {{geoLatitude}}</p>
+                              <p>Longitude : {{geoLongitude}}</p>
+                              <p>Accuracy : {{geoAccuracy}}</p>
+                              <p class="address-text">
+                                Address : {{geoAddress }}
+                              </p>
+                              <p>Status: {{attendService.CheckStatus}}</p>
+                            </div>
+                        
+                        </ion-card-content>
+                  </ion-card>
+               
+            </ion-col>
+
+          </ion-row>
+          <ion-row>
+            <ion-col  text-center size-md="12" size-sm="8" offset-sm="2" offset-md="0" >
+
+          <ion-button expand="block" class="ion-btn-submit" type="button"  (click)="PostCheckInCheckOut()"
+        
+					>{{attendService.CheckStatus}}</ion-button>
+            </ion-col>
+          </ion-row>
+          </form>
+        </ion-grid>
+
+  </ion-content>
+
