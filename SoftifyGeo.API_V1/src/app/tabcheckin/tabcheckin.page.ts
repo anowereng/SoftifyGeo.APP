@@ -19,11 +19,13 @@ export class TabcheckinPage {
   constructor(public navCtrl: NavController, public checkInOutService: CheckincheckoutService,
               public toastService: ToastService, public latLong: LatLongService,
               public checkInService: CheckInService) {
+              this.latLong.watchLocation();
+              this.GetReadyForCheckIn();
   }
 
   ionViewWillEnter() {
-    this.latLong.getGeolocation();
-    this.GetReadyForCheckIn();
+     this.latLong.watchLocation();
+     this.GetReadyForCheckIn();
   }
   defaultData(): CheckIn {
     return {
@@ -31,9 +33,9 @@ export class TabcheckinPage {
       CustId: 0,
       CustName: '',
       LUserId: 0,
-      CheckInLatitude: 0,
-      CheckInLongitude: 0,
-      CheckInAddress: ''
+      CheckInLatitude: this.latLong.geoLatitude,
+      CheckInLongitude: this.latLong.geoLongitude,
+      CheckInAddress: this.latLong.geoAddress
     };
   }
 
@@ -71,7 +73,6 @@ export class TabcheckinPage {
         }, error => {
           this.toastService.message(error);
         });
-      this.GetReadyForCheckIn();
     }
   }
 

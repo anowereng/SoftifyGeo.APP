@@ -2,57 +2,26 @@
   <ion-card>
     <ion-card-header>
       <ion-card-title>
-        <h3 text-center>Last Check Info </h3>
+        <h3 text-center text-wrap>Last Check Info </h3>
       </ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
    
       <ion-grid>
-        <ion-row *ngIf="checkInInfo.CustName">
-            <ion-col size="6">
-                Location Cust Id
+        <ion-row >
+            <ion-col text-center size-md="12" size-lg="12" size-xs="12">
+                    <div *ngIf="checkInInfo.CustName">
+                        <p><strong>Cutomer Name :</strong> {{checkInInfo.CustName}}</p>
+                        <p> <strong>Customer Type : </strong>{{checkInInfo.CustType}}</p>
+                        <p><strong>Latitude : </strong>  {{checkInInfo.CheckInLatitude}}</p>
+                        <p><strong>Longitude : </strong>  {{checkInInfo.CheckInLatitude}}</p>
+                        <p class="address-text">
+                          <strong> Address :</strong>{{checkInInfo.CheckInAddress }}
+                        </p>
+                    </div>
+                    <ion-label *ngIf="!checkInInfo.CustName"> last check in not found </ion-label>
               </ion-col>
-              <ion-col size="6">
-                {{checkInInfo.LocationCustId}}
-              </ion-col>
-          <ion-col size="6">
-            Cutomer Name
-          </ion-col>
-          <ion-col size="6">
-            {{checkInInfo.CustName}}
-          </ion-col>
-
-          <ion-col size="6">
-            Type
-          </ion-col>
-          <ion-col size="6">
-            {{checkInInfo.CustType}}
-          </ion-col>
-
-          <ion-col size="6">
-            Latitude
-          </ion-col>
-          <ion-col size="6">
-            {{checkInInfo.CheckInLatitude}}
-          </ion-col>
-
-          <ion-col size="6">
-            Longitude
-          </ion-col>
-          <ion-col size="6">
-            {{checkInInfo.CheckInLongitude}}
-          </ion-col>
-
-          <ion-col size="6">
-            <ion-label>Address</ion-label>
-          </ion-col>
-          <ion-col size="6">
-            <Address> {{checkInInfo.CheckInAddress}}</Address>
-          </ion-col>
-        </ion-row>
-        <ion-row *ngIf="!checkInInfo.CustName">
-            <ion-label> last check in not found </ion-label>
         </ion-row>
       </ion-grid>
     </ion-card-content>

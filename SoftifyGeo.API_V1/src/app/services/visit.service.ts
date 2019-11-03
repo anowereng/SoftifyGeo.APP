@@ -24,6 +24,10 @@ export class VisitService {
     return this.http.get(this.url + `/visit/GetAllVisitCustomer?searchdata=${searchtext}&custType=${custtype}`);
   }
 
+  getVisitDetailsByLocCustId(id: number) {
+    return this.http.get(this.url + `/visit/getVisitDetailsByLocCustId?id=${id}`);
+  }
+
 
 }
 

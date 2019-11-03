@@ -14,9 +14,11 @@ const routes: Routes = [
   { path: 'info', loadChildren: './info/info.module#InfoPageModule' ,canActivate: [AuthGuardService]},
   { path: 'conveyance', loadChildren: './conveyance/conveyance.module#ConveyancePageModule' ,canActivate: [AuthGuardService]},
   { path: 'schedule', loadChildren: './schedule/schedule.module#SchedulePageModule' ,canActivate: [AuthGuardService]},
-  { path: '', loadChildren: './tabs/tabs.module#TabsPageModule' },  { path: 'tabcheckin', loadChildren: './tabcheckin/tabcheckin.module#TabcheckinPageModule' },
-  { path: 'tabcheckout', loadChildren: './tabcheckout/tabcheckout.module#TabcheckoutPageModule' }
-
+  { path: '', loadChildren: './tabs/tabs.module#TabsPageModule' },
+  { path: 'tabcheckin', loadChildren: './tabcheckin/tabcheckin.module#TabcheckinPageModule' },
+  { path: 'tabcheckout', loadChildren: './tabcheckout/tabcheckout.module#TabcheckoutPageModule' },
+  { path: 'visit-list', loadChildren: './visit-list/visit-list.module#VisitListPageModule' },
+  { path: 'visit-details/:id', loadChildren: './visit-details/visit-details.module#VisitDetailsPageModule' }
 ];
 
 @NgModule({

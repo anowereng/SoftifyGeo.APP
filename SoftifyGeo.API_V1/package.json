@@ -29,6 +29,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.10.0",
     "@fortawesome/free-solid-svg-icons": "^5.10.0",
     "@ionic-native/core": "^5.0.0",
+    "@ionic-native/file-opener": "^5.16.0",
     "@ionic-native/geolocation": "^5.11.0",
     "@ionic-native/http": "^5.13.0",
     "@ionic-native/native-geocoder": "^5.11.0",
@@ -41,6 +42,7 @@
     "cordova-android": "8.0.0",
     "cordova-ios": "5.0.1",
     "cordova-plugin-add-swift-support": "^2.0.2",
+    "cordova-plugin-file-opener2": "^2.2.1",
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-plugin-nativegeocoder": "^3.2.2",
     "cordova-plugin-network-information": "^2.0.2",
@@ -97,7 +99,10 @@
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-network-information": {}
+      "cordova-plugin-network-information": {},
+      "cordova-plugin-file-opener2": {
+        "ANDROID_SUPPORT_V4_VERSION": "27.+"
+      }
     },
     "platforms": [
       "android",

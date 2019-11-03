@@ -74,6 +74,7 @@ export class LatLongService {
     this.watchLocationUpdates.subscribe((resp) => {
       this.geoLatitude = resp.coords.latitude;
       this.geoLongitude = resp.coords.longitude;
+      this.getGeoencoder(this.geoLatitude, this.geoLongitude);
     });
     }
   //Stop location update watch

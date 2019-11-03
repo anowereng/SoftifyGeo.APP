@@ -14,22 +14,23 @@ import { IonInfiniteScroll } from '@ionic/angular';
 
 export class VisitListPage {
 
-  customerlist: any = []; searchTerm: string = ""; type: any = "old"; searchChanged: any = ""; searching: any = false;
+  customerlist: any = []; loading: boolean= false; searchTerm: string = ""; type: any = "old";
+  searchChanged: any = ""; searching: any = false;
   searchControl: FormControl; customerFilterList: any = []; numTimesLeft = 5; items = [];
 
   constructor(public navCtrl: NavController, public visitService: VisitService,
-              public loadingService: LoadingService, public toastService: ToastService) {
-              this.searchControl = new FormControl();
+                              public loadingService: LoadingService, public toastService: ToastService) {
+                              this.searchControl = new FormControl();
   }
 
   SearchData(event) {
     console.log(event.detail.value);
     console.log(this.type);
-    if (event.detail.value.length > 3) {
+    if (event.detail.value.length > 3 && this.type) {
+      this.loading = true;
       this.visitService.getAllVisitCustomer(event.detail.value, this.type).subscribe(
         response => {
-          this.customerlist = response;
-          console.log(response);
+          this.customerlist = response; this.loading = false;
         }, error => {
           this.toastService.message(error);
         });

@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar class="ion-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/visit-list"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Visit Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-row>
+    <ion-col text-center size-md="12" size-sm="8" offset-sm="2" offset-md="0">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>
+            <h3 text-center>Visit Info </h3>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div>
+            <h2>{{visitdetails.CustName}}</h2>
+            <p>Check In Long: {{visitdetails.CheckInLatitude}}</p>
+            <p>Check In Lat: {{visitdetails.CheckInLongitude}}</p>
+            <p>Check Out Long: {{visitdetails.CheckInLongitude}}</p>
+            <p>Check Out Lat: {{visitdetails.CheckOutlongitude}}</p>
+            <p class="address-text">
+              CheckIn Address : {{visitdetails.CheckInAddress }}
+            </p>
+            <p>CheckOut Address : {{visitdetails.CheckOutAddress}}</p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-content>

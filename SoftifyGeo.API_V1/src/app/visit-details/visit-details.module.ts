@@ -5,13 +5,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SchedulePage } from './schedule.page';
-import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { VisitDetailsPage } from './visit-details.page';
+import { VisitService } from '../services/visit.service';
 
 const routes: Routes = [
   {
     path: '',
-    component: SchedulePage
+    component: VisitDetailsPage
   }
 ];
 
@@ -22,7 +22,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [SchedulePage],
-  providers:[FileOpener]
+  declarations: [VisitDetailsPage],
+  providers: [VisitService]
 })
-export class SchedulePageModule {}
+export class VisitDetailsPageModule {}
