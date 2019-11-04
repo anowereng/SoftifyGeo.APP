@@ -9,6 +9,18 @@
 
 <ion-content>
 
+  {{mydate2}}
+  <ion-item>
+    <ion-input [(ngModel)]="mydate2" readonly [liIonic4Datepicker]="datePickerObj"></ion-input>
+</ion-item>
+<!-- <ion-grid>
+  <ion-row>
+    <ion-col>
+      <ion-input [(ngModel)]="mydate2" readonly [liIonic4Datepicker]="datePickerObj"></ion-input>
+    </ion-col>
+  </ion-row>
+</ion-grid> -->
+
   <ion-col text-center size-md="4" size-lg="4" size-xs="4">
     <ion-list>
       <ion-item>
