@@ -20,8 +20,11 @@ export class VisitService {
     return this.http.get(this.url + `/visit/GetVisitList?pageindex=${pageindex}&pagesize=${pagesize}&searchdata=${searchterm}`);
   }
 
-  getAllVisitCustomer(searchtext: any, custtype: string) {
-    return this.http.get(this.url + `/visit/GetAllVisitCustomer?searchdata=${searchtext}&custType=${custtype}`);
+  getAllVisitCustomer(searchtext: any, model: any) {
+
+    console.log(model);
+          // tslint:disable-next-line: max-line-length
+    return this.http.get(this.url + `/visit/GetAllVisitCustomer?searchdata=${searchtext}&custtype=${model.type}&dtfrom=${model.dtFrom}&dtto=${model.dtTo}`);
   }
 
   getVisitDetailsByLocCustId(id: number) {

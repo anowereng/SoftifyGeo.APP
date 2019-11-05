@@ -8,41 +8,53 @@
 </ion-header>
 
 <ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="3" class="ion-padding-top">
+        From :
+      </ion-col>
+      <ion-col size="6" text-center>
+        <ion-item>
+          <ion-input readonly [(ngModel)]="visitModel.dtFrom" [liIonic4Datepicker]="datePickerObj" (ionChange)="SearchData()">
+          </ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
 
-  {{mydate2}}
-  <ion-item>
-    <ion-input [(ngModel)]="mydate2" readonly [liIonic4Datepicker]="datePickerObj"></ion-input>
-</ion-item>
-<!-- <ion-grid>
-  <ion-row>
-    <ion-col>
-      <ion-input [(ngModel)]="mydate2" readonly [liIonic4Datepicker]="datePickerObj"></ion-input>
-    </ion-col>
-  </ion-row>
-</ion-grid> -->
-
-  <ion-col text-center size-md="4" size-lg="4" size-xs="4">
-    <ion-list>
-      <ion-item>
-        <ion-label>Cutomer Type</ion-label>
-        <ion-select [(ngModel)]="type" interface="popover" (ionChange)="SearchData($event)">
+    <ion-row>
+      <ion-col size="3" class="ion-padding-top">
+        To :
+      </ion-col>
+      <ion-col size="6" text-center>
+        <ion-item>
+          <ion-input [(ngModel)]="visitModel.dtTo" readonly [liIonic4Datepicker]="datePickerObj"
+            (ionChange)="SearchData()"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col text-center size-md="3" size-lg="3" size-xs="3">
+        <ion-select [(ngModel)]="visitModel.type" interface="popover" (ionChange)="SearchData()">
           <ion-select-option value="old">Old</ion-select-option>
           <ion-select-option value="new">New</ion-select-option>
         </ion-select>
-      </ion-item>
-    </ion-list>
-  </ion-col>
+      </ion-col>
+    </ion-row>
 
-  <ion-col text-center size-md="4" size-lg="4" size-xs="4">
-    <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="SearchData($event)" ></ion-searchbar>
-  </ion-col>
-  
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col text-center size-md="12" size-lg="12" size-xs="12">
+        <ion-searchbar [(ngModel)]="visitModel.searchTerm" (ionChange)="SearchData()"></ion-searchbar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
   <div *ngIf="loading" text-center size-md="4" size-lg="4" size-xs="4">
-      <ion-spinner name="bubbles"></ion-spinner> <small>loading...</small>
-    </div>
-    <div *ngIf="customerlist.length===0" text-center size-md="4" size-lg="4" size-xs="4">
-        <small>data not found...</small>
-      </div>
+    <ion-spinner name="bubbles"></ion-spinner> <small>loading...</small>
+  </div>
+  <div *ngIf="customerlist.length===0 && loading==false" text-center size-md="4" size-lg="4" size-xs="4">
+    <small>data not found...</small>
+  </div>
   <ion-virtual-scroll [items]="customerlist" approxItemHeight="320px">
     <ion-item *virtualItem="let data" [routerLink]="['/', 'visit-details',data.LocationCustId]">
       <ion-label text-wrap>
@@ -52,7 +64,5 @@
       </ion-label>
     </ion-item>
   </ion-virtual-scroll>
-
-
 
 </ion-content>

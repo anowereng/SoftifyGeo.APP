@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { VisitService } from '../services/visit.service';
 import { VisitListPage } from './visit-list.page';
 import { Ionic4DatepickerModule } from '@logisticinfotech/ionic4-datepicker';
+import { DatePickerService } from '../services/common/datepricker.service';
 const routes: Routes = [
   {
     path: '',
@@ -22,6 +23,6 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   declarations: [VisitListPage],
-  providers: [VisitService, DatePipe]
+  providers: [VisitService, DatePipe, DatePickerService]
 })
 export class VisitListPageModule {}
