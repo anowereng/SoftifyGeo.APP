@@ -5,13 +5,14 @@ import { LoadingService } from '../services/loading.service';
 import { ToastService } from '../services/toast.service';
 import { DatePipe } from '@angular/common';
 import { DatePickerService } from '../services/common/datepricker.service';
+
 @Component({
-  selector: 'app-visit-list',
-  templateUrl: './visit-list.page.html',
-  styleUrls: ['./visit-list.page.scss'],
+  selector: 'app-visit-list-conveyance',
+  templateUrl: './visit-list-conveyance.page.html',
+  styleUrls: ['./visit-list-conveyance.page.scss'],
 })
 
-export class VisitListPage implements OnInit {
+export class VisitListConveyancePage implements OnInit {
 
   visitModel: any = {
     dtFrom: this.datpickerService.selectedDate(),

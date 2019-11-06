@@ -57,7 +57,7 @@
     <small>data not found...</small>
   </div>
   <ion-virtual-scroll [items]="customerlist" approxItemHeight="320px">
-    <ion-item *virtualItem="let data" [routerLink]="['/', 'visit-details',data.LocationCustId]">
+    <ion-item *virtualItem="let data" [routerLink]="['/', 'conveyance',data.LocationCustId]">
       <ion-label text-wrap>
         <h3> {{ data.custName }}</h3>
         <p>Check In | Out:  <strong>{{ data.CheckIn }}</strong> | <strong>{{ data.CheckOut }}</strong></p>

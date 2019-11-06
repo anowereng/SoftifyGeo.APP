@@ -18,6 +18,8 @@ const routes: Routes = [
   { path: 'tabcheckin', loadChildren: './tabcheckin/tabcheckin.module#TabcheckinPageModule' },
   { path: 'tabcheckout', loadChildren: './tabcheckout/tabcheckout.module#TabcheckoutPageModule' },
   { path: 'visit-list', loadChildren: './visit-list/visit-list.module#VisitListPageModule' },
+  { path: 'visit-list-conveyance', loadChildren: './visit-list-conveyance/visit-list-conveyance.module#VisitListConveyancePageModule' },
+  { path: 'conveyance/:id', loadChildren: './conveyance/conveyance.module#ConveyancePageModule' },
   { path: 'visit-details/:id', loadChildren: './visit-details/visit-details.module#VisitDetailsPageModule' }
 ];
 

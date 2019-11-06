@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { VisitService } from '../services/visit.service';
 import { LoadingService } from '../services/loading.service';
 import { ToastService } from '../services/toast.service';
-import { FormControl } from '@angular/forms';
-import { IonInfiniteScroll } from '@ionic/angular';
-
+import { IonicSelectableComponent } from '../../../node_modules/ionic-selectable';
+import { ConveyanceService } from '../services/conveyance.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-conveyance',
@@ -13,29 +12,54 @@ import { IonInfiniteScroll } from '@ionic/angular';
   styleUrls: ['./conveyance.page.scss'],
 })
 
-export class ConveyancePage {
+export class ConveyancePage implements OnInit {
 
-  customerlist: any = []; searchTerm: string = ""; type: any = "old"; searchChanged: any = ""; searching: any = false;
-  searchControl: FormControl; customerFilterList: any = []; numTimesLeft = 5; items = [];
+  conveyTypeList: any = []; numTimesLeft = 5; items = []; id: any;
+  model: any = {
+    conveyTypeId: 0,
+    visitId: 0
+  };
 
-  constructor(public navCtrl: NavController, public visitService: VisitService,
-              public loadingService: LoadingService, public toastService: ToastService) {
-              this.searchControl = new FormControl();
+  constructor(public navCtrl: NavController, public convservice: ConveyanceService,
+    public loadingService: LoadingService, public toastService: ToastService, private router: ActivatedRoute) {
   }
 
-  SearchData(event) {
-    console.log(event.detail.value);
-    console.log(this.type);
-    if (event.detail.value.length > 3) {
-      this.visitService.getAllVisitCustomer(event.detail.value, this.type).subscribe(
-        response => {
-          this.customerlist = response;
-          console.log(response);
-        }, error => {
-          this.toastService.message(error);
-        });
-    }
+  conveyanceSelect(event: { component: IonicSelectableComponent, value: any }) {
+    event.component._searchText = '';
+    // this.checkIn.CustId = 0;
+    // this.checkIn.CustId = event.value.customerid;
+    // this.checkIn.CustName = event.value.CustName;
+  }
+
+  ngOnInit() {
+    this.id = this.router.snapshot.paramMap.get('id');
+    this.ConveyanceType();
+  }
+
+  ConveyanceType() {
+    this.convservice.getConveyType().subscribe(
+      response => {
+        this.conveyTypeList = response;
+      }, error => {
+        this.toastService.message(error);
+      });
   }
 
 
+  AddConveyance() {
+    console.log(this.model);
+    // if (this.checkIn) {
+    //   this.checkInService.postItem(this.checkIn).subscribe(
+    //     () => {
+    //       this.toastService.message('Record Saved Successfully');
+    //       this.checkIn = this.defaultData(); this.searchTerm.CustId = 0; this.checkIn.CustName = '';
+    //       this.customerlist = [];
+    //       console.log(this.checkIn);
+    //     }, error => {
+    //       this.toastService.message(error);
+    //     });
+    // }
+  }
 }
+
+

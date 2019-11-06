@@ -82,7 +82,6 @@ export class TabcheckinPage {
       if (result === false) {
         this.toastService.message('Please Check Out First !!');
       }
-
     }, error => {
       this.toastService.message(error);
     });
