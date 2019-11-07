@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 import { AttendanceService } from '../services/attendance.service';
@@ -6,6 +6,7 @@ import { ToastService } from '../services/toast.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-attendance',
   templateUrl: './attendance.page.html',
@@ -27,13 +28,18 @@ export class AttendancePage {
     useLocale: true,
     maxResults: 5
   };
+
+
+
+
   constructor(
     private geolocation: Geolocation,
     private nativeGeocoder: NativeGeocoder,
     public attendService: AttendanceService,
     private toastService: ToastService,
     private helper: JwtHelperService,
-    private router: Router
+    private router: Router,
+
   ) { }
 
   ionViewWillEnter() {
@@ -41,22 +47,19 @@ export class AttendancePage {
     this.attendService.CheckInOutStatus();
   }
 
+  
 
-  //Get current coordinates of device
   getGeolocation() {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.geoLatitude = resp.coords.latitude;
       this.geoLongitude = resp.coords.longitude;
       this.geoAccuracy = resp.coords.accuracy;
-
-
       this.getGeoencoder(this.geoLatitude, this.geoLongitude);
     }).catch((error) => {
       alert('Error getting location' + JSON.stringify(error));
     });
   }
 
-  //geocoder method to fetch address from coordinates passed as arguments
   getGeoencoder(latitude, longitude) {
     this.nativeGeocoder.reverseGeocode(latitude, longitude, this.geoencoderOptions)
       .then((result: NativeGeocoderResult[]) => {
@@ -67,7 +70,6 @@ export class AttendancePage {
       });
   }
 
-  //Return Comma saperated address
   generateAddress(addressObj) {
     let obj = [];
     let address = "";

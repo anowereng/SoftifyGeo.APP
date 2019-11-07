@@ -5,6 +5,8 @@ import { ToastService } from '../services/toast.service';
 import { IonicSelectableComponent } from '../../../node_modules/ionic-selectable';
 import { ConveyanceService } from '../services/conveyance.service';
 import { ActivatedRoute } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Conveyance } from '../_models/conveyance';
 
 @Component({
   selector: 'app-conveyance',
@@ -13,27 +15,34 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 export class ConveyancePage implements OnInit {
-
+  conveyanceForm: FormGroup; conveyType: any;
   conveyTypeList: any = []; numTimesLeft = 5; items = []; id: any;
-  model: any = {
+  model: Conveyance = {
+    visitId: 0,
     conveyTypeId: 0,
-    visitId: 0
+    conveyAmount: 0
   };
 
   constructor(public navCtrl: NavController, public convservice: ConveyanceService,
-    public loadingService: LoadingService, public toastService: ToastService, private router: ActivatedRoute) {
+              public loadingService: LoadingService, public toastService: ToastService,
+              private router: ActivatedRoute, private formBuilder: FormBuilder) {
   }
 
   conveyanceSelect(event: { component: IonicSelectableComponent, value: any }) {
-    event.component._searchText = '';
-    // this.checkIn.CustId = 0;
-    // this.checkIn.CustId = event.value.customerid;
-    // this.checkIn.CustName = event.value.CustName;
+    // event.component._searchText = '';
+    console.log(event);
+    this.model.visitId = event.value.Id;
   }
 
   ngOnInit() {
     this.id = this.router.snapshot.paramMap.get('id');
     this.ConveyanceType();
+
+    this.conveyanceForm = this.formBuilder.group({
+      conveyType: ['', [Validators.required]],
+      visitId: [this.id],
+      conveyAmount: ['', [Validators.required, Validators.minLength(2)]]
+    });
   }
 
   ConveyanceType() {
@@ -44,21 +53,23 @@ export class ConveyancePage implements OnInit {
         this.toastService.message(error);
       });
   }
+  SaveConveyance() {
 
-
-  AddConveyance() {
-    console.log(this.model);
-    // if (this.checkIn) {
-    //   this.checkInService.postItem(this.checkIn).subscribe(
-    //     () => {
-    //       this.toastService.message('Record Saved Successfully');
-    //       this.checkIn = this.defaultData(); this.searchTerm.CustId = 0; this.checkIn.CustName = '';
-    //       this.customerlist = [];
-    //       console.log(this.checkIn);
-    //     }, error => {
-    //       this.toastService.message(error);
-    //     });
-    // }
+    this.model.conveyTypeId = this.conveyanceForm.value.conveyType.Id;
+    this.model.visitId = this.id;
+    this.model.conveyAmount = this.conveyanceForm.value.conveyAmount;
+    if (this.conveyanceForm && this.model.visitId && this.model.conveyTypeId > 0) {
+      this.model.conveyTypeId = this.conveyanceForm.value.conveyType.Id;
+      this.model.visitId = this.id;
+      this.model.conveyAmount = this.conveyanceForm.value.conveyAmount;
+      this.convservice.postItem(this.model).subscribe(
+        () => {
+          this.toastService.message('Record Saved Successfully');
+          this.conveyanceForm.reset();
+        }, error => {
+          this.toastService.message(error);
+        });
+    }
   }
 }
 

@@ -7,7 +7,9 @@ import { IonicModule } from '@ionic/angular';
 
 import { SchedulePage } from './schedule.page';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
-
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+import { Camera } from '@ionic-native/camera/ngx';
 const routes: Routes = [
   {
     path: '',
@@ -23,6 +25,7 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   declarations: [SchedulePage],
-  providers:[FileOpener]
+  providers:[FileOpener,    FileTransferObject,
+    Camera]
 })
 export class SchedulePageModule {}
