@@ -19,6 +19,7 @@
               </ion-card-title>
             </ion-card-header>
             <ion-card-content>
+
               <div>
                 <p>Latitude : {{geoLatitude}}</p>
                 <p>Longitude : {{geoLongitude}}</p>
@@ -32,16 +33,20 @@
           </ion-card>
         </ion-col>
       </ion-row>
-
-   
-
-      <ion-row>
-        <ion-col text-center size-md="12" size-sm="8" offset-sm="2" offset-md="0">
-          <ion-button expand="block" class="ion-btn-submit" type="button" (click)="PostCheckInCheckOut()">
-            {{attendService.CheckStatus}}</ion-button>
-        </ion-col>
-      </ion-row>
     </form>
   </ion-grid>
 
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar class="ion-toolbar">
+    <ion-button fill="clear" expand="full" color="light" *ngIf="attendService.CheckStatus === 'CheckIn'" (click)="getPicture()">
+      <ion-icon slot="start" name="camera"></ion-icon>
+      {{attendService.CheckStatus}}
+    </ion-button>
+    <ion-button fill="clear" expand="full" color="light"  *ngIf="attendService.CheckStatus != 'CheckIn'" (click)="SaveCheckInOut()">
+        <ion-icon name="log-out" slot="end"></ion-icon>
+        {{attendService.CheckStatus}}
+      </ion-button>
+  </ion-toolbar>
+</ion-footer>

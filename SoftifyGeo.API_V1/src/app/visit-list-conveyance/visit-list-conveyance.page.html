@@ -57,14 +57,17 @@
     <small>data not found...</small>
   </div>
   <ion-virtual-scroll [items]="customerlist" approxItemHeight="320px">
-    <ion-item *virtualItem="let data" [routerLink]="['/', 'conveyance',data.LocationCustId]">
-      <ion-label text-wrap>
-        <h3> {{ data.custName }}</h3>
-        <p>Check In | Out:  <strong>{{ data.CheckIn }}</strong> | <strong>{{ data.CheckOut }}</strong></p>
-        <p>Cust Type : {{ data.CustType }}</p> 
-        <p float-right>{{ data.dtEntry }}</p> 
-      </ion-label>
-    </ion-item>
+      <ion-card *virtualItem="let data" (click)="RouteConveyance(data.CheckOut,data.LocationCustId)">
+        <ion-card-content>
+                <ion-label text-wrap>
+                  <h3> {{ data.custName }}</h3>
+                  <p>Check In | Out:  <strong>{{ data.CheckIn }}</strong> | <strong>{{ data.CheckOut }}</strong></p>
+                  <p>Cust Type : {{ data.CustType }}</p> 
+                  <p float-right>{{ data.dtEntry }} <ion-icon *ngIf="data.CheckOut.length>0" name="arrow-round-forward"></ion-icon></p> 
+                </ion-label>
+        </ion-card-content>
+      </ion-card>
+  
   </ion-virtual-scroll>
 
 </ion-content>

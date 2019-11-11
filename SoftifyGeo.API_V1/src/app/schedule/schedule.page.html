@@ -1,44 +1,86 @@
+<!-- <ion-header>
+  <ion-toolbar class="ion-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>schedule</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-<ion-header >
-    <ion-toolbar class="ion-toolbar">
-        <ion-buttons slot="start">
-          <ion-back-button defaultHref="/home" ></ion-back-button>
-        </ion-buttons>
-      <ion-title>schedule</ion-title>
-    </ion-toolbar>
-  </ion-header>
-   
 
 <ion-content>
-    <ion-row>
-        <ion-col size-sm-6>
-            <ion-button size="small" (click)="getPicture(1)">Show Camera</ion-button>
-          </ion-col>
-          <ion-item lines="none">
-              <ion-label>Return image file URI</ion-label>
-              <!-- <ion-toggle energized [(ngModel)]="useURI"></ion-toggle> -->
-            </ion-item>
-        
-            <ion-card >
-              <ion-card-content>
-                <img [src]="imageData" *ngIf="imageData"/>
-              </ion-card-content>
-              <ion-card-header>
-                <ion-card-title>
-                  <div *ngIf="useURI">
-                    Using URI
-                  </div>
-                  <div *ngIf="!useURI">
-                    Using Base64
-                  </div>
-                  <p *ngIf="useURI">
-                    Your URI is {{ imageData }}
-                  </p>
-                  <p *ngIf="!useURI">
-                    Your Base64 image has {{ (imageData + '').length }} bytes
-                  </p>
-                </ion-card-title>
-              </ion-card-header>
-            </ion-card>
-    </ion-row>
+  <ion-row>
+    <ion-col size-sm-6>
+      <ion-button size="small" (click)="getPicture(1)">Show Camera</ion-button>
+    </ion-col>
+    <ion-item lines="none">
+      <ion-label>Return image file URI</ion-label>
+    </ion-item>
+    <ion-card>
+      <ion-card-content>
+        <img [src]="imageData" *ngIf="imageData" />
+      </ion-card-content>
+      <ion-card-header>
+        <ion-card-title>
+          <div *ngIf="useURI">
+            Using URI
+          </div>
+          <div *ngIf="!useURI">
+            Using Base64
+          </div>
+          <p *ngIf="useURI">
+            Your URI is {{ imageData }}
+          </p>
+          <p *ngIf="!useURI">
+            Your Base64 image has {{ (imageData + '').length }} bytes
+          </p>
+        </ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </ion-row>
+</ion-content> -->
+
+<ion-header>
+    <ion-toolbar class="ion-toolbar">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/home"></ion-back-button>
+      </ion-buttons>
+      <ion-title> Image Upload</ion-title>
+    </ion-toolbar>
+  </ion-header>
+ 
+<ion-content padding>
+  <h3 *ngIf="images.length == 0" text-center>Please Select Image!</h3>
+ 
+  <ion-list>
+    <ion-item *ngFor="let img of images; index as pos" text-wrap>
+      <ion-thumbnail slot="start">
+        <ion-img [src]="img.path"></ion-img>
+      </ion-thumbnail>
+      <ion-label>
+        {{ img.name }}
+      </ion-label>
+      <ion-button slot="end" fill="clear" (click)="startUpload(img)">
+        <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
+      </ion-button>
+      <ion-button slot="end" fill="clear" (click)="deleteImage(img, pos)">
+        <ion-icon slot="icon-only" name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+    
+    <ion-item>
+        <ion-button slot="end" fill="clear" (click)="postcheck()">
+            <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
+          </ion-button>
+    </ion-item>
+  </ion-list>
+  
 </ion-content>
+ 
+<ion-footer>
+  <ion-toolbar class="ion-toolbar">
+    <ion-button fill="clear" expand="full" color="light" (click)="selectImage()">
+      <ion-icon slot="start" name="camera"></ion-icon>
+      Select Image</ion-button>
+  </ion-toolbar>
+</ion-footer>

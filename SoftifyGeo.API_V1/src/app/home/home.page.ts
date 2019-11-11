@@ -10,12 +10,14 @@ import { AuthService } from '../services/auth.service';
 export class HomePage {
 
   constructor(private router: Router, private authService: AuthService,
-              ) { }
+  ) { 
+    
+              }
 
   logout() {
     this.authService.logout();
   }
-
+ 
   checkincheckout(){
     this.router.navigateByUrl('checkincheckout');
   }

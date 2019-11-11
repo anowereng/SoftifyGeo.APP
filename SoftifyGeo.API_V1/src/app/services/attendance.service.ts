@@ -25,6 +25,7 @@ export class AttendanceService {
   }
 
   postItem(model: any) {
+    console.log(model);
     return this.http.post(this.url + '/LocationAttendance/AttendanceSave', model);
   }
 }

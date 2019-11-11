@@ -4,7 +4,7 @@ import { ToastController } from '@ionic/angular';
 // import { Toast} from '@ionic-angular';
 
 @Injectable()
-export class ToastService{
+export class TokenService{
     // toast: any;
     constructor(private toastCtrl: ToastController){ }
 

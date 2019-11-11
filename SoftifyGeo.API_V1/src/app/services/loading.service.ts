@@ -24,7 +24,18 @@ export class LoadingService {
       });
     });
   }
-
+  async presentWithMessage(data: string) {
+    this.isLoading = true;
+    return await this.loadingController.create({
+      message: data,
+    }).then(a => {
+      a.present().then(() => {
+        if (!this.isLoading) {
+          a.dismiss();
+        }
+      });
+    });
+  }
   async dismiss() {
     this.isLoading = false;
     return await this.loadingController.dismiss().then(() => console.log('dismissed'));

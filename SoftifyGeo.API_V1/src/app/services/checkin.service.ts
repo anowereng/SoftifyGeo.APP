@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { CheckIn } from '../_models/checkin';
-import { catchError } from 'rxjs/operators';
+import { catchError , finalize} from 'rxjs/operators';
+import { LoadingService } from './loading.service';
 
 export class CheckInService {
   url = environment.url;
@@ -22,6 +23,8 @@ export class CheckInService {
         throw new Error(e);
       }));
   }
+
+
 }
 
 

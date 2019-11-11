@@ -14,7 +14,7 @@ import { CheckInService } from '../services/checkin.service';
 export class TabcheckinPage {
 
   checkIn: CheckIn = this.defaultData();
-  searchTerm: any = ''; customerlist: any;
+  searchTerm: any = ''; customerlist: any; loading: boolean = false;
   IsCheckInReady: any; userId: number;
   constructor(public navCtrl: NavController, public checkInOutService: CheckincheckoutService,
               public toastService: ToastService, public latLong: LatLongService,
@@ -36,11 +36,10 @@ export class TabcheckinPage {
       CheckInLatitude: this.latLong.geoLatitude,
       CheckInLongitude: this.latLong.geoLongitude,
       CheckInAddress: this.latLong.geoAddress
-    };
+    }
   }
 
   SearchData(event) {
-    console.log(event.text);
     if (event.text.length > 3) {
       this.checkInOutService.SearchData(event.text).subscribe(
         response => {
