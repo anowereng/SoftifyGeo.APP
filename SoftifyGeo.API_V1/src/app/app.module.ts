@@ -41,7 +41,7 @@ library.add(fas, far, fab);
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
-     AuthModule, FontAwesomeModule, 
+     AuthModule, FontAwesomeModule,
     IonicStorageModule.forRoot(),
     JwtModule.forRoot({
       jwtOptionsProvider: {

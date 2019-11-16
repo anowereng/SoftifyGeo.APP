@@ -3,6 +3,11 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+        <a (click)="authservice.logout()">
+          <ion-icon name="power" slot="end" style="color: white;"></ion-icon>
+        </a>
+      </ion-buttons>
     <ion-title>Visit List</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -25,13 +30,13 @@
       <ion-col size="3" class="ion-padding-top">
         To :
       </ion-col>
-      <ion-col size="6" text-center>
+      <ion-col size="5" text-center>
         <ion-item>
           <ion-input [(ngModel)]="visitModel.dtTo" readonly [liIonic4Datepicker]="datePickerObj"
             (ionChange)="SearchData()"></ion-input>
         </ion-item>
       </ion-col>
-      <ion-col text-center size-md="3" size-lg="3" size-xs="3">
+      <ion-col text-center size-md="4" size-lg="4" size-xs="4">
         <ion-select [(ngModel)]="visitModel.type" interface="popover" (ionChange)="SearchData()">
           <ion-select-option value="old">Old</ion-select-option>
           <ion-select-option value="new">New</ion-select-option>
@@ -56,16 +61,25 @@
   <div *ngIf="customerlist.length===0 && loading==false" text-center size-md="4" size-lg="4" size-xs="4">
     <small>data not found...</small>
   </div>
-  <ion-virtual-scroll [items]="customerlist" approxItemHeight="320px">
-      <ion-card *virtualItem="let data" (click)="RouteConveyance(data.CheckOut,data.LocationCustId)">
+  <ion-virtual-scroll [items]="customerlist"> 
+      <ion-card *virtualItem="let data" (click)="RouteConveyance(data.CheckOut,data.LocationCustId)" color="light">
         <ion-card-content>
-                <ion-label text-wrap>
-                  <h3> {{ data.custName }}</h3>
-                  <p>Check In | Out:  <strong>{{ data.CheckIn }}</strong> | <strong>{{ data.CheckOut }}</strong></p>
-                  <p>Cust Type : {{ data.CustType }}</p> 
-                  <p float-right>{{ data.dtEntry }} <ion-icon *ngIf="data.CheckOut.length>0" name="arrow-round-forward"></ion-icon></p> 
-                </ion-label>
-        </ion-card-content>
+            <ion-label text-wrap>
+              <p><small>
+                  <ion-icon name="man"></ion-icon> {{ data.custName }}
+                </small></p>
+              <p><small>
+                  <ion-icon name="navigate"></ion-icon> Check In | Out: <strong>{{ data.CheckIn }}</strong> |
+                  <strong>{{ data.CheckOut }}</strong>
+                </small></p>
+              <p><small>
+                  <ion-icon name="reorder"></ion-icon> Type : {{ data.CustType }}
+                </small></p>
+              <p float-right><small>
+                  <ion-icon name="calendar"></ion-icon> {{ data.dtEntry }} <ion-icon *ngIf="data.CheckOut.length>0" name="arrow-round-forward"></ion-icon>
+                </small></p>
+            </ion-label>
+          </ion-card-content>
       </ion-card>
   
   </ion-virtual-scroll>

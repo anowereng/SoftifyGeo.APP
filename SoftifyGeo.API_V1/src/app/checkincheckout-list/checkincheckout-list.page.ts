@@ -5,6 +5,7 @@ import { LoadingService } from '../services/loading.service';
 import { ToastService } from '../services/toast.service';
 import { FormControl } from '@angular/forms';
 import { IonInfiniteScroll } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-checkincheckout-list',
   templateUrl: './checkincheckout-list.page.html',
@@ -18,7 +19,8 @@ export class CheckincheckoutListPage {
   searchControl: FormControl; customerFilterList: any = []; numTimesLeft = 5; items = [];
 
   constructor(public navCtrl: NavController, public visitService: VisitService,
-              public loadingService: LoadingService, public toastService: ToastService) {
+              public loadingService: LoadingService, public toastService: ToastService,
+              public authservice: AuthService) {
               this.searchControl = new FormControl();
               this.loadUsers();
   }

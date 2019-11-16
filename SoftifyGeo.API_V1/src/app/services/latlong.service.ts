@@ -35,7 +35,7 @@ export class LatLongService {
         this.geoAccuracy = resp.coords.accuracy;
         this.getGeoencoder(this.geoLatitude, this.geoLongitude);
       }).catch((error) => {
-        alert('Error getting location' + JSON.stringify(error));
+        // alert('Error getting location' + JSON.stringify(error));
       });
     }
 
@@ -47,7 +47,7 @@ export class LatLongService {
         this.geoAddress = this.generateAddress(result[0]);
       })
       .catch((error: any) => {
-        this.toastService.message('Error getting location' + JSON.stringify(error));
+        // this.toastService.message('Error getting location' + JSON.stringify(error));
       });
   }
 

@@ -5,6 +5,7 @@ import { LoadingService } from '../services/loading.service';
 import { ToastService } from '../services/toast.service';
 import { DatePipe } from '@angular/common';
 import { DatePickerService } from '../services/common/datepricker.service';
+import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-visit-list',
   templateUrl: './visit-list.page.html',
@@ -27,7 +28,7 @@ export class VisitListPage implements OnInit {
   selectedDate;
   constructor(public navCtrl: NavController, public visitService: VisitService,
               public loadingService: LoadingService, public toastService: ToastService, public datepipe: DatePipe,
-              private datpickerService: DatePickerService) {
+              private datpickerService: DatePickerService, public authservice: AuthService) {
 
   }
 

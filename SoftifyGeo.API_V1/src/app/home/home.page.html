@@ -2,11 +2,16 @@
 
 <ion-header>
     <ion-toolbar class="ion-toolbar">
-        <ion-buttons slot="end">
+        <!-- <ion-buttons slot="end">
           <a (click)="logout()">
             <fa-icon icon="power-off" slot="end" size="1x"></fa-icon>
           </a>
-        </ion-buttons>
+        </ion-buttons> -->
+        <ion-buttons slot="end">
+            <a (click)="authService.logout()">
+              <ion-icon name="power" slot="end" style="color: white;"></ion-icon>
+            </a>
+          </ion-buttons>
       <ion-title>
         Softify GEO
       </ion-title>
@@ -16,11 +21,6 @@
 
 <ion-content class="ion-content">
   <ion-grid class="ion-grid">
-<!-- 
-    <ion-row>
-        <button ion-button (click)="openUrl()"> Update</button>
-        <button ion-button (click)="openUrl()"> Update2</button>
-    </ion-row> -->
     <ion-row>
       
       <ion-col text-center align-self-center size-md="6" size-lg="6" size-xs="6">

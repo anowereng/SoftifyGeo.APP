@@ -24,7 +24,9 @@ export class CheckInService {
       }));
   }
 
-
+  uploadImage(formData: FormData) {
+    return this.http.post(this.url + '/UploadImage/Upload?pagename=custcheckin', formData);
+  }
 }
 
 

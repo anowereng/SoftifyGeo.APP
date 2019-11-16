@@ -7,6 +7,7 @@ import { ConveyanceService } from '../services/conveyance.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Conveyance } from '../_models/conveyance';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-conveyance',
@@ -25,7 +26,9 @@ export class ConveyancePage implements OnInit {
 
   constructor(public navCtrl: NavController, public convservice: ConveyanceService,
               public loadingService: LoadingService, public toastService: ToastService,
-              private router: ActivatedRoute, private formBuilder: FormBuilder) {
+              private router: ActivatedRoute, private formBuilder: FormBuilder,
+              public authservice: AuthService
+  ) {
   }
 
   conveyanceSelect(event: { component: IonicSelectableComponent, value: any }) {

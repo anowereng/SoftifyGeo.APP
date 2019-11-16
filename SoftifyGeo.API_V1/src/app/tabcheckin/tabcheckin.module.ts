@@ -5,8 +5,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { TabcheckinPage } from './tabcheckin.page';
 import { IonicSelectableModule } from 'ionic-selectable';
-import { ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from '@angular/forms';
 import { CheckInService } from '../services/checkin.service';
+import { Camera } from '@ionic-native/Camera/ngx';
+import { File } from '@ionic-native/File/ngx';
 const routes: Routes = [
   {
     path: '',
@@ -23,6 +25,6 @@ const routes: Routes = [
     RouterModule.forChild(routes)
     , IonicSelectableModule
   ],
-  declarations: [TabcheckinPage], providers: [CheckInService]
+  declarations: [TabcheckinPage], providers: [CheckInService, Camera, File]
 })
 export class TabcheckinPageModule {}

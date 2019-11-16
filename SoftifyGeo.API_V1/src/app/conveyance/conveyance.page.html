@@ -33,46 +33,10 @@
  
   </ion-grid>
 </ion-content>
-<!-- [disabled]="!conveyanceForm.valid"  -->
+
 <ion-footer>
     <ion-toolbar>
       <ion-button type="button" expand="block" class="ion-btn-submit"  
       (click)="SaveConveyance()" [disabled]="!conveyanceForm.valid">Save</ion-button>
     </ion-toolbar>
   </ion-footer> 
-<!-- [disabled]="!conveyanceForm.valid" -->
-
-<!-- 
-<ion-content>
-  <ion-grid style="padding-top:40px;">
-    <form [formGroup]="conveyanceForm" (ngSubmit)="AddConveyance()">
-      <ion-row>
-        <ion-col>
-          <ion-item>
-            <ion-label> Select Item </ion-label>
-            <ionic-selectable [(ngModel)]="conveyType" itemValueField="Id" itemTextField="Type" [items]="conveyTypeList"
-              [canSearch]="true" (onChange)="conveyanceSelect($event)">
-            </ionic-selectable>
-          </ion-item>
-
-          <div padding *ngIf="model.conveyTypeId>0">
-            <ion-label text-wrap>
-              <p>Fill Amount value *</p>
-            </ion-label>
-            <ion-item>
-              <ion-label position="stacked">{{model.conveyTypeName}}</ion-label>
-              <ion-input [(ngModel)]="model.conveyAmount" required></ion-input>
-            </ion-item>
-          </div>
-        </ion-col>
-      </ion-row>
-    </form>
-  </ion-grid>
-
-</ion-content>
-
-<ion-footer>
-  <ion-toolbar>
-    <ion-button type="submit" expand="block" class="ion-btn-submit" (click)="AddConveyance()">Check-In</ion-button>
-  </ion-toolbar>
-</ion-footer> -->

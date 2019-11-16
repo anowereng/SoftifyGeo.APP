@@ -3,6 +3,11 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+        <a (click)="authservice.logout()">
+          <ion-icon name="power" slot="end" style="color: white;"></ion-icon>
+        </a>
+      </ion-buttons>
     <ion-title>Visit List</ion-title>
   </ion-toolbar>
 </ion-header>

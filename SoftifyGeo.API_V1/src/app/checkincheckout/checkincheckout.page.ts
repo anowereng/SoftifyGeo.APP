@@ -3,6 +3,7 @@ import { CheckincheckoutService } from "../checkincheckout/checkincheckout.servi
 import { NavController } from '@ionic/angular';
 import { ToastService } from '../services/toast.service';
 import { LoadingService } from '../services/loading.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-checkincheckout',
@@ -32,7 +33,7 @@ export class CheckincheckoutPage implements OnInit {
   customerlist: any;
   searchTerm : any="";
   constructor(public navCtrl: NavController, public checkInOutService : CheckincheckoutService,
-    private toastService:ToastService, private loadservice:LoadingService) { 
+    private toastService:ToastService, private loadservice:LoadingService, public authservice: AuthService) { 
    
     }
 
