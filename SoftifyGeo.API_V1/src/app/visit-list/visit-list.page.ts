@@ -47,8 +47,4 @@ export class VisitListPage implements OnInit {
         });
     }
   }
-
-
-
-
 }
