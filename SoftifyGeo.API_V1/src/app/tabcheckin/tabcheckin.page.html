@@ -6,6 +6,13 @@
         <ion-card color="light">
           <ion-card-content>
             <div>
+                <p>
+                    <strong>
+                      <ion-button (click)="setgeo()" fill="clear">
+                        <ion-icon slot="icon-only" name="sync"></ion-icon>
+                      </ion-button>
+                    </strong>
+                  </p>
               <p>
                 <ion-icon name="navigate"></ion-icon> Latitude : {{checkIn.CheckInLatitude}}
               </p>

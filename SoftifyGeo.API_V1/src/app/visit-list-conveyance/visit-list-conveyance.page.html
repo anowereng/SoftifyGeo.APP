@@ -62,8 +62,8 @@
     <small>data not found...</small>
   </div>
   <ion-virtual-scroll [items]="customerlist"> 
-      <ion-card *virtualItem="let data" (click)="RouteConveyance(data.CheckOut,data.LocationCustId)" color="light">
-        <ion-card-content>
+      <ion-card *virtualItem="let data" (click)="RouteConveyance(data.CheckOut,data.LocationCustId)" color="light" >
+        <ion-card-content card style="border-radius: 25px;">
             <ion-label text-wrap>
               <p><small>
                   <ion-icon name="man"></ion-icon> {{ data.custName }}
@@ -75,6 +75,9 @@
               <p><small>
                   <ion-icon name="reorder"></ion-icon> Type : {{ data.CustType }}
                 </small></p>
+                  <p float-right><small>            
+                     {{data.currencytext}} {{ data.amount }}
+                    </small></p>
               <p float-right><small>
                   <ion-icon name="calendar"></ion-icon> {{ data.dtEntry }} <ion-icon *ngIf="data.CheckOut.length>0" name="arrow-round-forward"></ion-icon>
                 </small></p>

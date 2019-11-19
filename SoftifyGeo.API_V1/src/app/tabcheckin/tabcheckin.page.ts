@@ -13,7 +13,10 @@ import { LoadingService } from '../services/loading.service';
 import { finalize } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import { isUndefined } from 'util';
-
+/*GEO */
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-tabcheckin',
   templateUrl: './tabcheckin.page.html',
@@ -25,24 +28,41 @@ export class TabcheckinPage {
   searchTerm: any = { CustId: 0, CustName: '' }; customerlist: any; loading: boolean = false;
   IsCheckInReady: boolean; userId: number;
   images = [];
+  geoLatitude: number;
+  geoLongitude: number;
+  geoAccuracy: number;
+  geoAddress: string;
+  watchLocationUpdates: any;
+  isWatching: boolean;
+  geoencoderOptions: NativeGeocoderOptions = {
+    useLocale: true,
+    maxResults: 5
+  };
   constructor(public navCtrl: NavController, public checkInOutService: CheckincheckoutService,
-              public toastService: ToastService, public latLong: LatLongService,
+              public toastService: ToastService,
               public checkInService: CheckInService,
               private camera: Camera, private file: File,
-              private loadservice: LoadingService, public authservice: AuthService
+              private loadservice: LoadingService, public authservice: AuthService,
+              private geolocation: Geolocation,
+              private nativeGeocoder: NativeGeocoder,
+              private router: Router
   ) {
-    this.latLong.watchLocation();
-    this.GetReadyForCheckIn();
     this.ResetData();
+    this.GetReadyForCheckIn();
+    this.getGeolocation();
+    this.defaultData();
+    this.checkIn.CheckInLatitude = this.geoLatitude;
+    this.checkIn.CheckInLongitude = this.geoLongitude;
+    this.checkIn.CheckInAddress = this.geoAddress;
   }
 
   ionViewWillEnter() {
-    this.latLong.watchLocation();
-    this.GetReadyForCheckIn();
-    this.checkIn.CheckInLatitude = this.latLong.geoLatitude;
-    this.checkIn.CheckInLongitude = this.latLong.geoLongitude;
-    this.checkIn.CheckInAddress = this.latLong.geoAddress;
     this.ResetData();
+    this.GetReadyForCheckIn();
+    this.getGeolocation();
+    this.checkIn.CheckInLatitude = this.geoLatitude;
+    this.checkIn.CheckInLongitude = this.geoLongitude;
+    this.checkIn.CheckInAddress = this.geoAddress;
   }
   defaultData(): CheckIn {
     return {
@@ -50,11 +70,76 @@ export class TabcheckinPage {
       CustId: 0,
       CustName: '',
       LUserId: 0,
-      CheckInLatitude: this.latLong.geoLatitude,
-      CheckInLongitude: this.latLong.geoLongitude,
-      CheckInAddress: this.latLong.geoAddress
+      CheckInLatitude: this.geoLatitude,
+      CheckInLongitude: this.geoLongitude,
+      CheckInAddress: this.geoAddress
     };
   }
+  // Get current coordinates of device
+  setgeo() {
+    this.getGeolocation();
+    this.checkIn.CheckInLatitude = this.geoLatitude;
+    this.checkIn.CheckInLongitude = this.geoLongitude;
+    this.checkIn.CheckInAddress = this.geoAddress;
+  }
+  location() {
+    this.router.navigate(['checkincheckout/tabcheckin']);
+  }
+
+  getGeolocation() {
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.geoLatitude = resp.coords.latitude;
+      this.geoLongitude = resp.coords.longitude;
+      this.geoAccuracy = resp.coords.accuracy;
+      this.getGeoencoder(this.geoLatitude, this.geoLongitude);
+    }).catch((error) => {
+      this.toastService.message('Error getting location' + JSON.stringify(error));
+    });
+  }
+
+  // geocoder method to fetch address from coordinates passed as arguments
+  getGeoencoder(latitude, longitude) {
+    this.nativeGeocoder.reverseGeocode(latitude, longitude, this.geoencoderOptions)
+      .then((result: NativeGeocoderResult[]) => {
+        this.geoAddress = this.generateAddress(result[0]);
+      })
+      .catch((error: any) => {
+        this.toastService.message('Error getting location' + JSON.stringify(error));
+      });
+  }
+
+  // Return Comma saperated address
+  generateAddress(addressObj) {
+    let obj = [];
+    let address = '';
+    for (let key in addressObj) {
+      obj.push(addressObj[key]);
+    }
+    obj.reverse();
+    for (let val in obj) {
+      if (obj[val].length)
+        address += obj[val] + ', ';
+    }
+    return address.slice(0, -2);
+  }
+
+  //Start location update watch
+  watchLocation() {
+    this.isWatching = true;
+    this.watchLocationUpdates = this.geolocation.watchPosition();
+    this.watchLocationUpdates.subscribe((resp) => {
+      this.geoLatitude = resp.coords.latitude;
+      this.geoLongitude = resp.coords.longitude;
+      this.getGeoencoder(this.geoLatitude, this.geoLongitude);
+    });
+  }
+
+  //Stop location update watch
+  stopLocationWatch() {
+    this.isWatching = false;
+    this.watchLocationUpdates.unsubscribe();
+  }
+
 
   SearchData(event) {
     if (event.text.length > 3) {
@@ -76,7 +161,6 @@ export class TabcheckinPage {
 
   /* ======== Image Upload Area ======== */
   readFile(file: any) {
-
     this.toastService.message('Reading...');
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -144,10 +228,10 @@ export class TabcheckinPage {
   /* End:  ======== Image Upload Area ======== */
 
   SaveCheckInCustomer(formData: FormData) {
-    this.latLong.getGeolocation();
-    this.checkIn.CheckInLatitude = this.latLong.geoLatitude;
-    this.checkIn.CheckInLongitude = this.latLong.geoLongitude;
-    this.checkIn.CheckInAddress = this.latLong.geoAddress;
+    this.getGeolocation();
+    this.checkIn.CheckInLatitude = this.geoLatitude;
+    this.checkIn.CheckInLongitude = this.geoLongitude;
+    this.checkIn.CheckInAddress = this.geoAddress;
     if (this.checkIn) {
       this.checkInService.postItem(this.checkIn).subscribe(
         () => {

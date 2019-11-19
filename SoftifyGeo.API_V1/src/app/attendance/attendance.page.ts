@@ -9,9 +9,10 @@ import { environment } from 'src/environments/environment';
 /* Picture  */
 import { Camera, CameraOptions } from '@ionic-native/Camera/ngx';
 import { File, FileEntry } from '@ionic-native/File/ngx';
-import { LatLongService } from '../services/latlong.service';
 import { AuthService } from '../services/auth.service';
-
+/*GEO */
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 @Component({
   selector: 'app-attendance',
   templateUrl: './attendance.page.html',
@@ -31,32 +32,73 @@ export class AttendancePage {
   data = '';
   url = environment.url;
   images = [];
+  geoencoderOptions: NativeGeocoderOptions = {
+    useLocale: true,
+    maxResults: 5
+  };
   constructor(
     public attendService: AttendanceService,
     private toastService: ToastService,
     private router: Router,
     private loadservice: LoadingService,
+    /* GEO */
+    private geolocation: Geolocation,
+    private nativeGeocoder: NativeGeocoder,
     /* Camera  */
     private camera: Camera, private file: File,
-    public latLong: LatLongService,
     public authService: AuthService
   ) {
-    this.latLong.watchLocation();
+    this.getGeolocation();
     this.attendService.CheckInOutStatus();
-    this.watchLocation();
   }
 
   ionViewWillEnter() {
-    this.latLong.watchLocation();
     this.attendService.CheckInOutStatus();
-    this.watchLocation();
+    this.getGeolocation();
   }
 
-  watchLocation() {
-    this.attendence.geoLatitude = this.latLong.geoLatitude;
-    this.attendence.geoLongitude = this.latLong.geoLongitude;
-    this.attendence.geoAddress = this.latLong.geoAddress;
+  setGeoLocation() {
+    this.getGeolocation();
   }
+  // Get current coordinates of device
+  getGeolocation() {
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.geoLatitude = resp.coords.latitude;
+      this.geoLongitude = resp.coords.longitude;
+      this.geoAccuracy = resp.coords.accuracy;
+      this.getGeoencoder(this.geoLatitude, this.geoLongitude);
+    }).catch((error) => {
+      this.toastService.message('Error getting location' + JSON.stringify(error));
+    });
+  }
+
+  // geocoder method to fetch address from coordinates passed as arguments
+  getGeoencoder(latitude, longitude) {
+    this.nativeGeocoder.reverseGeocode(latitude, longitude, this.geoencoderOptions)
+      .then((result: NativeGeocoderResult[]) => {
+        this.geoAddress = this.generateAddress(result[0]);
+      })
+      .catch((error: any) => {
+        this.toastService.message('Error getting location' + JSON.stringify(error));
+      });
+  }
+
+  // Return Comma saperated address
+  generateAddress(addressObj) {
+    let obj = [];
+    let address = '';
+    for (let key in addressObj) {
+      obj.push(addressObj[key]);
+    }
+    obj.reverse();
+    for (let val in obj) {
+      if (obj[val].length)
+        address += obj[val] + ', ';
+    }
+    return address.slice(0, -2);
+  }
+
+  /* End : GEO  */
 
   readFile(file: any) {
     this.toastService.message('Reading...');
@@ -75,8 +117,8 @@ export class AttendancePage {
 
   ValidationMessage(): boolean {
     let flag = true;
-    if (this.attendence.geoLongitude === 0 || isNullOrUndefined(this.attendence.geoLongitude)
-      || this.attendence.geoLongitude.toString().length === 0) {
+    if (this.geoLongitude === 0 || isNullOrUndefined(this.geoLongitude)
+      || this.attendence.toString().length === 0) {
       flag = false;
       this.toastService.message('please reselect menu  , latitude and longitude are empty  !!');
     }
@@ -122,15 +164,21 @@ export class AttendancePage {
     });
   }
 
+  CheckOut() {
+    if (this.ValidationMessage()) {
+      const formData = new FormData();
+      this.SaveCheckInOut(formData);
+    }
+  }
+
   SaveCheckInOut(formData: FormData) {
     this.loadservice.presentWithMessage('Saving...');
     if (isNullOrUndefined(this.geoAddress)) { this.geoAddress = ''; }
     this.attendence = {};
-
-    this.latLong.getGeolocation();
-    this.attendence.CheckInLatitude = this.latLong.geoLatitude;
-    this.attendence.CheckInLongitude = this.latLong.geoLongitude;
-    this.attendence.CheckInAddress = this.latLong.geoAddress;
+    this.getGeolocation();
+    this.attendence.CheckInLatitude = this.geoLatitude;
+    this.attendence.CheckInLongitude = this.geoLongitude;
+    this.attendence.CheckInAddress = this.geoAddress;
     this.attendence.Accuracy = 1;
     this.attendence.Type = this.attendService.CheckStatus;
     if (this.attendence) {
@@ -139,10 +187,10 @@ export class AttendancePage {
       })).subscribe(
         () => {
           if (this.attendence.Type === 'CheckIn') {
-            this.loadservice.presentWithMessage('Record Saved Successfully');
+            this.toastService.message('Record Saved Successfully');
             this.uploadImageData(formData);
           } else {
-            this.loadservice.presentWithMessage('Record Updated Successfully');
+            this.toastService.message('Record Updated Successfully');
           }
         }, error => {
           console.log(error);

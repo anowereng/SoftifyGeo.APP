@@ -4,10 +4,10 @@
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-        <a (click)="authService.logout()">
-          <ion-icon name="power" slot="end" style="color: white;"></ion-icon>
-        </a>
-      </ion-buttons>
+      <a (click)="authService.logout()">
+        <ion-icon name="power" slot="end" style="color: white;"></ion-icon>
+      </a>
+    </ion-buttons>
     <ion-title>Attendance Entry</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -21,26 +21,27 @@
             <ion-card-content>
               <p>
                 <strong>
-                  <ion-button (click)="watchLocation()" fill="clear">
-                      <ion-icon slot="icon-only" name="sync"></ion-icon>
-                </ion-button>
+                  <ion-button (click)="setGeoLocation()" fill="clear">
+                    <ion-icon slot="icon-only" name="sync"></ion-icon>
+                  </ion-button>
                 </strong>
               </p>
               <p>
-                <ion-icon name="navigate"></ion-icon> <strong>Lat : </strong> {{attendence.geoLatitude}}
+                <ion-icon name="navigate"></ion-icon> <strong>Lat : </strong> {{geoLatitude}}
               </p>
               <p>
-                <ion-icon name="navigate"></ion-icon> <strong>Long : </strong> {{attendence.geoLongitude}}
+                <ion-icon name="navigate"></ion-icon> <strong>Long : </strong> {{geoLongitude}}
               </p>
               <p *ngIf="attendService.CheckStatus === 'CheckIn'">
-                <ion-icon name="checkmark-circle-outline"></ion-icon> <strong>Status:</strong> {{attendService.CheckStatus}}
+                <ion-icon name="checkmark-circle-outline"></ion-icon> <strong>Status:</strong>
+                {{attendService.CheckStatus}}
               </p>
               <p *ngIf="attendService.CheckStatus != 'CheckIn'">
                 <ion-icon name="log-out"></ion-icon> Status: {{attendService.CheckStatus}}
               </p>
 
               <p class="address-text">
-                <ion-icon name="compass"></ion-icon> <strong>Address : </strong>{{attendence.geoAddress }}
+                <ion-icon name="compass"></ion-icon> <strong>Address : </strong>{{geoAddress }}
               </p>
             </ion-card-content>
           </ion-card>
@@ -58,7 +59,7 @@
       {{attendService.CheckStatus}}
     </ion-button>
     <ion-button fill="clear" expand="full" color="light" *ngIf="attendService.CheckStatus != 'CheckIn'"
-      (click)="SaveCheckInOut()">
+      (click)="CheckOut()">
       <ion-icon name="log-out" slot="end"></ion-icon>
       {{attendService.CheckStatus}}
     </ion-button>
