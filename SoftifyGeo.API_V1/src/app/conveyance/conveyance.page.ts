@@ -14,9 +14,11 @@ import { Conveyance } from '../_models/conveyance';
   styleUrls: ['./conveyance.page.scss'],
 })
 
-export class ConveyancePage implements OnInit {
-  conveyanceForm: FormGroup; conveyType: any;
-  conveyTypeList: any = []; numTimesLeft = 5; items = []; id: any;
+export class ConveyancePage {
+  conveyanceForm: FormGroup; conveyType: { id: 0; name: ' ' };
+  conveyAmount: number = 0;
+  conveyTypeList: any; numTimesLeft = 5; items = []; id: any;
+
   model: Conveyance = {
     visitId: 0,
     conveyTypeId: 0,
@@ -27,22 +29,27 @@ export class ConveyancePage implements OnInit {
               public loadingService: LoadingService, public toastService: ToastService,
               private router: ActivatedRoute, private formBuilder: FormBuilder, private routeRed: Router
   ) {
-  }
-
-  conveyanceSelect(event: { component: IonicSelectableComponent, value: any }) {
-    console.log(event);
-    this.model.visitId = event.value.Id;
-  }
-
-  ngOnInit() {
     this.id = this.router.snapshot.paramMap.get('id');
     this.ConveyanceType();
+    this.GetConveyanceInfo();
+    this.conveyType = { id: 0, name: ' ' };
+  }
+  ionViewWillEnter() {
+    this.ConveyanceType();
+    this.GetConveyanceInfo();
+  }
+  reset() {
+    this.model.conveyTypeId = 0;
+    this.model.conveyAmount = 0;
+  }
 
-    this.conveyanceForm = this.formBuilder.group({
-      conveyType: ['', [Validators.required]],
-      visitId: [this.id],
-      conveyAmount: ['', [Validators.required, Validators.minLength(2)]]
-    });
+  getClick(response: any) {
+      this.conveyType = { id: 0, name: ' ' };
+      for (var i = 0; i < this.conveyTypeList.length; i++) {
+        if (response.conveyTypeId === this.conveyTypeList[i].id) {
+          this.conveyType = this.conveyTypeList[i];
+        }
+      }
   }
 
   ConveyanceType() {
@@ -55,17 +62,17 @@ export class ConveyancePage implements OnInit {
   }
   SaveConveyance() {
     if (this.ValidationMessage) {
-      this.model.conveyTypeId = this.conveyanceForm.value.conveyType.Id;
+      this.model.conveyTypeId = this.conveyType.id;
       this.model.visitId = this.id;
-      this.model.conveyAmount = this.conveyanceForm.value.conveyAmount;
-      if (this.conveyanceForm && this.model.visitId && this.model.conveyTypeId > 0) {
-        this.model.conveyTypeId = this.conveyanceForm.value.conveyType.Id;
+      this.model.conveyAmount = this.conveyAmount;
+      if (this.model.visitId && this.model.conveyTypeId > 0) {
+        this.model.conveyTypeId = this.conveyType.id;
         this.model.visitId = this.id;
-        this.model.conveyAmount = this.conveyanceForm.value.conveyAmount;
+        this.model.conveyAmount = this.conveyAmount;
         this.convservice.postItem(this.model).subscribe(
           () => {
             this.toastService.message('Record Update Successfully');
-            this.conveyanceForm.reset();
+            this.reset();
             this.routeRed.navigate(['visit-list-conveyance']);
           }, error => {
             this.toastService.message(error);
@@ -76,7 +83,6 @@ export class ConveyancePage implements OnInit {
     }
   }
 
-
   ValidationMessage(): boolean {
     let flag = true;
     if (this.model.visitId === 0) {
@@ -85,6 +91,25 @@ export class ConveyancePage implements OnInit {
     }
     return flag;
   }
+
+  GetConveyanceInfo() {
+    if (this.id > 0) {
+      this.convservice.getConveyData(this.id).subscribe(
+        response => {
+          if (response[0]) {
+            this.model.conveyTypeId = response[0].conveyTypeId.toString();
+            this.conveyAmount = response[0].conveyAmount;
+            this.model.conveyAmount = response[0].conveyAmount;
+            this.getClick(response[0]);
+          }
+        }, error => {
+          this.toastService.message(error);
+        });
+    } else {
+      this.toastService.message('visit id not found in database !!');
+    }
+  }
+
 }
 
 

@@ -6,37 +6,32 @@
     <ion-title>Conveyance Add</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-    <ion-grid style="padding-top:40px;">
-    <form [formGroup]="conveyanceForm" (ngSubmit)="SaveConveyance()">
-        <ion-row>
-            <ion-col>
-              <ion-item>
-                <ion-label> Select Item </ion-label>
-                <ionic-selectable  formControlName="conveyType" itemValueField="Id" itemTextField="Type" [items]="conveyTypeList"
-                  [canSearch]="true" (onChange)="conveyanceSelect($event)">
-                </ionic-selectable>
-              </ion-item>
-              <div padding *ngIf="conveyanceForm.value.conveyType.Id>0">
-                <ion-label text-wrap>
-                  <p>Fill Amount value *</p>
-                </ion-label>
-                <ion-item>
-                  <ion-label position="stacked">{{conveyanceForm.value.conveyType.Type}}</ion-label>
-                  <ion-input formControlName ="conveyAmount" required></ion-input>
-                </ion-item>
-              </div>
-            </ion-col>
-          </ion-row>
-    </form>
- 
+  <ion-grid style="padding-top:40px;">
+    <ion-row>
+      <ion-col>
+          <ion-label text-wrap><small>Conveyance Type</small>  </ion-label>
+        <ion-item>
+          <ionic-selectable [(ngModel)]="conveyType" itemValueField="id" itemTextField="name" [items]="conveyTypeList"
+            [canSearch]="true">
+          </ionic-selectable>
+        </ion-item>
+        <div padding *ngIf="conveyType.id>0">
+          <ion-label text-wrap>
+            <p>Fill Amount value *</p>
+          </ion-label>
+          <ion-item>
+            <ion-label position="stacked">{{conveyType.name}}</ion-label>
+            <ion-input [(ngModel)]="conveyAmount" required></ion-input>
+          </ion-item>
+        </div>
+      </ion-col>
+    </ion-row>
   </ion-grid>
 </ion-content>
 
 <ion-footer>
-    <ion-toolbar>
-      <ion-button type="button" expand="block" class="ion-btn-submit"  
-      (click)="SaveConveyance()" [disabled]="!conveyanceForm.valid">Save</ion-button>
-    </ion-toolbar>
-  </ion-footer> 
+  <ion-toolbar>
+    <ion-button type="button" expand="block" class="ion-btn-submit" (click)="SaveConveyance()">Save</ion-button>
+  </ion-toolbar>
+</ion-footer>

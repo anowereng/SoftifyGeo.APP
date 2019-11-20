@@ -37,6 +37,11 @@ export class VisitListConveyancePage implements OnInit {
   ngOnInit() {
     this.datePickerObj = this.datpickerService.GetDatePickerObj();
   }
+
+  ionViewWillEnter() {
+    this.datePickerObj = this.datpickerService.GetDatePickerObj();
+    this.SearchData(event);
+  }
   SearchData(event) {
     console.log(this.visitModel);
     if (this.visitModel) {

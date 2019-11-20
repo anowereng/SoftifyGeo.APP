@@ -25,6 +25,14 @@ export class ConveyanceService {
     );
   }
 
+  getConveyData(visitid: number) {
+    return this.http.get(this.url + `/Conveyance/GetConveyInfo?visitid=${visitid}`).pipe(
+      catchError(e => {
+        throw new Error(e);
+      })
+    );
+  }
+
 
 }
 

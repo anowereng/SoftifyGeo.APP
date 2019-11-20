@@ -8,7 +8,7 @@
           <ion-icon name="power" slot="end" style="color: white;"></ion-icon>
         </a>
       </ion-buttons>
-    <ion-title>Visit List</ion-title>
+    <ion-title>Visit Wise Conveyance</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -76,10 +76,10 @@
                   <ion-icon name="reorder"></ion-icon> Type : {{ data.CustType }}
                 </small></p>
                   <p float-right><small>            
-                     {{data.currencytext}} {{ data.amount }}
+                     {{ data.currencytext}} {{ data.amount }}
                     </small></p>
               <p float-right><small>
-                  <ion-icon name="calendar"></ion-icon> {{ data.dtEntry }} <ion-icon *ngIf="data.CheckOut.length>0" name="arrow-round-forward"></ion-icon>
+                  <ion-icon name="calendar"> </ion-icon> {{ data.dtEntry }} &nbsp; <ion-icon *ngIf="data.CheckOut.length>0" name="arrow-round-forward"></ion-icon>
                 </small></p>
             </ion-label>
           </ion-card-content>
