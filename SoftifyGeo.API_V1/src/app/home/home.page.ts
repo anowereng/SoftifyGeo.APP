@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from  "@angular/router";
+import { Router } from "@angular/router";
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -8,32 +8,40 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
+  userinfo: any;
   constructor(private router: Router, public authService: AuthService,
-  ) { 
-    
-              }
+  ) {
+    this.userinfo = this.authService.getUserInfo();
+    console.log(this.userinfo);
+  }
 
   logout() {
     this.authService.logout();
   }
- 
-  checkincheckout(){
+
+  checkincheckout() {
     this.router.navigateByUrl('checkincheckout');
   }
 
-  checkincheckoutList(){
+  checkincheckoutList() {
     this.router.navigateByUrl('checkincheckoutList');
   }
 
-  attendance(){
+  attendance() {
     this.router.navigateByUrl('attendance');
   }
 
-  goProfile(){
+  goProfile() {
     this.router.navigateByUrl('info');
   }
 
+  titleCaseWord(word: string) {
+    if (!word) {
+      return word;
+    } else {
+      return word[0].toUpperCase();
+    }
+  }
   // openUrl() {
   //   this.fileOpener.showOpenWithDialog('https://softifytech.com/apps/softify.apk', 'application/vnd.android.package-archive')
   // .then(() => console.log('File is opened'))

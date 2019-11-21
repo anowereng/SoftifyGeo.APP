@@ -31,7 +31,6 @@ export class AuthService {
   }
  
   checkToken() {
-
     this.storage.get(TOKEN_KEY).then(token => {
       if (token) {
         let decoded = this.helper.decodeToken(token);
@@ -72,7 +71,7 @@ export class AuthService {
         }),
         catchError(e => {
           this.toastService.message(e);
-          this.loadservice.dismiss()
+          this.loadservice.dismiss();
           throw new Error(e);
         }),
       );
@@ -85,7 +84,9 @@ export class AuthService {
     });
   }
  
-  
+  getUserInfo() {
+    return this.user;
+  }
  
   isAuthenticated() {
 

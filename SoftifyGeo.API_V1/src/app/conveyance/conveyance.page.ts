@@ -7,6 +7,7 @@ import { ConveyanceService } from '../services/conveyance.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Conveyance } from '../_models/conveyance';
+import { isUndefined } from 'util';
 
 @Component({
   selector: 'app-conveyance',
@@ -26,8 +27,8 @@ export class ConveyancePage {
   };
 
   constructor(public navCtrl: NavController, public convservice: ConveyanceService,
-              public loadingService: LoadingService, public toastService: ToastService,
-              private router: ActivatedRoute, private formBuilder: FormBuilder, private routeRed: Router
+    public loadingService: LoadingService, public toastService: ToastService,
+    private router: ActivatedRoute, private formBuilder: FormBuilder, private routeRed: Router
   ) {
     this.id = this.router.snapshot.paramMap.get('id');
     this.ConveyanceType();
@@ -43,13 +44,13 @@ export class ConveyancePage {
     this.model.conveyAmount = 0;
   }
 
-  getClick(response: any) {
-      this.conveyType = { id: 0, name: ' ' };
-      for (var i = 0; i < this.conveyTypeList.length; i++) {
-        if (response.conveyTypeId === this.conveyTypeList[i].id) {
-          this.conveyType = this.conveyTypeList[i];
-        }
+  SetAmount(response: any) {
+    this.conveyType = { id: 0, name: ' ' };
+    for (var i = 0; i < this.conveyTypeList.length; i++) {
+      if (response.conveyTypeId === this.conveyTypeList[i].id) {
+        this.conveyType = this.conveyTypeList[i];
       }
+    }
   }
 
   ConveyanceType() {
@@ -61,7 +62,7 @@ export class ConveyancePage {
       });
   }
   SaveConveyance() {
-    if (this.ValidationMessage) {
+    if (this.ValidationMessage()) {
       this.model.conveyTypeId = this.conveyType.id;
       this.model.visitId = this.id;
       this.model.conveyAmount = this.conveyAmount;
@@ -73,21 +74,25 @@ export class ConveyancePage {
           () => {
             this.toastService.message('Record Update Successfully');
             this.reset();
-            this.routeRed.navigate(['visit-list-conveyance']);
           }, error => {
             this.toastService.message(error);
           });
+        this.routeRed.navigate(['visit-list-conveyance']);
       }
-    } else {
-      this.routeRed.navigate(['visit-list-conveyance']);
     }
   }
 
   ValidationMessage(): boolean {
     let flag = true;
-    if (this.model.visitId === 0) {
+    if (this.id === 0) {
       flag = false;
-      this.toastService.message('Please reload visit list !!');
+      this.toastService.message(' Please reload visit list !!');
+    } else if (this.conveyType.id === 0) {
+      flag = false;
+      this.toastService.message(' Please select conveyance type !!');
+    } else if (this.conveyAmount === 0 || this.conveyAmount.toString() === '') {
+      flag = false;
+      this.toastService.message(' Please fill valid amount');
     }
     return flag;
   }
@@ -100,7 +105,7 @@ export class ConveyancePage {
             this.model.conveyTypeId = response[0].conveyTypeId.toString();
             this.conveyAmount = response[0].conveyAmount;
             this.model.conveyAmount = response[0].conveyAmount;
-            this.getClick(response[0]);
+            this.SetAmount(response[0]);
           }
         }, error => {
           this.toastService.message(error);

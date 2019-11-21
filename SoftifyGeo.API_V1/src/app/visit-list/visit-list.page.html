@@ -63,32 +63,29 @@
     <small>data not found...</small>
   </div>
 
-  <ion-virtual-scroll [items]="customerlist">
-    <ion-card *virtualItem="let data" [routerLink]="['/', 'visit-details',data.LocationCustId]" color="light">
-      <ion-card-content>
-        <ion-label text-wrap>
-          <p><small>
-              <ion-icon name="man"></ion-icon> {{ data.custName }}
-            </small></p>
-          <p><small>
-              <ion-icon name="navigate"></ion-icon> Check In | Out: <strong>{{ data.CheckIn }}</strong> |
-              <strong>{{ data.CheckOut }}</strong>
-            </small></p>
-          <p>
-            <small>
-              <ion-icon name="reorder"></ion-icon> Customer Type : {{ data.CustType }}
-            </small>
-            <small float-right>
-                <ion-icon name="calendar"></ion-icon> {{ data.dtEntry }}
-              </small>
-          </p>
-          <!-- <p float-right>
-            <small>
-              <ion-icon name="calendar"></ion-icon> {{ data.dtEntry }}
-            </small>
-          </p> -->
-        </ion-label>
-      </ion-card-content>
+
+  <ion-virtual-scroll [items]="customerlist"> 
+    <ion-card *virtualItem="let data" [routerLink]="['/', 'visit-details',data.LocationCustId]" color="light" >
+      <ion-card-content card style="border-radius: 25px;">
+          <ion-label text-wrap>
+            <p><small>
+                <ion-icon name="man"></ion-icon> {{ data.custName }}
+              </small></p>
+            <p><small>
+                <ion-icon name="navigate"></ion-icon> Check In | Out: <strong>{{ data.CheckIn }}</strong> |
+                <strong>{{ data.CheckOut }}</strong>
+              </small></p>
+            <p><small>
+                <ion-icon name="reorder"></ion-icon> Type : {{ data.CustType }}
+              </small></p>
+                <p float-right><small>            
+                   {{ data.currencytext}} {{ data.amount }}
+                  </small></p>
+            <p float-right><small>
+                <ion-icon name="calendar"> </ion-icon> {{ data.dtEntry }} &nbsp; <ion-icon *ngIf="data.CheckOut.length>0" name="arrow-round-forward"></ion-icon>
+              </small></p>
+          </ion-label>
+        </ion-card-content>
     </ion-card>
-  </ion-virtual-scroll>
+</ion-virtual-scroll>
 </ion-content>
