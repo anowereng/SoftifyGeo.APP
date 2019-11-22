@@ -1,3 +1,39 @@
+
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu side="start" menuId="first" contentId="content1">
+    <ion-header>
+      <ion-toolbar class="ion-toolbar" style="padding-bottom: 80px;">
+        <ion-row>
+          <ion-col size="12">
+            <img src="../assets/icon/softifytech2.png" height="40">
+          </ion-col>
+        </ion-row>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list *ngFor="let pages of navigate"style="padding-top: 0px;">
+        <ion-menu-toggle auto-hide=true>
+          <ion-item [routerLink]="pages.url" routerDirection="forward">
+            <fa-icon [icon]="pages.icon" slot="start"></fa-icon>
+            <ion-label><small>{{pages.title}} </small></ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+      <ion-row>
+        <ion-col size="2">
+          <ion-buttons>
+            <a (click)="logout()">
+              <ion-icon name="power" slot="end"></ion-icon>
+            </a>
+          </ion-buttons>
+        </ion-col>
+        <ion-col size="10" style="padding-top: 10px;" padding>
+            <a (click)="logout()">
+          <ion-label ><small>Logout </small></ion-label>
+        </a>
+        </ion-col>
+      </ion-row>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="content1"></ion-router-outlet>
 </ion-app>

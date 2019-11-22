@@ -2,26 +2,23 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
 import { IonicModule } from '@ionic/angular';
-
 import { TabsPage } from './tabs.page';
-import { UserService } from '../services/user.service';
-import { CheckInService } from '../services/checkin.service';
+
 
 const routes: Routes = [
   {
     path: 'tabs',
     component: TabsPage,
-    children:[
-        { path: 'tabcheckin', loadChildren: '../tabcheckin/tabcheckin.module#TabcheckinPageModule' },
-        { path: 'tabcheckout', loadChildren: '../tabcheckout/tabcheckout.module#TabcheckoutPageModule' },
+    children: [
+      { path: 'home', loadChildren: '../home/home.module#HomePageModule' },
+      { path: 'info', loadChildren: '../info/info.module#InfoPageModule' },
     ]
   },
   {
-    path:'',
-    redirectTo:'/tabs/tabcheckin',
-    pathMatch:'full'
+    path: '',
+    redirectTo: '/tabs/home',
+    pathMatch: 'full'
   }
 ];
 @NgModule({
@@ -34,4 +31,4 @@ const routes: Routes = [
   declarations: [TabsPage],
   providers: []
 })
-export class TabsPageModule {}
+export class TabsPageModule { }
