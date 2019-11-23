@@ -19,20 +19,10 @@
           </ion-item>
         </ion-menu-toggle>
       </ion-list>
-      <ion-row>
-        <ion-col size="2">
-          <ion-buttons>
-            <a (click)="logout()">
-              <ion-icon name="power" slot="end"></ion-icon>
-            </a>
-          </ion-buttons>
-        </ion-col>
-        <ion-col size="10" style="padding-top: 10px;" padding>
-            <a (click)="logout()">
-          <ion-label ><small>Logout </small></ion-label>
-        </a>
-        </ion-col>
-      </ion-row>
+      <ion-item  (click)="logout()">
+          <ion-icon name="power" slot="start"></ion-icon>
+          <ion-label><small>Logout</small></ion-label>
+      </ion-item>
     </ion-content>
   </ion-menu>
   <ion-router-outlet id="content1"></ion-router-outlet>

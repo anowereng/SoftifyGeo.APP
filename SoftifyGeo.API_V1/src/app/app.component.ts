@@ -12,7 +12,7 @@ import { TabsPage } from './tabs/tabs.page';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  navigate: any; rootPage:any = TabsPage;
+  navigate: any; rootPage: any = TabsPage;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -58,7 +58,7 @@ export class AppComponent {
           icon: 'route'
         },
         {
-          title: 'Conveynce',
+          title: 'Conveyance',
           url: '/visit-list-conveyance',
           icon: 'money-check'
         },
