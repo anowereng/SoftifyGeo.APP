@@ -54,6 +54,7 @@ export class TabcheckinPage {
     this.checkIn.CheckInLatitude = this.geoLatitude;
     this.checkIn.CheckInLongitude = this.geoLongitude;
     this.checkIn.CheckInAddress = this.geoAddress;
+    this.checkIn.CheckInDescription = '';
   }
 
   ionViewWillEnter() {
@@ -63,6 +64,7 @@ export class TabcheckinPage {
     this.checkIn.CheckInLatitude = this.geoLatitude;
     this.checkIn.CheckInLongitude = this.geoLongitude;
     this.checkIn.CheckInAddress = this.geoAddress;
+    this.checkIn.CheckInDescription = '';
   }
   defaultData(): CheckIn {
     return {
