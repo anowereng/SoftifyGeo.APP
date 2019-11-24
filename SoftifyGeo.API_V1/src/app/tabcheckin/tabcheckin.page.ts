@@ -72,7 +72,8 @@ export class TabcheckinPage {
       LUserId: 0,
       CheckInLatitude: this.geoLatitude,
       CheckInLongitude: this.geoLongitude,
-      CheckInAddress: this.geoAddress
+      CheckInAddress: this.geoAddress,
+      CheckInDescription: ''
     };
   }
   // Get current coordinates of device

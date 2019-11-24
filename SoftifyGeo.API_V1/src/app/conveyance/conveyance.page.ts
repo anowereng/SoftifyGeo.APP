@@ -16,14 +16,15 @@ import { isUndefined } from 'util';
 })
 
 export class ConveyancePage {
-  conveyanceForm: FormGroup; conveyType: { id: 0; name: ' ' };
+  conveyanceForm: FormGroup; conveyType: { id: 0; name: ' ' }; description: string;
   conveyAmount: number = 0;
   conveyTypeList: any; numTimesLeft = 5; items = []; id: any;
 
   model: Conveyance = {
     visitId: 0,
     conveyTypeId: 0,
-    conveyAmount: 0
+    conveyAmount: 0,
+    description: ''
   };
 
   constructor(public navCtrl: NavController, public convservice: ConveyanceService,
@@ -66,6 +67,7 @@ export class ConveyancePage {
       this.model.conveyTypeId = this.conveyType.id;
       this.model.visitId = this.id;
       this.model.conveyAmount = this.conveyAmount;
+      this.model.description = this.description;
       if (this.model.visitId && this.model.conveyTypeId > 0) {
         this.model.conveyTypeId = this.conveyType.id;
         this.model.visitId = this.id;

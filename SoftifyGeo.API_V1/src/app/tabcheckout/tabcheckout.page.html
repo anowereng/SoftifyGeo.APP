@@ -10,13 +10,6 @@
 
     <ion-card-content>
       <ion-grid>
-        <!-- <ion-row>
-          <ion-col text-center size-md="12" size-lg="12" size-xs="12">
-            <h3>
-               Last Check out Info 
-            </h3>
-          </ion-col>
-        </ion-row> -->
         <ion-row>
           <ion-col text-center size-md="12" size-lg="12" size-xs="12">
             <div *ngIf="checkInInfo.CustName">
@@ -34,14 +27,12 @@
       </ion-grid>
     </ion-card-content>
   </ion-card>
-
-  <!-- <ion-row>
-    <ion-col>
-      <ion-button type="submit" expand="block" class="ion-btn-submit" [disabled]="checkInInfo.CheckOutlongitude>1"
-        (click)="UpdateCheckOut()">Check-Out</ion-button>
-    </ion-col>
-  </ion-row> -->
-
+  <ion-col size-md="12" size-lg="12" size-xs="12">
+      <ion-item>
+          <ion-label position="floating" [(ngModel)]="checkOutModel.CheckOutAddress">Description</ion-label>
+          <ion-textarea></ion-textarea>
+        </ion-item>
+  </ion-col>
 </ion-content>
 
 <ion-footer>

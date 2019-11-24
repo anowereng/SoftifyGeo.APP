@@ -10,7 +10,7 @@
   <ion-grid style="padding-top:40px;">
     <ion-row>
       <ion-col>
-          <ion-label text-wrap><small>Conveyance Type</small>  </ion-label>
+        <ion-label text-wrap><small>Conveyance Type</small> </ion-label>
         <ion-item>
           <ionic-selectable [(ngModel)]="conveyType" itemValueField="id" itemTextField="name" [items]="conveyTypeList"
             [canSearch]="true">
@@ -23,6 +23,10 @@
           <ion-item>
             <ion-label position="stacked">{{conveyType.name}}</ion-label>
             <ion-input [(ngModel)]="conveyAmount" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating" >Description</ion-label>
+            <ion-textarea [(ngModel)]="description"></ion-textarea>
           </ion-item>
         </div>
       </ion-col>

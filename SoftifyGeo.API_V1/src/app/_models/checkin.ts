@@ -6,5 +6,6 @@ export interface CheckIn {
   CheckInLatitude: number;
   CheckInLongitude: number;
   CheckInAddress: string;
+  CheckInDescription: string;
   }
   

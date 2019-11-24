@@ -5,9 +5,9 @@ import { CheckOut } from '../_models/Checkout';
 import { LatLongService } from '../services/latlong.service';
 
 @Component({
-  selector: 'app-tabcheckout',
-  templateUrl: './tabcheckout.page.html',
-  styleUrls: ['./tabcheckout.page.scss'],
+    selector: 'app-tabcheckout',
+    templateUrl: './tabcheckout.page.html',
+    styleUrls: ['./tabcheckout.page.scss'],
 })
 export class TabcheckoutPage  {
 
@@ -35,7 +35,6 @@ export class TabcheckoutPage  {
       this.toastService.message(error);
     });
   }
-
 
   UpdateCheckOut() {
     this.checkOutModel.LocationCustId = this.checkInInfo.LocationCustId;
