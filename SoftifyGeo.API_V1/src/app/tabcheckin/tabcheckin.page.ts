@@ -57,7 +57,7 @@ export class TabcheckinPage {
     this.checkIn.CheckInDescription = '';
   }
 
-  ionViewWillEnter() {
+  ionViewDidEnter() {
     this.ResetData();
     this.GetReadyForCheckIn();
     this.getGeolocation();
@@ -143,7 +143,6 @@ export class TabcheckinPage {
     this.watchLocationUpdates.unsubscribe();
   }
 
-
   SearchData(event) {
     if (event.text.length > 3) {
       this.checkInOutService.SearchData(event.text).subscribe(
@@ -222,6 +221,7 @@ export class TabcheckinPage {
     this.checkIn.CustId = 0;
     this.checkIn.CustName = '';
     this.searchTerm = { CustId: 0, CustName: '' };
+    this.checkIn.CheckInDescription = '';
   }
   CustTypeChange() {
     this.checkIn.CustId = 0;

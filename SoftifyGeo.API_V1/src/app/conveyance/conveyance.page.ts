@@ -16,7 +16,7 @@ import { isUndefined } from 'util';
 })
 
 export class ConveyancePage {
-  conveyanceForm: FormGroup; conveyType: { id: 0; name: ' ' }; description: string;
+  conveyanceForm: FormGroup; conveyType: { id: 0; name: ' ' }; ConveyDescription: string;
   conveyAmount: number = 0;
   conveyTypeList: any; numTimesLeft = 5; items = []; id: any;
 
@@ -24,12 +24,13 @@ export class ConveyancePage {
     visitId: 0,
     conveyTypeId: 0,
     conveyAmount: 0,
-    description: ''
+    ConveyDescription: ''
   };
 
-  constructor(public navCtrl: NavController, public convservice: ConveyanceService,
-    public loadingService: LoadingService, public toastService: ToastService,
-    private router: ActivatedRoute, private formBuilder: FormBuilder, private routeRed: Router
+  constructor(
+              public navCtrl: NavController, public convservice: ConveyanceService,
+              public loadingService: LoadingService, public toastService: ToastService,
+              private router: ActivatedRoute, private formBuilder: FormBuilder, private routeRed: Router
   ) {
     this.id = this.router.snapshot.paramMap.get('id');
     this.ConveyanceType();
@@ -67,7 +68,7 @@ export class ConveyancePage {
       this.model.conveyTypeId = this.conveyType.id;
       this.model.visitId = this.id;
       this.model.conveyAmount = this.conveyAmount;
-      this.model.description = this.description;
+      this.model.ConveyDescription = this.ConveyDescription;
       if (this.model.visitId && this.model.conveyTypeId > 0) {
         this.model.conveyTypeId = this.conveyType.id;
         this.model.visitId = this.id;
@@ -107,6 +108,8 @@ export class ConveyancePage {
             this.model.conveyTypeId = response[0].conveyTypeId.toString();
             this.conveyAmount = response[0].conveyAmount;
             this.model.conveyAmount = response[0].conveyAmount;
+            this.model.ConveyDescription = response[0].ConveyDescription;
+            this.ConveyDescription = response[0].ConveyDescription;
             this.SetAmount(response[0]);
           }
         }, error => {

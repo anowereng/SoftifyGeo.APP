@@ -52,7 +52,7 @@ export class AttendancePage {
     this.attendService.CheckInOutStatus();
   }
 
-  ionViewWillEnter() {
+  ionViewDidEnter() {
     this.attendService.CheckInOutStatus();
     this.getGeolocation();
   }

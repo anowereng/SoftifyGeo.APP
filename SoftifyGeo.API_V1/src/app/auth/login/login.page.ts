@@ -13,10 +13,10 @@ import { LoadingService } from 'src/app/services/loading.service';
 })
 export class LoginPage implements OnInit {
 
-  loginForm: FormGroup;
+  loginForm: FormGroup;  isTextFieldType: boolean;
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService,
-    private message: ToastService, private router: Router) { }
+              private message: ToastService, private router: Router) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -29,9 +29,12 @@ export class LoginPage implements OnInit {
     console.log(navigator.onLine);
     if (navigator.onLine) {
       this.authService.login(this.loginForm.value).subscribe();
+    } else {
+      this.message.message('Please check internet connection...')
     }
-    else {
-      this.message.message("Please check internet connection...")
-    }
+  }
+
+  togglePasswordFieldType() {
+    this.isTextFieldType = !this.isTextFieldType;
   }
 }

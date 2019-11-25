@@ -19,6 +19,7 @@ const routes: Routes = [
   { path: 'tabcheckin', loadChildren: './tabcheckin/tabcheckin.module#TabcheckinPageModule', canActivate: [AuthGuardService] },
   { path: 'tabcheckout', loadChildren: './tabcheckout/tabcheckout.module#TabcheckoutPageModule', canActivate: [AuthGuardService] },
   { path: 'visit-list', loadChildren: './visit-list/visit-list.module#VisitListPageModule', canActivate: [AuthGuardService] },
+  { path: 'fuel', loadChildren: './fuel/fuel.module#FuelPageModule', canActivate: [AuthGuardService] },
   { path: 'visit-list-conveyance', loadChildren: './visit-list-conveyance/visit-list-conveyance.module#VisitListConveyancePageModule', canActivate: [AuthGuardService] },
   { path: 'conveyance/:id', loadChildren: './conveyance/conveyance.module#ConveyancePageModule', canActivate: [AuthGuardService] },
   { path: 'visit-details/:id', loadChildren: './visit-details/visit-details.module#VisitDetailsPageModule', canActivate: [AuthGuardService] }

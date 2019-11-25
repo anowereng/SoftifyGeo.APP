@@ -3,5 +3,6 @@ export interface CheckOut {
   CheckOutLatitude: number;
   CheckOutLongitude: number;
   CheckOutAddress: string;
+  CheckOutDescription: string;
   }
   

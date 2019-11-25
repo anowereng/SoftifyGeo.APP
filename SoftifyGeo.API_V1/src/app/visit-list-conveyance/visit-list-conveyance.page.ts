@@ -14,7 +14,7 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./visit-list-conveyance.page.scss'],
 })
 
-export class VisitListConveyancePage implements OnInit {
+export class VisitListConveyancePage{
 
   visitModel: any = {
     dtFrom: this.datpickerService.selectedDate(),
@@ -34,15 +34,17 @@ export class VisitListConveyancePage implements OnInit {
 
   }
 
-  ngOnInit() {
-    this.datePickerObj = this.datpickerService.GetDatePickerObj();
-  }
+  // ngOnInit() {
+  //   this.datePickerObj = this.datpickerService.GetDatePickerObj();
+  //   this.SearchData();
+  // }
+  
 
-  ionViewWillEnter() {
+  ionViewDidEnter() {
     this.datePickerObj = this.datpickerService.GetDatePickerObj();
-    this.SearchData(event);
+    this.SearchData();
   }
-  SearchData(event) {
+  SearchData() {
     console.log(this.visitModel);
     if (this.visitModel) {
       this.loading = true;
