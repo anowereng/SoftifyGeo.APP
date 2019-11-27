@@ -46,25 +46,41 @@ export class TabcheckinPage {
               private geolocation: Geolocation,
               private nativeGeocoder: NativeGeocoder,
               private router: Router
+
   ) {
     this.ResetData();
     this.GetReadyForCheckIn();
     this.getGeolocation();
-    this.defaultData();
-    this.checkIn.CheckInLatitude = this.geoLatitude;
-    this.checkIn.CheckInLongitude = this.geoLongitude;
-    this.checkIn.CheckInAddress = this.geoAddress;
     this.checkIn.CheckInDescription = '';
   }
 
-  ionViewDidEnter() {
+
+  getGeolocation() {
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.checkIn.CheckInLatitude = resp.coords.latitude;
+      this.checkIn.CheckInLongitude = resp.coords.longitude;
+      this.getGeoencoder(resp.coords.latitude, resp.coords.longitude);
+    }).catch((error) => {
+      this.toastService.message('Error getting location' + JSON.stringify(error));
+    });
+  }
+
+  // ionViewDidEnter() {
+  //   this.checkIn.CustType = 'old';
+  //   this.checkIn.CheckInLatitude = 0;
+  //   this.checkIn.CheckInLongitude = 0;
+  //   this.checkIn.CheckInDescription = '';
+  //   this.checkIn.CustId = 0;
+  //   this.checkIn.CustName = '';
+  //   this.searchTerm = { CustId: 0, CustName: '' };
+  //   this.checkIn.CheckInDescription = '';
+  // }
+  ionViewWillEnter() {
     this.ResetData();
     this.GetReadyForCheckIn();
     this.getGeolocation();
-    this.checkIn.CheckInLatitude = this.geoLatitude;
-    this.checkIn.CheckInLongitude = this.geoLongitude;
-    this.checkIn.CheckInAddress = this.geoAddress;
     this.checkIn.CheckInDescription = '';
+
   }
   defaultData(): CheckIn {
     return {
@@ -72,39 +88,28 @@ export class TabcheckinPage {
       CustId: 0,
       CustName: '',
       LUserId: 0,
-      CheckInLatitude: this.geoLatitude,
-      CheckInLongitude: this.geoLongitude,
-      CheckInAddress: this.geoAddress,
+      CheckInLatitude: 0,
+      CheckInLongitude: 0,
+      CheckInAddress: '',
       CheckInDescription: ''
     };
   }
   // Get current coordinates of device
-  setgeo() {
-    this.getGeolocation();
-    this.checkIn.CheckInLatitude = this.geoLatitude;
-    this.checkIn.CheckInLongitude = this.geoLongitude;
-    this.checkIn.CheckInAddress = this.geoAddress;
-  }
+  // setgeo() {
+  //   this.getGeolocation();
+  //   this.checkIn.CheckInLatitude = this.geoLatitude;
+  //   this.checkIn.CheckInLongitude = this.geoLongitude;
+  //   this.checkIn.CheckInAddress = this.geoAddress;
+  // }
   location() {
     this.router.navigate(['checkincheckout/tabcheckin']);
-  }
-
-  getGeolocation() {
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.geoLatitude = resp.coords.latitude;
-      this.geoLongitude = resp.coords.longitude;
-      this.geoAccuracy = resp.coords.accuracy;
-      this.getGeoencoder(this.geoLatitude, this.geoLongitude);
-    }).catch((error) => {
-      this.toastService.message('Error getting location' + JSON.stringify(error));
-    });
   }
 
   // geocoder method to fetch address from coordinates passed as arguments
   getGeoencoder(latitude, longitude) {
     this.nativeGeocoder.reverseGeocode(latitude, longitude, this.geoencoderOptions)
       .then((result: NativeGeocoderResult[]) => {
-        this.geoAddress = this.generateAddress(result[0]);
+        this.checkIn.CheckInAddress = this.generateAddress(result[0]);
       })
       .catch((error: any) => {
         this.toastService.message('Error getting location' + JSON.stringify(error));
@@ -126,22 +131,22 @@ export class TabcheckinPage {
     return address.slice(0, -2);
   }
 
-  //Start location update watch
-  watchLocation() {
-    this.isWatching = true;
-    this.watchLocationUpdates = this.geolocation.watchPosition();
-    this.watchLocationUpdates.subscribe((resp) => {
-      this.geoLatitude = resp.coords.latitude;
-      this.geoLongitude = resp.coords.longitude;
-      this.getGeoencoder(this.geoLatitude, this.geoLongitude);
-    });
-  }
+  // //Start location update watch
+  // watchLocation() {
+  //   this.isWatching = true;
+  //   this.watchLocationUpdates = this.geolocation.watchPosition();
+  //   this.watchLocationUpdates.subscribe((resp) => {
+  //     this.geoLatitude = resp.coords.latitude;
+  //     this.geoLongitude = resp.coords.longitude;
+  //     this.getGeoencoder(this.geoLatitude, this.geoLongitude);
+  //   });
+  // }
 
-  //Stop location update watch
-  stopLocationWatch() {
-    this.isWatching = false;
-    this.watchLocationUpdates.unsubscribe();
-  }
+  // //Stop location update watch
+  // stopLocationWatch() {
+  //   this.isWatching = false;
+  //   this.watchLocationUpdates.unsubscribe();
+  // }
 
   SearchData(event) {
     if (event.text.length > 3) {
@@ -213,11 +218,15 @@ export class TabcheckinPage {
     }, error => {
       this.toastService.message(error);
     });
+    this.router.navigate(['home']);
   }
 
 
   ResetData() {
-    this.checkIn = this.defaultData();
+    this.checkIn.CustType = 'old';
+    this.checkIn.CheckInLatitude = 0;
+    this.checkIn.CheckInLongitude = 0;
+    this.checkIn.CheckInDescription = '';
     this.checkIn.CustId = 0;
     this.checkIn.CustName = '';
     this.searchTerm = { CustId: 0, CustName: '' };
@@ -232,16 +241,14 @@ export class TabcheckinPage {
 
   SaveCheckInCustomer(formData: FormData) {
     this.getGeolocation();
-    this.checkIn.CheckInLatitude = this.geoLatitude;
-    this.checkIn.CheckInLongitude = this.geoLongitude;
-    this.checkIn.CheckInAddress = this.geoAddress;
-    if (this.checkIn) {
+    console.log(this.checkIn);
+    if (this.ValidationMessage()) {
       this.checkInService.postItem(this.checkIn).subscribe(
         () => {
+          console.log(this.checkIn);
           this.toastService.message('Record Saved Successfully');
           this.uploadImageData(formData);
           this.ResetData();
-          this.customerlist = [];
         }, error => {
           this.toastService.message(error);
         });
@@ -266,6 +273,9 @@ export class TabcheckinPage {
       || this.checkIn.CheckInLatitude.toString().length === 0) {
       flag = false;
       this.toastService.message('please reload tab , latitude and longitude are empty  !!');
+    } else if (this.checkIn.CheckInAddress === '') {
+      flag = false;
+      this.toastService.message('please reload tab , check in address are empty  !!');
     }
     return flag;
   }

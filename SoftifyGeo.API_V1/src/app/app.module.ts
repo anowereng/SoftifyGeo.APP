@@ -26,6 +26,7 @@ import { environment } from '../environments/environment';
 import { LoadingService } from './services/loading.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
+import {AppVersion} from '@ionic-native/app-version/ngx';
 
 export function jwtOptionsFactory(storage) {
   return {
@@ -54,7 +55,7 @@ library.add(fas, far, fab);
   providers: [
     StatusBar,
     SplashScreen,
-    Network,
+    Network, AppVersion,
     ToastService, ErrorInterceptorProvider, LoadingService, Geolocation, NativeGeocoder,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

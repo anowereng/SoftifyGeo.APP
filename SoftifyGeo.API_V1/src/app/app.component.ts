@@ -6,6 +6,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
 import { TabsPage } from './tabs/tabs.page';
+import { AppVersion } from '@ionic-native/app-version/ngx';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -13,16 +15,21 @@ import { TabsPage } from './tabs/tabs.page';
 })
 export class AppComponent {
   navigate: any; rootPage: any = TabsPage;
+
+  public app_version: string;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private authService: AuthService,
     private router: Router,
+    private appVersion: AppVersion
   ) {
     this.sideMenu();
     this.initializeApp();
+
   }
+
 
   initializeApp() {
     this.platform.ready().then(() => {
@@ -37,6 +44,14 @@ export class AppComponent {
       });
 
     });
+    this.appVersion.getVersionNumber().then(
+      (versionNumber) => {
+        this.app_version = versionNumber;
+        console.log(this.app_version);
+      },
+      (error) => {
+        console.log(error);
+      });
   }
 
   sideMenu() {

@@ -48,25 +48,35 @@ export class AttendancePage {
     private camera: Camera, private file: File,
     public authService: AuthService
   ) {
-    this.getGeolocation();
-    this.attendService.CheckInOutStatus();
-  }
-
-  ionViewDidEnter() {
     this.attendService.CheckInOutStatus();
     this.getGeolocation();
   }
 
-  setGeoLocation() {
+  ionViewWillEnter() {
+    this.attendService.CheckInOutStatus();
     this.getGeolocation();
   }
+
+  // setGeoLocation() {
+  //   this.getGeolocation();
+  // }
   // Get current coordinates of device
+  // getGeolocation() {
+  //   this.geolocation.getCurrentPosition().then((resp) => {
+  //     this.geoLatitude = resp.coords.latitude;
+  //     this.geoLongitude = resp.coords.longitude;
+  //     this.geoAccuracy = resp.coords.accuracy;
+  //     this.getGeoencoder(this.geoLatitude, this.geoLongitude);
+  //   }).catch((error) => {
+  //     this.toastService.message('Error getting location' + JSON.stringify(error));
+  //   });
+  // }
+
   getGeolocation() {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.geoLatitude = resp.coords.latitude;
       this.geoLongitude = resp.coords.longitude;
-      this.geoAccuracy = resp.coords.accuracy;
-      this.getGeoencoder(this.geoLatitude, this.geoLongitude);
+      this.getGeoencoder(resp.coords.latitude, resp.coords.longitude);
     }).catch((error) => {
       this.toastService.message('Error getting location' + JSON.stringify(error));
     });

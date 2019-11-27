@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'register', loadChildren: './auth/register/register.module#RegisterPageModule', canActivate: [AuthGuardService] },
   { path: 'login', loadChildren: './auth/login/login.module#LoginPageModule' },
   { path: 'checkincheckout', loadChildren: './checkincheckout/checkincheckout.module#CheckincheckoutPageModule', canActivate: [AuthGuardService] },
+  { path: 'fuelentry', loadChildren: './fuelentry/fuelentry.module#FuelEntryPageModule', canActivate: [AuthGuardService] },
   { path: 'attendance', loadChildren: './attendance/attendance.module#AttendancePageModule', canActivate: [AuthGuardService] },
   { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule', canActivate: [AuthGuardService] },
   { path: 'checkincheckout-list', loadChildren: './checkincheckout-list/checkincheckout-list.module#CheckincheckoutListPageModule', canActivate: [AuthGuardService] },
@@ -19,10 +20,9 @@ const routes: Routes = [
   { path: 'tabcheckin', loadChildren: './tabcheckin/tabcheckin.module#TabcheckinPageModule', canActivate: [AuthGuardService] },
   { path: 'tabcheckout', loadChildren: './tabcheckout/tabcheckout.module#TabcheckoutPageModule', canActivate: [AuthGuardService] },
   { path: 'visit-list', loadChildren: './visit-list/visit-list.module#VisitListPageModule', canActivate: [AuthGuardService] },
-  { path: 'fuel', loadChildren: './fuel/fuel.module#FuelPageModule', canActivate: [AuthGuardService] },
   { path: 'visit-list-conveyance', loadChildren: './visit-list-conveyance/visit-list-conveyance.module#VisitListConveyancePageModule', canActivate: [AuthGuardService] },
   { path: 'conveyance/:id', loadChildren: './conveyance/conveyance.module#ConveyancePageModule', canActivate: [AuthGuardService] },
-  { path: 'visit-details/:id', loadChildren: './visit-details/visit-details.module#VisitDetailsPageModule', canActivate: [AuthGuardService] }
+  { path: 'visit-details/:id', loadChildren: './visit-details/visit-details.module#VisitDetailsPageModule', canActivate: [AuthGuardService] },
 ];
 
 @NgModule({
