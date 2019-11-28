@@ -5,11 +5,12 @@
           <ion-card-content>
             <div>
                 <p>
-                    <strong>
+                    <strong  *ngIf="checkIn.CheckInLatitude">
                       <ion-button (click)="getGeolocation()" fill="clear">
                         <ion-icon slot="icon-only" name="sync"></ion-icon>
                       </ion-button>
                     </strong>
+                    <ion-spinner name="crescent"  *ngIf="!checkIn.CheckInLatitude"></ion-spinner>
                   </p>
               <p>
                 <ion-icon name="navigate"></ion-icon> Latitude : {{checkIn.CheckInLatitude}}

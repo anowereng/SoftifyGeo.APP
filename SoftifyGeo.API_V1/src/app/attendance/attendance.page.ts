@@ -57,21 +57,6 @@ export class AttendancePage {
     this.getGeolocation();
   }
 
-  // setGeoLocation() {
-  //   this.getGeolocation();
-  // }
-  // Get current coordinates of device
-  // getGeolocation() {
-  //   this.geolocation.getCurrentPosition().then((resp) => {
-  //     this.geoLatitude = resp.coords.latitude;
-  //     this.geoLongitude = resp.coords.longitude;
-  //     this.geoAccuracy = resp.coords.accuracy;
-  //     this.getGeoencoder(this.geoLatitude, this.geoLongitude);
-  //   }).catch((error) => {
-  //     this.toastService.message('Error getting location' + JSON.stringify(error));
-  //   });
-  // }
-
   getGeolocation() {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.geoLatitude = resp.coords.latitude;
@@ -209,8 +194,6 @@ export class AttendancePage {
       this.router.navigate(['home']);
     }
   }
-
-
   logout() {
     this.authService.logout();
   }

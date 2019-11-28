@@ -65,17 +65,7 @@ export class TabcheckinPage {
     });
   }
 
-  // ionViewDidEnter() {
-  //   this.checkIn.CustType = 'old';
-  //   this.checkIn.CheckInLatitude = 0;
-  //   this.checkIn.CheckInLongitude = 0;
-  //   this.checkIn.CheckInDescription = '';
-  //   this.checkIn.CustId = 0;
-  //   this.checkIn.CustName = '';
-  //   this.searchTerm = { CustId: 0, CustName: '' };
-  //   this.checkIn.CheckInDescription = '';
-  // }
-  ionViewWillEnter() {
+  ionViewDidEnter() {
     this.ResetData();
     this.GetReadyForCheckIn();
     this.getGeolocation();
@@ -94,13 +84,6 @@ export class TabcheckinPage {
       CheckInDescription: ''
     };
   }
-  // Get current coordinates of device
-  // setgeo() {
-  //   this.getGeolocation();
-  //   this.checkIn.CheckInLatitude = this.geoLatitude;
-  //   this.checkIn.CheckInLongitude = this.geoLongitude;
-  //   this.checkIn.CheckInAddress = this.geoAddress;
-  // }
   location() {
     this.router.navigate(['checkincheckout/tabcheckin']);
   }
@@ -130,23 +113,6 @@ export class TabcheckinPage {
     }
     return address.slice(0, -2);
   }
-
-  // //Start location update watch
-  // watchLocation() {
-  //   this.isWatching = true;
-  //   this.watchLocationUpdates = this.geolocation.watchPosition();
-  //   this.watchLocationUpdates.subscribe((resp) => {
-  //     this.geoLatitude = resp.coords.latitude;
-  //     this.geoLongitude = resp.coords.longitude;
-  //     this.getGeoencoder(this.geoLatitude, this.geoLongitude);
-  //   });
-  // }
-
-  // //Stop location update watch
-  // stopLocationWatch() {
-  //   this.isWatching = false;
-  //   this.watchLocationUpdates.unsubscribe();
-  // }
 
   SearchData(event) {
     if (event.text.length > 3) {
