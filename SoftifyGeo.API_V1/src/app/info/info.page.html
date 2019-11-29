@@ -1,12 +1,19 @@
 <ion-header>
-    <ion-toolbar class="ion-toolbar">
-      <ion-buttons slot="start">
-        <ion-back-button defaultHref="/tabs/home"></ion-back-button>
-      </ion-buttons>
-      <ion-title>Info </ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-toolbar class="ion-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title> <small> Info</small>  </ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <ion-content center padding style="padding-top: 100px;">
-      <img src="../../assets/icon/error_under_maintenance.png" height="200">
-    </ion-content>
+<ion-content>
+  <ion-row justify-content-center style="padding-top: 100px;">
+    <img src="../assets/icon/softifytech2.png" height="40" />
+  </ion-row>
+  <ion-row padding>
+    <p style="opacity: 0.5; padding-left: 70px;" class="ion-text-start">
+      <small><strong>Current Version: SoftifyGEO {{ app_version }}</strong></small>
+    </p>
+  </ion-row>
+</ion-content>

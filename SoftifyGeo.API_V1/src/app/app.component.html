@@ -4,27 +4,31 @@
       <ion-toolbar class="ion-toolbar" style="padding-bottom: 80px;">
         <ion-row>
           <ion-col size="12">
-            <img src="../assets/icon/tracker-logo.png" height="40">
+            <img src="../assets/icon/tracker-logo.png" height="40" />
           </ion-col>
         </ion-row>
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-list *ngFor="let pages of navigate"style="padding-top: 0px;">
-        <ion-menu-toggle auto-hide=true>
+      <ion-list *ngFor="let pages of navigate" style="padding-top: 0px;">
+        <ion-menu-toggle auto-hide="true">
           <ion-item [routerLink]="pages.url" routerDirection="forward">
             <fa-icon [icon]="pages.icon" slot="start"></fa-icon>
-            <ion-label><small>{{pages.title}} </small></ion-label>
+            <ion-label
+              ><small>{{ pages.title }} </small></ion-label
+            >
           </ion-item>
         </ion-menu-toggle>
       </ion-list>
-      <ion-item  (click)="logout()">
-          <ion-icon name="power" slot="start"></ion-icon>
-          <ion-label><small>Logout</small></ion-label>
+      <ion-item (click)="logout()">
+        <ion-icon name="power" slot="start"></ion-icon>
+        <ion-label><small>Logout</small></ion-label>
       </ion-item>
     </ion-content>
-    <ion-footer >
-        <p style="opacity: 0.5; padding-left: 20px;"  class="ion-text-start"><small>version: {{app_version}}</small></p> 
+    <ion-footer>
+      <p style="opacity: 0.5; padding-left: 20px;" class="ion-text-start">
+        <small>version: {{ app_version }}</small>
+      </p>
     </ion-footer>
   </ion-menu>
   <ion-router-outlet id="content1"></ion-router-outlet>

@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule', canActivate: [AuthGuardService] },
   { path: 'checkincheckout-list', loadChildren: './checkincheckout-list/checkincheckout-list.module#CheckincheckoutListPageModule', canActivate: [AuthGuardService] },
   { path: 'customer-details', loadChildren: './customer-details/customer-details.module#CustomerDetailsPageModule', canActivate: [AuthGuardService] },
-  { path: 'info', loadChildren: './info/info.module#InfoPageModule', canActivate: [AuthGuardService] },
+  // { path: 'info', loadChildren: './info/info.module#InfoPageModule', canActivate: [AuthGuardService] },
   { path: 'conveyance', loadChildren: './conveyance/conveyance.module#ConveyancePageModule', canActivate: [AuthGuardService] },
   { path: 'schedule', loadChildren: './schedule/schedule.module#SchedulePageModule', canActivate: [AuthGuardService] },
   { path: 'tabcheckin', loadChildren: './tabcheckin/tabcheckin.module#TabcheckinPageModule', canActivate: [AuthGuardService] },

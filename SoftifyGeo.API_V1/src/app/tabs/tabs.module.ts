@@ -13,6 +13,7 @@ const routes: Routes = [
     children: [
       { path: 'home', loadChildren: '../home/home.module#HomePageModule' },
       { path: 'info', loadChildren: '../info/info.module#InfoPageModule' },
+      { path: 'notification', loadChildren: '../notification/notification.module#NotificationPageModule' },
     ]
   },
   {
