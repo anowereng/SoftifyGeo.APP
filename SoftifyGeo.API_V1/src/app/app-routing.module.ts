@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './services/auth-guard.service';
 const routes: Routes = [
- { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   // { path: '', loadChildren: './tabs/tabs.module#TabsPageModule',pathMatch: 'full' },
   { path: '', loadChildren: './tabs/tabs.module#TabsPageModule', canActivate: [AuthGuardService] },
   { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomePageModule), canActivate: [AuthGuardService] },
@@ -23,6 +23,7 @@ const routes: Routes = [
   { path: 'visit-list-conveyance', loadChildren: './visit-list-conveyance/visit-list-conveyance.module#VisitListConveyancePageModule', canActivate: [AuthGuardService] },
   { path: 'conveyance/:id', loadChildren: './conveyance/conveyance.module#ConveyancePageModule', canActivate: [AuthGuardService] },
   { path: 'visit-details/:id', loadChildren: './visit-details/visit-details.module#VisitDetailsPageModule', canActivate: [AuthGuardService] },
+  { path: 'checkinout', loadChildren: () => import('./checkinout/checkinout.module').then(m => m.CheckInOutPageModule), canActivate: [AuthGuardService] }
 ];
 
 @NgModule({
