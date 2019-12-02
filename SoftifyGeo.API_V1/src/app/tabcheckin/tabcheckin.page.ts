@@ -59,7 +59,7 @@ export class TabcheckinPage {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.checkIn.CheckInLatitude = resp.coords.latitude;
       this.checkIn.CheckInLongitude = resp.coords.longitude;
-      this.getGeoencoder(resp.coords.latitude, resp.coords.longitude);
+      this.checkIn.CheckInAddress = "";
     }).catch((error) => {
       this.toastService.message('Error getting location' + JSON.stringify(error));
     });
@@ -89,30 +89,30 @@ export class TabcheckinPage {
   }
 
   // geocoder method to fetch address from coordinates passed as arguments
-  getGeoencoder(latitude, longitude) {
-    this.nativeGeocoder.reverseGeocode(latitude, longitude, this.geoencoderOptions)
-      .then((result: NativeGeocoderResult[]) => {
-        this.checkIn.CheckInAddress = this.generateAddress(result[0]);
-      })
-      .catch((error: any) => {
-        this.toastService.message('Error getting location' + JSON.stringify(error));
-      });
-  }
+  // getGeoencoder(latitude, longitude) {
+  //   this.nativeGeocoder.reverseGeocode(latitude, longitude, this.geoencoderOptions)
+  //     .then((result: NativeGeocoderResult[]) => {
+  //       this.checkIn.CheckInAddress = this.generateAddress(result[0]);
+  //     })
+  //     .catch((error: any) => {
+  //       this.toastService.message('Error getting location' + JSON.stringify(error));
+  //     });
+  // }
 
   // Return Comma saperated address
-  generateAddress(addressObj) {
-    let obj = [];
-    let address = '';
-    for (let key in addressObj) {
-      obj.push(addressObj[key]);
-    }
-    obj.reverse();
-    for (let val in obj) {
-      if (obj[val].length)
-        address += obj[val] + ', ';
-    }
-    return address.slice(0, -2);
-  }
+  // generateAddress(addressObj) {
+  //   let obj = [];
+  //   let address = '';
+  //   for (let key in addressObj) {
+  //     obj.push(addressObj[key]);
+  //   }
+  //   obj.reverse();
+  //   for (let val in obj) {
+  //     if (obj[val].length)
+  //       address += obj[val] + ', ';
+  //   }
+  //   return address.slice(0, -2);
+  // }
 
   SearchData(event) {
     if (event.text.length > 3) {

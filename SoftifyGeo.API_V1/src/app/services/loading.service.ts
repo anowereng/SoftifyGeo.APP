@@ -13,11 +13,10 @@ export class LoadingService {
   async present() {
     this.isLoading = true;
     return await this.loadingController.create({
-      // duration: 8000,
+       duration: 8000,
       message:'Please Wait....'
     }).then(a => {
       a.present().then(() => {
-        // console.log('presented');
         if (!this.isLoading) {
           a.dismiss()//.then(() => console.log('abort presenting'));
         }

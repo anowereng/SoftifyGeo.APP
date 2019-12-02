@@ -29,7 +29,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                             }
                         }
                     }
-                    return throwError(error.message);
+                    return throwError(error.name+": "+ error.statusText);
                 }
             })
         );
