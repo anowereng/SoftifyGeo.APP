@@ -26,7 +26,6 @@ export class LoginPage implements OnInit {
   }
 
   onSubmit() {
-    console.log(navigator.onLine);
     if (navigator.onLine) {
       this.authService.login(this.loginForm.value).subscribe();
     } else {
