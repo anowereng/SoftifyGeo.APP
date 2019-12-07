@@ -10,9 +10,9 @@ import { environment } from 'src/environments/environment';
 import { Camera, CameraOptions } from '@ionic-native/Camera/ngx';
 import { File, FileEntry } from '@ionic-native/File/ngx';
 import { AuthService } from '../services/auth.service';
-/*GEO */
-import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
+import { GPSPermissionService } from '../services/gps-permission.service';
+import { LocationCords } from '../_models/location';
+
 @Component({
   selector: 'app-attendance',
   templateUrl: './attendance.page.html',
@@ -20,10 +20,6 @@ import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@io
 })
 
 export class AttendancePage {
-  geoLatitude: number;
-  geoLongitude: number;
-  geoAccuracy: number;
-  geoAddress: string;
   CheckStatus: any;
   watchLocationUpdates: any;
   loading: any;
@@ -32,65 +28,32 @@ export class AttendancePage {
   data = '';
   url = environment.url;
   images = [];
-  geoencoderOptions: NativeGeocoderOptions = {
-    useLocale: true,
-    maxResults: 5
+  locationCoords: LocationCords = {
+    latitude: "",
+    longitude: "",
+    accuracy: "",
+    timestamp: "",
+    address: ""
   };
   constructor(
     public attendService: AttendanceService,
     private toastService: ToastService,
     private router: Router,
     private loadservice: LoadingService,
-    /* GEO */
-    private geolocation: Geolocation,
-    private nativeGeocoder: NativeGeocoder,
+    public gpsService: GPSPermissionService,
     /* Camera  */
     private camera: Camera, private file: File,
     public authService: AuthService
   ) {
     this.attendService.CheckInOutStatus();
-    this.getGeolocation();
+    this.gpsService.requestGPSPermission();
+    this.locationCoords =  this.gpsService.getLocationCoordinates();
   }
 
   ionViewWillEnter() {
     this.attendService.CheckInOutStatus();
-    this.getGeolocation();
-  }
-
-  getGeolocation() {
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.geoLatitude = resp.coords.latitude;
-      this.geoLongitude = resp.coords.longitude;
-      this.getGeoencoder(resp.coords.latitude, resp.coords.longitude);
-    }).catch((error) => {
-      this.toastService.message('Error getting location' + JSON.stringify(error));
-    });
-  }
-
-  // geocoder method to fetch address from coordinates passed as arguments
-  getGeoencoder(latitude, longitude) {
-    this.nativeGeocoder.reverseGeocode(latitude, longitude, this.geoencoderOptions)
-      .then((result: NativeGeocoderResult[]) => {
-        this.geoAddress = this.generateAddress(result[0]);
-      })
-      .catch((error: any) => {
-        this.toastService.message('Error getting location' + JSON.stringify(error));
-      });
-  }
-
-  // Return Comma saperated address
-  generateAddress(addressObj) {
-    let obj = [];
-    let address = '';
-    for (let key in addressObj) {
-      obj.push(addressObj[key]);
-    }
-    obj.reverse();
-    for (let val in obj) {
-      if (obj[val].length)
-        address += obj[val] + ', ';
-    }
-    return address.slice(0, -2);
+    this.gpsService.requestGPSPermission();
+    this.locationCoords =  this.gpsService.getLocationCoordinates();
   }
 
   /* End : GEO  */
@@ -109,10 +72,13 @@ export class AttendancePage {
     reader.readAsArrayBuffer(file);
   }
 
-
+  getGeolocation() {
+    this.gpsService.requestGPSPermission();
+    this.locationCoords =  this.gpsService.getLocationCoordinates();
+  }
   ValidationMessage(): boolean {
     let flag = true;
-    if (this.geoLongitude === 0 || isNullOrUndefined(this.geoLongitude)
+    if (this.locationCoords.longitude === '' || isNullOrUndefined(this.locationCoords.longitude)
       || this.attendence.toString().length === 0) {
       flag = false;
       this.toastService.message('please reselect menu  , latitude and longitude are empty  !!');
@@ -122,6 +88,7 @@ export class AttendancePage {
 
   getPicture() {
     if (this.ValidationMessage()) {
+      this.getGeolocation();
       let options: CameraOptions = {
         quality: 100,
         sourceType: this.camera.PictureSourceType.CAMERA,
@@ -168,13 +135,15 @@ export class AttendancePage {
 
   SaveCheckInOut(formData: FormData) {
     this.loadservice.presentWithMessage('Saving...');
-    if (isNullOrUndefined(this.geoAddress)) { this.geoAddress = ''; }
+    if (isNullOrUndefined(this.locationCoords.address)) { this.locationCoords.address = ''; }
     this.attendence = {};
+    /*gps data set */
     this.getGeolocation();
-    this.attendence.CheckInLatitude = this.geoLatitude;
-    this.attendence.CheckInLongitude = this.geoLongitude;
-    this.attendence.CheckInAddress = this.geoAddress;
-    this.attendence.Accuracy = 1;
+    this.attendence.CheckInLatitude = this.locationCoords.latitude;
+    this.attendence.CheckInLongitude = this.locationCoords.longitude;
+    this.attendence.CheckInAddress = this.locationCoords.address;
+    this.attendence.Accuracy = this.locationCoords.accuracy;
+      /* End: gps data set */
     this.attendence.Type = this.attendService.CheckStatus;
     if (this.attendence) {
       this.attendService.postItem(this.attendence).pipe(finalize(() => {

@@ -3,8 +3,8 @@ export interface CheckIn {
   CustId: number;
   CustName: string;
   LUserId: number;
-  CheckInLatitude: number;
-  CheckInLongitude: number;
+  CheckInLatitude: string;
+  CheckInLongitude: string;
   CheckInAddress: string;
   CheckInDescription: string;
   }

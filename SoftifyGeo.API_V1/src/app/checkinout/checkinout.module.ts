@@ -9,6 +9,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CheckInService } from '../services/checkin.service';
 import { Camera } from '@ionic-native/Camera/ngx';
 import { File } from '@ionic-native/File/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 const routes: Routes = [
   {
     path: '',
@@ -25,6 +28,6 @@ const routes: Routes = [
     RouterModule.forChild(routes)
     , IonicSelectableModule
   ],
-  declarations: [CheckInOutPage], providers: [CheckInService, Camera, File]
+  declarations: [CheckInOutPage], providers: [CheckInService, Camera, File, AndroidPermissions, LocationAccuracy, Geolocation]
 })
 export class CheckInOutPageModule {}

@@ -12,8 +12,8 @@ export class TabsPage implements OnInit {
   ngOnInit() {
   }
   
-  navigateToProfile() {
-    this.navCtrl.navigateRoot(`app/tabs/tabcheckin`);
-    }
+  // navigateToProfile() {
+  //   this.navCtrl.navigateRoot(`app/tabs/tabcheckin`);
+  //   }
 
 }

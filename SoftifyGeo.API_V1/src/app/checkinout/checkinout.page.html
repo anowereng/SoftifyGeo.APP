@@ -6,44 +6,32 @@
   </ion-toolbar>
 </ion-header>
  
-<ion-content padding>
-
- 
-  <!-- <ion-button (click)="getGeolocation()">
-    Get Location
-  </ion-button> -->
-
-  <p>
-    <strong >
-      <ion-button (click)="onLocateUser()" fill="clear">
-        <ion-icon slot="icon-only" name="sync"></ion-icon>
+<ion-grid fixed>
+  <ion-row>
+    <ion-col text-center>
+      <ion-button (click)="checkGPSPermission()">
+        Request GPS Accuracy
       </ion-button>
-    </strong>
-    <!-- <ion-spinner name="crescent" *ngIf="spinnerActive"></ion-spinner> -->
-  </p>
-<!-- 
-  <ion-button (click)="watchLocation()">
-    Watch Location Updates
-  </ion-button>
-  <ion-button (click)="stopLocationWatch()">
-    Stop Location Watch
-  </ion-button> -->
- 
-  <div *ngIf="geoLatitude">
-    <p>Latitude : {{geoLatitude}}</p>
-    <p>Longitude : {{geoLongitude}}</p>
-    <p>Accuracy : {{geoAccuracy}}</p>
-    <p class="address-text">
- 
-      <!-- <span class="watch-text" *ngIf="isWatching; else notWatching">
-        Watching Location
-      </span>
-      <ng-template #notWatching>
-        Location Watch Stopped
-      </ng-template>
-  -->
-      <br>Address : {{geoAddress }}
-    </p>
-  </div>
- 
-</ion-content>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="4">Longitude</ion-col>
+    <ion-col> {{locationCoords.longitude}}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="4">Latitude</ion-col>
+    <ion-col>{{locationCoords.latitude}}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="4">Accuracy</ion-col>
+    <ion-col>{{locationCoords.accuracy}}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="4">Timestamp</ion-col>
+    <ion-col>{{locationCoords.timestamp | date:'medium'}}</ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="4">Addrss</ion-col>
+    <ion-col>{{locationCoords.address}}</ion-col>
+  </ion-row>
+</ion-grid>

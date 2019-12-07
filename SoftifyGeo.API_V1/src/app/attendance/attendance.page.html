@@ -20,19 +20,19 @@
           <ion-card color="light">
             <ion-card-content>
               <p>
-                <strong  *ngIf="geoLatitude">
+                <strong  *ngIf="locationCoords.latitude">
                   <ion-button (click)="getGeolocation()" fill="clear">
                     <ion-icon slot="icon-only" name="sync"></ion-icon>
                   </ion-button>
                 </strong>
-                <ion-spinner name="crescent"  *ngIf="!geoLatitude"></ion-spinner>
+                <ion-spinner name="crescent"  *ngIf="!locationCoords.latitude"></ion-spinner>
               </p>
 
               <p>
-                <ion-icon name="navigate"></ion-icon> <strong>Lat : </strong> {{geoLatitude}}
+                <ion-icon name="navigate"></ion-icon> <strong>Lat : </strong> {{locationCoords.latitude}}
               </p>
               <p>
-                <ion-icon name="navigate"></ion-icon> <strong>Long : </strong> {{geoLongitude}}
+                <ion-icon name="navigate"></ion-icon> <strong>Long : </strong> {{locationCoords.longitude}}
               </p>
               <p *ngIf="attendService.CheckStatus === 'CheckIn'">
                 <ion-icon name="checkmark-circle-outline"></ion-icon> <strong>Status:</strong>
@@ -43,7 +43,7 @@
               </p>
 
               <p class="address-text">
-                <ion-icon name="compass"></ion-icon> <strong>Address : </strong>{{geoAddress }}
+                <ion-icon name="compass"></ion-icon> <strong>Address : </strong>{{locationCoords.address}}
               </p>
             </ion-card-content>
           </ion-card>

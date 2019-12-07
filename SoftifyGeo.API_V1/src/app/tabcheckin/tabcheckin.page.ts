@@ -4,7 +4,6 @@ import { NavController } from '@ionic/angular';
 import { ToastService } from '../services/toast.service';
 import { IonicSelectableComponent } from '../../../node_modules/ionic-selectable';
 import { CheckIn } from '../_models/checkin';
-import { LatLongService } from '../services/latlong.service';
 import { CheckInService } from '../services/checkin.service';
 /* Picture  */
 import { Camera, CameraOptions } from '@ionic-native/Camera/ngx';
@@ -13,10 +12,10 @@ import { LoadingService } from '../services/loading.service';
 import { finalize } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import { isUndefined } from 'util';
-/*GEO */
-import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
+
 import { Router } from '@angular/router';
+import { GPSPermissionService } from '../services/gps-permission.service';
+import { LocationCords } from '../_models/location';
 @Component({
   selector: 'app-tabcheckin',
   templateUrl: './tabcheckin.page.html',
@@ -28,91 +27,53 @@ export class TabcheckinPage {
   searchTerm: any = { CustId: 0, CustName: '' }; customerlist: any; loading: boolean = false;
   IsCheckInReady: boolean; userId: number;
   images = [];
-  geoLatitude: number;
-  geoLongitude: number;
-  geoAccuracy: number;
-  geoAddress: string;
-  watchLocationUpdates: any;
-  isWatching: boolean;
-  geoencoderOptions: NativeGeocoderOptions = {
-    useLocale: true,
-    maxResults: 5
+  locationCoords: LocationCords = {
+    latitude: '',
+    longitude: '',
+    accuracy: '',
+    timestamp: '',
+    address: ''
   };
   constructor(public navCtrl: NavController, public checkInOutService: CheckincheckoutService,
               public toastService: ToastService,
               public checkInService: CheckInService,
               private camera: Camera, private file: File,
               private loadservice: LoadingService, public authservice: AuthService,
-              private geolocation: Geolocation,
-              private nativeGeocoder: NativeGeocoder,
-              private router: Router
+              private router: Router, public gpsService: GPSPermissionService,
 
   ) {
     this.ResetData();
     this.GetReadyForCheckIn();
-    this.getGeolocation();
     this.checkIn.CheckInDescription = '';
-  }
-
-
-  getGeolocation() {
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.checkIn.CheckInLatitude = resp.coords.latitude;
-      this.checkIn.CheckInLongitude = resp.coords.longitude;
-      this.checkIn.CheckInAddress = "";
-    }).catch((error) => {
-      this.toastService.message('Error getting location' + JSON.stringify(error));
-    });
+    this.getGeolocation();
   }
 
   ionViewDidEnter() {
     this.ResetData();
     this.GetReadyForCheckIn();
-    this.getGeolocation();
     this.checkIn.CheckInDescription = '';
-
+    this.getGeolocation();
   }
+  
   defaultData(): CheckIn {
     return {
       CustType: 'old',
       CustId: 0,
       CustName: '',
       LUserId: 0,
-      CheckInLatitude: 0,
-      CheckInLongitude: 0,
+      CheckInLatitude: '',
+      CheckInLongitude: '',
       CheckInAddress: '',
       CheckInDescription: ''
     };
   }
-  location() {
-    this.router.navigate(['checkincheckout/tabcheckin']);
+  getGeolocation() {
+    this.gpsService.requestGPSPermission();
+    this.locationCoords = this.gpsService.getLocationCoordinates();
+    this.checkIn.CheckInLatitude =   this.locationCoords.latitude;
+    this.checkIn.CheckInLongitude =   this.locationCoords.longitude;
+    this.checkIn.CheckInAddress =   this.locationCoords.address;
   }
-
-  // geocoder method to fetch address from coordinates passed as arguments
-  // getGeoencoder(latitude, longitude) {
-  //   this.nativeGeocoder.reverseGeocode(latitude, longitude, this.geoencoderOptions)
-  //     .then((result: NativeGeocoderResult[]) => {
-  //       this.checkIn.CheckInAddress = this.generateAddress(result[0]);
-  //     })
-  //     .catch((error: any) => {
-  //       this.toastService.message('Error getting location' + JSON.stringify(error));
-  //     });
-  // }
-
-  // Return Comma saperated address
-  // generateAddress(addressObj) {
-  //   let obj = [];
-  //   let address = '';
-  //   for (let key in addressObj) {
-  //     obj.push(addressObj[key]);
-  //   }
-  //   obj.reverse();
-  //   for (let val in obj) {
-  //     if (obj[val].length)
-  //       address += obj[val] + ', ';
-  //   }
-  //   return address.slice(0, -2);
-  // }
 
   SearchData(event) {
     if (event.text.length > 3) {
@@ -184,14 +145,14 @@ export class TabcheckinPage {
     }, error => {
       this.toastService.message(error);
     });
-    this.router.navigate(['home']);
+    this.router.navigate(['/home']);
   }
 
 
   ResetData() {
     this.checkIn.CustType = 'old';
-    this.checkIn.CheckInLatitude = 0;
-    this.checkIn.CheckInLongitude = 0;
+    this.checkIn.CheckInLatitude = '';
+    this.checkIn.CheckInLongitude = '';
     this.checkIn.CheckInDescription = '';
     this.checkIn.CustId = 0;
     this.checkIn.CustName = '';
@@ -207,7 +168,10 @@ export class TabcheckinPage {
 
   SaveCheckInCustomer(formData: FormData) {
     this.getGeolocation();
-    console.log(this.checkIn);
+    this.checkIn.CheckInLatitude = this.locationCoords.latitude;
+    this.checkIn.CheckInLongitude = this.locationCoords.longitude;
+    this.checkIn.CheckInAddress = this.locationCoords.address;
+
     if (this.ValidationMessage()) {
       this.checkInService.postItem(this.checkIn).subscribe(
         () => {
@@ -235,7 +199,7 @@ export class TabcheckinPage {
     } else if (this.checkIn.CustName.length <= 4 && this.checkIn.CustType === 'new') {
       flag = false;
       this.toastService.message('please use full customer name   !!');
-    } else if (this.checkIn.CheckInLatitude === 0 || isUndefined(this.checkIn.CheckInLatitude)
+    } else if (this.checkIn.CheckInLatitude === '' || isUndefined(this.checkIn.CheckInLatitude)
       || this.checkIn.CheckInLatitude.toString().length === 0) {
       flag = false;
       this.toastService.message('please reload tab , latitude and longitude are empty  !!');

@@ -9,6 +9,10 @@ import { Camera } from '@ionic-native/Camera/ngx';
 import { File } from '@ionic-native/File/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { GPSPermissionService } from '../services/gps-permission.service';
 const routes: Routes = [
   {
     path: '',
@@ -25,6 +29,6 @@ const routes: Routes = [
     ReactiveFormsModule,
   ],
   declarations: [AttendancePage],
-  providers: [AttendanceService, Camera, File, FilePath, WebView],
+  providers: [AttendanceService, Camera, File, FilePath, WebView, GPSPermissionService, AndroidPermissions, LocationAccuracy, Geolocation],
 })
 export class AttendancePageModule {}

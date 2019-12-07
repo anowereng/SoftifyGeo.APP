@@ -1,40 +1,40 @@
-import { Component } from '@angular/core';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
-import { ToastService } from '../services/toast.service';
+import { Injectable } from '@angular/core';
+
+import { AttendanceService } from './attendance.service';
+import { ToastService } from './toast.service';
 import { Platform, NavController } from '@ionic/angular';
 
-
+/* location */
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+import { LocationCords } from '../_models/location';
+import { ThrowStmt } from '@angular/compiler';
 
-
-@Component({
-  selector: 'app-checkinout',
-  templateUrl: 'checkinout.page.html',
-  styleUrls: ['checkinout.page.scss'],
+@Injectable({
+  providedIn: 'root'
 })
-export class CheckInOutPage {
-
-  locationCoords: any;
-
+export class GPSPermissionService {
   geoLatitude: number;
   geoLongitude: number;
-
-  geoLatitude1: number;
-  geoLongitude1: number;
-
-  geoLatitude2: number;
-  geoLongitude2: number;
-
   geoAccuracy: number;
   geoAddress: string;
-  location: any;
+  CheckStatus: any;
   watchLocationUpdates: any;
   loading: any;
   isWatching: boolean;
-  spinnerActive: boolean = false;
-  // Geocoder configuration
+  attendence: any = {};
+  data = '';
+
+  locationCoords: LocationCords = {
+    latitude: "",
+    longitude: "",
+    accuracy: "",
+    timestamp: "",
+    address: ""
+  };
+
   geoencoderOptions: NativeGeocoderOptions = {
     useLocale: true,
     maxResults: 5
@@ -43,36 +43,47 @@ export class CheckInOutPage {
     private geolocation: Geolocation,
     private nativeGeocoder: NativeGeocoder,
     private toastService: ToastService,
-    private platform: Platform,
     public navCtrl: NavController, private androidPermissions: AndroidPermissions,
     private locationAccuracy: LocationAccuracy
   ) {
-     this.locationCoords = {
+    this.locationCoords = {
       latitude: "",
       longitude: "",
       accuracy: "",
       timestamp: "",
       address: ""
-    }
+    };
   }
 
-
-    // Check if application having GPS access permission  
-    checkGPSPermission() {
-      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(
-        result => {
-          if (result.hasPermission) {
-            // If having permission show 'Turn On GPS' dialogue
-            this.askToTurnOnGPS();
-          } else {
-            // If not having permission ask for permission
-            this.requestGPSPermission();
-          }
-        },
-        err => {
-          alert(err);
+  // Methos to get device accurate coordinates using device GPS
+  getLocationCoordinates(): LocationCords {
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.locationCoords.latitude = resp.coords.latitude.toString();
+      this.locationCoords.longitude = resp.coords.longitude.toString();
+      this.locationCoords.accuracy = resp.coords.accuracy.toString();
+      this.locationCoords.timestamp = resp.timestamp.toString();
+      this.getGeoencoder(resp.coords.latitude, resp.coords.longitude);
+    }).catch((error) => {
+      alert('Error getting location' + error);
+    });
+    return this.locationCoords;
+  }
+  // Check if application having GPS access permission
+  checkGPSPermission() {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(
+      result => {
+        if (result.hasPermission) {
+          // If having permission show 'Turn On GPS' dialogue
+          this.askToTurnOnGPS();
+        } else {
+          // If not having permission ask for permission
+          this.requestGPSPermission();
         }
-      );
+      },
+      err => {
+        alert(err);
+      }
+    );
   }
 
   requestGPSPermission() {
@@ -95,7 +106,7 @@ export class CheckInOutPage {
       }
     });
   }
- 
+
   askToTurnOnGPS() {
     this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(
       () => {
@@ -106,18 +117,18 @@ export class CheckInOutPage {
     );
   }
 
-   /* geocoder method to fetch address from coordinates passed as arguments   */
-   getGeoencoder(latitude, longitude) {
+  /* geocoder method to fetch address from coordinates passed as arguments   */
+  getGeoencoder(latitude, longitude) {
     this.nativeGeocoder.reverseGeocode(latitude, longitude, this.geoencoderOptions)
       .then((result: NativeGeocoderResult[]) => {
-        this.locationCoords.address = this.generateAddress(result[0]);
+        this.locationCoords.address =  this.generateAddress(result[0]);
       })
       .catch((error: any) => {
         // this.toastService.message('Error getting location' + JSON.stringify(error));
       });
   }
 
-    /* Return Comma saperated address */
+  /* Return Comma saperated address */
   generateAddress(addressObj) {
     let obj = [];
     let address = "";
@@ -131,20 +142,4 @@ export class CheckInOutPage {
     }
     return address.slice(0, -2);
   }
-
- 
-  // Methos to get device accurate coordinates using device GPS
-  getLocationCoordinates() {
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.locationCoords.latitude = resp.coords.latitude;
-      this.locationCoords.longitude = resp.coords.longitude;
-      this.locationCoords.accuracy = resp.coords.accuracy;
-      this.locationCoords.timestamp = resp.timestamp;
-      this.getGeoencoder(resp.coords.latitude, resp.coords.longitude);
-    }).catch((error) => {
-      alert('Error getting location' + error);
-    });
-  }
 }
-
-
