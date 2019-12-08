@@ -29,11 +29,12 @@ export class AttendancePage {
   url = environment.url;
   images = [];
   locationCoords: LocationCords = {
-    latitude: "",
-    longitude: "",
-    accuracy: "",
-    timestamp: "",
-    address: ""
+    latitude: '',
+    longitude: '',
+    accuracy: '',
+    timestamp: '',
+    address: '',
+    description: ''
   };
   constructor(
     public attendService: AttendanceService,

@@ -1,133 +1,104 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { CheckincheckoutService } from "../checkincheckout/checkincheckout.service";
-import { NavController } from '@ionic/angular';
-import { ToastService } from '../services/toast.service';
-import { LoadingService } from '../services/loading.service';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { CheckInService } from '../services/checkin.service';
+import { ToastService } from '../services/toast.service';
+import { Router } from '@angular/router';
+import { LoadingService } from '../services/loading.service';
+import { VisitDay } from '../_models/visitday';
 
 @Component({
   selector: 'app-checkincheckout',
   templateUrl: './checkincheckout.page.html',
   styleUrls: ['./checkincheckout.page.scss'],
 })
-export class CheckincheckoutPage implements OnInit {
+export class CheckincheckoutPage {
 
-  
-  isIndeterminate:boolean;
-  masterCheck:boolean;
-  checkBoxList:any;
-  isSpinner: boolean= false;
-  // public searchTerm: string = "";
-  public items: any;
-  jsonData: any;
-  
-  CheckCustomerId:number;
-  // public searchControl: FormControl;
+  IsCheckInReady: boolean = false; visitday: VisitDay = {
+    newcust: 0,
+    oldcust: 0,
+    total: 0
+  };
 
-  defaultSelectedRadio = "new";
-  //Get value on ionChange on IonRadioGroup
-  selectedRadioGroup:any;
-  //Get value on ionSelect on IonRadio item
-  selectedRadioItem:any='old';
-
-  customerlist: any;
-  searchTerm : any="";
-  constructor(public navCtrl: NavController, public checkInOutService : CheckincheckoutService,
-    private toastService:ToastService, private loadservice:LoadingService, public authservice: AuthService) { 
-   
-    }
-
-    ionViewDidLoad(){
-      this.customerlist;
-      
-    }
-
-  radio_list = [
-    {
-      name: 'custType',
-      value: 'old',
-      text: 'OLD',
-      checked: true,
-    }, {
-      name: 'custType',
-      value: 'new',
-      text: 'NEW',
-      checked: false,
-    }
-    
-  ];
- 
- 
-  radioSelect(event) {
-    this.selectedRadioItem = event.detail.value;
-  }
- ngOnInit() {
+  defaultdata() {
+    return {
+      newcust: 0,
+      oldcust: 0,
+      total: 0
+    };
   }
 
-  custTypeEvent(checktype) {
-      console.log(checktype);
-  }
-  
-  checkEvent(ids, ischeck) {
-    console.log(this.customerlist);
-   for (var i = 0; i < this.customerlist.length; i++) {
-    // if (this.customerlist[i].CustId != ids) {
-      this.customerlist[i].isChecked = false;
-    // }
-    
-}
-
-
-    var findIndex= this.customerlist.findIndex(k=>k.CustId== ids);
-   console.log(findIndex);
-  this.customerlist[findIndex].isChecked=ischeck
-
-  //  for(var i=0;i<this.customerlist.length;i++){
-
-  //  }
-    //  this.customerlist[findIndex.isc].isChecked=true
-
-    // this.customerlist[this.customerlist.findIndex(ids)].isChecked]
-  //   const totalItems = this.checkBoxList.length;
-  //   let checked = 0;
-  //   for (var i = 0; i < this.checkBoxList.length; i++) {
-      
-  //     if (this.checkBoxList[i].id==ids && ischeck==true) {
-  //       this.checkBoxList[i].isChecked=true
-  //     }
-  //     else{
-  //       this.checkBoxList[i].isChecked=false
-  //     }
-  // }
-    // this.CheckCustomerId =  ids;
-    console.log("Cstomer Id : "+ids);
-    console.log("ischeck : "+ischeck);
+  constructor(
+    public authservice: AuthService,
+    private checkInService: CheckInService,
+    private toastService: ToastService,
+    private router: Router,
+    private loadservice: LoadingService
+  ) {
+    this.GetReadyForCheckIn();
+    this.GetVisitDay();
   }
 
-  SearchData() {
-    if (this.searchTerm.length>3) {
-    this.isSpinner =true;
-    this.checkInOutService.SearchData(this.searchTerm).subscribe(
-    response => {
-      this.customerlist = response;
-      // this.customerlist[0].isChecked= this.customerlist[0].isChecked.toLowerCase() == 'true' ? true : false;
-      for(var i=0; i<this.customerlist; i++){
-        this.customerlist[i].isChecked = this.customerlist[i].isChecked.toLowerCase() == 'true' ? true : false;
+  ionViewWillEnter() {
+    this.GetReadyForCheckIn();
+    this.GetVisitDay();
+    this.defaultdata();
+  }
+
+  logout() {
+    this.authservice.logout();
+  }
+
+  GetReadyForCheckIn() {
+    this.loadservice.present();
+    this.IsCheckInReady = false;
+    this.checkInService.GetReadyForCheckIn().subscribe(result => {
+      this.IsCheckInReady = Boolean(result);
+      if (result === false) {
+        this.toastService.message('Please Check Out  !!');
       }
-      // console.log(this.customerlist[0]);
-
-      this.isSpinner =false;
-
-    },error => {
+    }, error => {
       this.toastService.message(error);
-      this.isSpinner =false;
     });
+    this.loadservice.dismiss();
   }
-}
+
+  GetVisitDay() {
+    this.loadservice.present();
+    this.IsCheckInReady = false;
+    this.checkInService.GetVisitDataDay().subscribe(result => {
+      this.visitday = result[0];
+      if (result === false) {
+        this.toastService.message('Please Check Out  !!');
+      }
+    }, error => {
+      this.toastService.message(error);
+    });
+    this.loadservice.dismiss();
+  }
+
+
+
+  GetRouteForCheckInOut(flag) {
+    if (this.IsCheckInReady === false) {
+      if (flag === 'checkout') {
+        this.router.navigate(['/tabcheckout']);
+      } else {
+        this.toastService.message('please check out ');
+      }
+    } else if (this.IsCheckInReady === true) {
+      if (flag === 'checkin') {
+        this.router.navigate(['/tabcheckin']);
+      } else {
+        this.toastService.message('you already check out, please check in ');
+      }
+    }
+  }
+
+
 
 }
 
 
-  
+
 
 

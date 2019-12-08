@@ -5,4 +5,5 @@ export interface LocationCords {
   accuracy: string;
   timestamp: string;
   address: string;
+  description: string;
   }

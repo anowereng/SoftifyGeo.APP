@@ -2,23 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from "@angular/forms";
 import { IonicModule } from '@ionic/angular';
 import { CheckincheckoutPage } from './checkincheckout.page';
+import { ToastService } from '../services/toast.service';
+import { CheckInService } from '../services/checkin.service';
 
 const routes: Routes = [
-
-  { path: '',
-    component: CheckincheckoutPage,
-    children:[
-        { path: 'tabcheckin', loadChildren: '../tabcheckin/tabcheckin.module#TabcheckinPageModule' },
-        { path: 'tabcheckout', loadChildren: '../tabcheckout/tabcheckout.module#TabcheckoutPageModule' },
-        {
-          path:'',
-          redirectTo:'/checkincheckout/tabcheckin',
-          pathMatch:'full'
-        }
-    ]
+  {
+    path: '',
+    component: CheckincheckoutPage
   }
 ];
 
@@ -27,10 +19,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    ReactiveFormsModule,
-    
     RouterModule.forChild(routes)
   ],
-  declarations: [CheckincheckoutPage]
+  declarations: [CheckincheckoutPage],
+  providers: [ ToastService, CheckInService ]
 })
 export class CheckincheckoutPageModule {}

@@ -32,7 +32,8 @@ export class TabcheckinPage {
     longitude: '',
     accuracy: '',
     timestamp: '',
-    address: ''
+    address: '',
+    description:''
   };
   constructor(public navCtrl: NavController, public checkInOutService: CheckincheckoutService,
               public toastService: ToastService,
@@ -171,7 +172,6 @@ export class TabcheckinPage {
     this.checkIn.CheckInLatitude = this.locationCoords.latitude;
     this.checkIn.CheckInLongitude = this.locationCoords.longitude;
     this.checkIn.CheckInAddress = this.locationCoords.address;
-
     if (this.ValidationMessage()) {
       this.checkInService.postItem(this.checkIn).subscribe(
         () => {
@@ -205,7 +205,7 @@ export class TabcheckinPage {
       this.toastService.message('please reload tab , latitude and longitude are empty  !!');
     } else if (this.checkIn.CheckInAddress === '') {
       flag = false;
-      this.toastService.message('please reload tab , check in address are empty  !!');
+      this.toastService.message('please reload tab ,  address are empty  !!');
     }
     return flag;
   }

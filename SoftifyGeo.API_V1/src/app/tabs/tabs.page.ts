@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.page.html',
@@ -7,9 +8,13 @@ import { NavController } from '@ionic/angular';
 })
 export class TabsPage implements OnInit {
 
-  constructor(public navCtrl: NavController) { }
+  constructor(public navCtrl: NavController, public authservice: AuthService) { }
 
-  ngOnInit() {
+    ngOnInit() {
+      
+  }
+  logout() {
+    this.authservice.logout();
   }
   
   // navigateToProfile() {

@@ -1,37 +1,154 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar class="ion-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/visit-list-conveyance"></ion-back-button>
+    </ion-buttons>
     <ion-title>
-      Ionic 4 Geolocation & Geocoder
+      <small *ngIf="IsCheckInReady">Check In</small>
+      <small *ngIf="!IsCheckInReady">Check Out</small>
     </ion-title>
   </ion-toolbar>
 </ion-header>
- 
-<ion-grid fixed>
-  <ion-row>
-    <ion-col text-center>
-      <ion-button (click)="checkGPSPermission()">
-        Request GPS Accuracy
+
+<ion-content>
+  <ion-card>
+    <ion-card-header color="light" no-padding>
+      <ion-card-title class="ion-text-center">
+        <ion-col size="8" class="ion-text-end" *ngIf="locationCoords.latitude">
+          <ion-button (click)="getGeolocation()" fill="clear">
+            <ion-icon slot="icon-only" name="sync"></ion-icon> ReLoad
+          </ion-button>
+        </ion-col>
+
+        <ion-col size="8" class="ion-text-end" *ngIf="!locationCoords.latitude">
+          <ion-spinner name="crescent"></ion-spinner>
+          <ion-label color="primary"><small>
+              <strong class="ion-text-uppercase">sync</strong> </small> </ion-label>
+        </ion-col>
+      </ion-card-title>
+
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col size="4" class="ion-text-end">lat : </ion-col>
+          <ion-col class="ion-text-start"> {{locationCoords.latitude}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4" class="ion-text-end">long : </ion-col>
+          <ion-col class="ion-text-start"> {{locationCoords.longitude}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12">
+            <p>{{locationCoords.address }}</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Start : Check-In Content -->
+
+  <div *ngIf="IsCheckInReady">
+    <ion-row>
+
+      <ion-col text-center size-md="9" size-lg="9" size-xs="9">
+        <ion-label float-left *ngIf="(checkIn.CustType=='new')|| checkIn.CustType=='old' && searchTerm.CustId>0">
+          <small>
+            Customer Name</small>
+        </ion-label>
+        <ion-label float-left *ngIf="checkIn.CustType=='old' && searchTerm.CustId==0"> <small> Select Customer</small>
+        </ion-label>
+      </ion-col>
+
+      <ion-col text-center size-md="3" size-lg="3" size-xs="3">
+        <small>
+          <ion-select [(ngModel)]="checkIn.CustType" interface="popover" (ionChange)="CustTypeChange()">
+            <ion-select-option value="old">Old</ion-select-option>
+            <ion-select-option value="new">New</ion-select-option>
+          </ion-select>
+        </small>
+      </ion-col>
+
+      <ion-col text-center size-md="12" size-lg="12" size-xs="12">
+        <ion-item *ngIf="checkIn.CustType=='old'">
+          <small>
+            <ionic-selectable [(ngModel)]="searchTerm" itemValueField="CustId" itemTextField="CustName"
+              [items]="customerlist" [canSearch]="true" (onChange)="customerSelect($event)"
+              (onSearch)="SearchData($event)">
+            </ionic-selectable>
+          </small>
+        </ion-item>
+        <ion-item *ngIf="checkIn.CustType=='new'">
+          <ion-input name="text" [(ngModel)]="checkIn.CustName"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <!-- End : Check-In Content -->
+
+
+  <!---Start: Check-Out Content -->
+  <div *ngIf="!IsCheckInReady">
+    <ion-card no-padding>
+
+      <ion-card-header color="light">
+        <ion-card-title class="ion-text-center">
+          <small>Last Check-Out Info</small>
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col size="4" float="right" class="ion-text-end">Cutomer Name : </ion-col>
+            <ion-col> {{checkInInfo.CustName}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="4" float="right" class="ion-text-end">Cutomer Type: </ion-col>
+            <ion-col>{{checkInInfo.CustType}}</ion-col>
+          </ion-row>
+          <ion-row *ngIf="!checkInInfo.CustName">
+            <ion-col size="4">
+              <ion-label> last check in not found </ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+
+    </ion-card>
+  </div>
+
+  <!---End: Check-Out Content -->
+
+  <!-- Description -->
+  <ion-col size-md="12" size-lg="12" size-xs="12">
+    <ion-item>
+      <ion-label position="floating"><small>Description</small></ion-label>
+      <ion-textarea [(ngModel)]="locationCoords.description"></ion-textarea>
+    </ion-item>
+  </ion-col>
+
+</ion-content>
+
+
+<ion-footer>
+
+  <ion-toolbar class="ion-toolbar">
+    <div *ngIf="IsCheckInReady">
+      <ion-button fill="clear" expand="full" color="light" (click)=getPicture() *ngIf="IsCheckInReady">
+        <ion-icon slot="start" name="camera"></ion-icon>
+        CHECKIN
       </ion-button>
-    </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col size="4">Longitude</ion-col>
-    <ion-col> {{locationCoords.longitude}}</ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col size="4">Latitude</ion-col>
-    <ion-col>{{locationCoords.latitude}}</ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col size="4">Accuracy</ion-col>
-    <ion-col>{{locationCoords.accuracy}}</ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col size="4">Timestamp</ion-col>
-    <ion-col>{{locationCoords.timestamp | date:'medium'}}</ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col size="4">Addrss</ion-col>
-    <ion-col>{{locationCoords.address}}</ion-col>
-  </ion-row>
-</ion-grid>
+    </div>
+    <div *ngIf="!IsCheckInReady">
+      <ion-button fill="clear" expand="full" color="light" (click)="UpdateCheckOut()" *ngIf="!IsCheckInReady"
+        [disabled]="checkInInfo.CheckOutlongitude>1">
+        <ion-icon name="log-out" slot="end"></ion-icon>
+        CHECKOUT
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

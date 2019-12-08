@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { CheckIn } from '../_models/checkin';
-import { catchError , finalize} from 'rxjs/operators';
+import { catchError, finalize } from 'rxjs/operators';
 import { LoadingService } from './loading.service';
 
 export class CheckInService {
@@ -27,6 +27,22 @@ export class CheckInService {
   uploadImage(formData: FormData) {
     return this.http.post(this.url + '/UploadImage/Upload?pagename=custcheckin', formData);
   }
+  SearchData(searchData: any) {
+    console.log(searchData);
+    return this.http.get(this.url + '/CustomerChekIn/' + '"' + searchData + '"').pipe(
+      catchError(e => {
+        throw new Error(e);
+      })
+    );
+  }
+  
+  GetVisitDataDay() {
+    return this.http.get(this.url + '/CustomerChekIn/GetTotalVisitDay')
+      .pipe(catchError(e => {
+        throw new Error(e);
+      }));
+  }
+
 }
 
 

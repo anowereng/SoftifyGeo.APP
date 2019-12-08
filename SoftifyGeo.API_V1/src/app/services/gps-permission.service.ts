@@ -32,7 +32,8 @@ export class GPSPermissionService {
     longitude: "",
     accuracy: "",
     timestamp: "",
-    address: ""
+    address: "",
+    description:''
   };
 
   geoencoderOptions: NativeGeocoderOptions = {
@@ -47,11 +48,12 @@ export class GPSPermissionService {
     private locationAccuracy: LocationAccuracy
   ) {
     this.locationCoords = {
-      latitude: "",
-      longitude: "",
-      accuracy: "",
-      timestamp: "",
-      address: ""
+      latitude: '',
+      longitude: '',
+      accuracy: '',
+      timestamp: '',
+      address: '',
+      description: ''
     };
   }
 

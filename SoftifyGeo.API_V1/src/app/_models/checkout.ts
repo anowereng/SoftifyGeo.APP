@@ -1,7 +1,7 @@
 export interface CheckOut {
   LocationCustId: number;
-  CheckOutLatitude: number;
-  CheckOutLongitude: number;
+  CheckOutLatitude: string;
+  CheckOutLongitude: string;
   CheckOutAddress: string;
   CheckOutDescription: string;
   }
