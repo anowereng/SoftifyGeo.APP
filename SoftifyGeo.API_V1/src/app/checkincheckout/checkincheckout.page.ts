@@ -89,7 +89,7 @@ export class CheckincheckoutPage {
       if (flag === 'checkin') {
         this.router.navigate(['/tabcheckin']);
       } else {
-        this.toastService.message('you already check out, please check in ');
+        this.toastService.message(' already check out, please check in ');
       }
     }
   }

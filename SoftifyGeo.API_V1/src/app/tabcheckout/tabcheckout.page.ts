@@ -63,7 +63,7 @@ export class TabcheckoutPage {
     if (this.checkOutModel && this.checkOutModel.LocationCustId > 0) {
       this.checkOutService.postCheckOut(this.checkOutModel).subscribe(() => {
         this.toastService.message('CheckOut Updated Successfully');
-        this.router.navigate(['/home']);
+        this.router.navigate(['/']);
       }, error => {
         this.toastService.message(error);
       });

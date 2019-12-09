@@ -93,9 +93,10 @@ export class AttendancePage {
       let options: CameraOptions = {
         quality: 100,
         sourceType: this.camera.PictureSourceType.CAMERA,
-        saveToPhotoAlbum: true,
-        correctOrientation: true
-      };
+        saveToPhotoAlbum: false,
+        correctOrientation: true,
+        targetHeight: 800, targetWidth: 800
+      }
       this.camera.getPicture(options).then(imagePath => {
         this.images = [];
         let newEntry = {

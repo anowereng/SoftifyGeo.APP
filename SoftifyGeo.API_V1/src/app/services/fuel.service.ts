@@ -10,11 +10,10 @@ export class FuelService {
 
   url = environment.url;
   constructor(private http: HttpClient) { }
+
    postItem(model: any) {
-    console.log(model);
-    return this.http.post(this.url + '/LocationFuel/FuelSave', model);
+    return this.http.post(this.url + '/Fuel/FuelSave', model);
   }
-   
 }
 
 

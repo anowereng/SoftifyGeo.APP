@@ -46,14 +46,16 @@ export class TabcheckinPage {
     this.ResetData();
     this.GetReadyForCheckIn();
     this.checkIn.CheckInDescription = '';
-    this.getGeolocation();
+    this.gpsService.requestGPSPermission();
+    this.locationCoords =  this.gpsService.getLocationCoordinates();
   }
 
   ionViewDidEnter() {
     this.ResetData();
     this.GetReadyForCheckIn();
     this.checkIn.CheckInDescription = '';
-    this.getGeolocation();
+    this.gpsService.requestGPSPermission();
+    this.locationCoords =  this.gpsService.getLocationCoordinates();
   }
   
   defaultData(): CheckIn {
@@ -115,7 +117,8 @@ export class TabcheckinPage {
         quality: 100,
         sourceType: this.camera.PictureSourceType.CAMERA,
         saveToPhotoAlbum: false,
-        correctOrientation: true
+        correctOrientation: true,
+        targetHeight: 1200, targetWidth: 1200
       };
       this.camera.getPicture(options).then(imagePath => {
         this.images = [];
@@ -146,7 +149,7 @@ export class TabcheckinPage {
     }, error => {
       this.toastService.message(error);
     });
-    this.router.navigate(['/home']);
+    this.router.navigate(['/']);
   }
 
 
@@ -205,7 +208,7 @@ export class TabcheckinPage {
       this.toastService.message('please reload tab , latitude and longitude are empty  !!');
     } else if (this.checkIn.CheckInAddress === '') {
       flag = false;
-      this.toastService.message('please reload tab ,  address are empty  !!');
+      this.toastService.message('please reload ,  address are empty  !!');
     }
     return flag;
   }
