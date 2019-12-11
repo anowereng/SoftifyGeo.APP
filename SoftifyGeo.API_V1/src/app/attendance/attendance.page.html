@@ -20,12 +20,11 @@
           <ion-card color="light">
             <ion-card-content>
               <p>
-                <strong  *ngIf="locationCoords.latitude">
+                <strong>
                   <ion-button (click)="getGeolocation()" fill="clear">
                     <ion-icon slot="icon-only" name="sync"></ion-icon>
                   </ion-button>
                 </strong>
-                <ion-spinner name="crescent"  *ngIf="!locationCoords.latitude"></ion-spinner>
               </p>
 
               <p>

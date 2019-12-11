@@ -66,7 +66,7 @@ export class GPSPermissionService {
       this.locationCoords.timestamp = resp.timestamp.toString();
       this.getGeoencoder(resp.coords.latitude, resp.coords.longitude);
     }).catch((error) => {
-      alert('Error getting location' + error);
+      console.log('Error getting location' + error);
     });
     return this.locationCoords;
   }
@@ -102,7 +102,7 @@ export class GPSPermissionService {
             },
             error => {
               // Show alert if user click on 'No Thanks'
-              alert('requestPermission Error requesting location permissions ' + error)
+              console.log('requestPermission Error requesting location permissions ' + error);
             }
           );
       }
@@ -115,7 +115,7 @@ export class GPSPermissionService {
         // When GPS Turned ON call method to get Accurate location coordinates
         this.getLocationCoordinates();
       },
-      error => alert('Error requesting location permissions ' + JSON.stringify(error))
+      error => console.log('Error requesting location permissions ' + JSON.stringify(error))
     );
   }
 

@@ -75,7 +75,7 @@ export class AttendancePage {
 
   getGeolocation() {
     this.gpsService.requestGPSPermission();
-    this.locationCoords =  this.gpsService.getLocationCoordinates();
+    this.locationCoords = this.gpsService.getLocationCoordinates();
   }
   ValidationMessage(): boolean {
     let flag = true;
