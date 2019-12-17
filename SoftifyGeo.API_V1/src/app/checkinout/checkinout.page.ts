@@ -43,12 +43,12 @@ export class CheckInOutPage {
     description: ''
   };
   constructor(public navCtrl: NavController,
-              public toastService: ToastService,
-              public checkInService: CheckInService,
-              public camera: Camera, public file: File,
-              public loadservice: LoadingService, public authservice: AuthService,
-              public router: Router, public gpsService: GPSPermissionService,
-              public checkOutService: CheckOutService
+    public toastService: ToastService,
+    public checkInService: CheckInService,
+    public camera: Camera, public file: File,
+    public loadservice: LoadingService, public authservice: AuthService,
+    public router: Router, public gpsService: GPSPermissionService,
+    public checkOutService: CheckOutService
 
   ) {
     this.ResetData();
@@ -89,11 +89,11 @@ export class CheckInOutPage {
     };
   }
   getGeolocation() {
-    this.gpsService.requestGPSPermission();
-    this.locationCoords = this.gpsService.getLocationCoordinates();
-    this.checkIn.CheckInLatitude = this.locationCoords.latitude;
-    this.checkIn.CheckInLongitude = this.locationCoords.longitude;
-    this.checkIn.CheckInAddress = this.locationCoords.address;
+      this.gpsService.requestGPSPermission();
+      this.locationCoords = this.gpsService.getLocationCoordinates();
+      this.checkIn.CheckInLatitude = this.locationCoords.latitude;
+      this.checkIn.CheckInLongitude = this.locationCoords.longitude;
+      this.checkIn.CheckInAddress = this.locationCoords.address;
   }
 
   SearchData(event) {

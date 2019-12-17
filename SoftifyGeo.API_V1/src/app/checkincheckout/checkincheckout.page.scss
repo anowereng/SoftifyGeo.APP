@@ -1,14 +1,14 @@
 
 .activebackcolor{
-    background-color: #009688 !important
+    background-color: var(--ion-com-primary-color)
 }
 .notactivebackcolor{
-    background-color: whitesmoke !important
+    background-color: var(--ion-com-text-color)
 }
 .notactivetextcolor{
-    color: #009688 !important
+    color: var(--ion-com-primary-color)
 }
 .activetextcolor{
-    color:whitesmoke !important
+    color:var(--ion-com-text-color)
 }
 

@@ -11,6 +11,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { LocationCords } from '../_models/location';
 import { ThrowStmt } from '@angular/compiler';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,7 @@ export class GPSPermissionService {
     accuracy: "",
     timestamp: "",
     address: "",
-    description:''
+    description: ''
   };
 
   geoencoderOptions: NativeGeocoderOptions = {
@@ -45,7 +46,8 @@ export class GPSPermissionService {
     private nativeGeocoder: NativeGeocoder,
     private toastService: ToastService,
     public navCtrl: NavController, private androidPermissions: AndroidPermissions,
-    private locationAccuracy: LocationAccuracy
+    private locationAccuracy: LocationAccuracy,
+    private loaderservice: LoadingService
   ) {
     this.locationCoords = {
       latitude: '',
@@ -59,15 +61,23 @@ export class GPSPermissionService {
 
   // Methos to get device accurate coordinates using device GPS
   getLocationCoordinates(): LocationCords {
-    this.geolocation.getCurrentPosition().then((resp) => {
+    this.geolocation.getCurrentPosition(
+      {
+        maximumAge: 1000, timeout: 15000,
+        enableHighAccuracy: true
+      }
+    ).then((resp) => {
       this.locationCoords.latitude = resp.coords.latitude.toString();
       this.locationCoords.longitude = resp.coords.longitude.toString();
       this.locationCoords.accuracy = resp.coords.accuracy.toString();
       this.locationCoords.timestamp = resp.timestamp.toString();
       this.getGeoencoder(resp.coords.latitude, resp.coords.longitude);
-    }).catch((error) => {
-      console.log('Error getting location' + error);
-    });
+    }, error => {
+      alert('can not retriebe location !! try again');
+    })
+      .catch((error) => {
+        console.log('Error getting location' + error);
+      });
     return this.locationCoords;
   }
   // Check if application having GPS access permission
@@ -123,7 +133,7 @@ export class GPSPermissionService {
   getGeoencoder(latitude, longitude) {
     this.nativeGeocoder.reverseGeocode(latitude, longitude, this.geoencoderOptions)
       .then((result: NativeGeocoderResult[]) => {
-        this.locationCoords.address =  this.generateAddress(result[0]);
+        this.locationCoords.address = this.generateAddress(result[0]);
       })
       .catch((error: any) => {
         // this.toastService.message('Error getting location' + JSON.stringify(error));

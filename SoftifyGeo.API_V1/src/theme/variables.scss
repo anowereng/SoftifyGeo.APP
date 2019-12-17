@@ -8,32 +8,38 @@
   --ion-btncolor-login-hover: #58d68d;
   --ion-btn-submit-hover: #37ada3;
   --ion-btn-submit: #009688;
-  --ion-toolbar: #009688;
+  --ion-com-primary-color: #102147; 
+  --ion-com-secondary-color: #475B5A;
+  --ion-com-text-color: white;
 
    /* ION Topbar color */
-  .ion-toolbar{
-    --background:var(--ion-toolbar);
+  //  .ion-com-primary{
+  //   --background:var(--ion-com-primary-color);
+  //   color: white;
+  //  }
+  .ion-com-toolbar{
+    --background:var(--ion-com-primary-color);
      color: white;
   }
     /* ion Button*/
-.ion-btn-submit {
-    --background:var(--ion-btn-submit);
-    color: white;
-  }
-.ion-btn-submit:hover{
-    --background-hover:var(--ion-btn-submit-hover);
-}
+// .ion-btn-submit {
+//     --background:var(--ion-com-primary-color);
+//     color: var(--ion-com-text-color);
+//   }
+// .ion-btn-submit:hover{
+//     --background-hover:var(--ion-btn-submit-hover);
+// }
 
-  /* Login Button*/
-.btnlogincolor {
-  --background: var(--ion-btncolor-login);
-}
-.btnlogincolor:hover{
-  --background-hover:var(--ion-btncolor-login-hover);
-}
+//   /* Login Button*/
+// .btnlogincolor {
+//   --background: var(--ion-btncolor-login);
+// }
+// .btnlogincolor:hover{
+//   --background-hover:var(--ion-btncolor-login-hover);
+// }
 
 .ion-radio{
-  --color: var(--ion-toolbar);
+  --color: var(--ion-comcolor);
 }
 
   /** primary **/

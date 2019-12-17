@@ -1,9 +1,9 @@
-<ion-header style="background-color: #009688 !important">
-    <ion-toolbar class="ion-toolbar" style="padding-top: 16px">
+<ion-header style="background-color:var(--ion-com-primary-color);">
+    <ion-toolbar class="ion-com-toolbar" style="padding-top: 16px">
       <ion-row style="font-size:12px !important;">
         <ion-col size="2">
           <ion-buttons>
-            <ion-menu-button style="color: white; font-size: 30px;"></ion-menu-button>
+            <ion-menu-button style="color: var(--ion-com-text-color); font-size: 30px;"></ion-menu-button>
           </ion-buttons>
         </ion-col>
         <ion-col size="8" style="padding-top: 4px">
@@ -12,19 +12,19 @@
         <ion-col size="2">
           <ion-buttons>
             <a (click)="authService.logout()">
-              <ion-icon name="power" slot="end" style="color: white; font-size: 30px;"></ion-icon>
+              <ion-icon name="power" slot="end" style="color: var(--ion-com-text-color); font-size: 30px;"></ion-icon>
             </a>
           </ion-buttons>
         </ion-col>
         <ion-col size="2">
           
           <ion-fab-button color="light" size="small">
-            <ion-label style="color: #009688;"><strong>{{titleCaseWord(userinfo.given_name)}}</strong></ion-label>
+            <ion-label style="color: var(--ion-com-primary-color);"><strong>{{titleCaseWord(userinfo.given_name)}}</strong></ion-label>
           </ion-fab-button>
         </ion-col>
         <ion-col size="10" style="padding-top: 10px">
           <ion-row>
-            <ion-col size="14" style="color: white;">
+            <ion-col size="14" style="color: var(--ion-com-text-color);">
               <ion-label class="ion-text-uppercase"><small>{{userinfo.given_name}}</small></ion-label><br />
               <ion-label><small>{{userinfo.role}}</small></ion-label>
             </ion-col>
@@ -38,55 +38,55 @@
   <ion-content class="ion-content">
     <ion-row style="padding-top:10px">
       <ion-col text-center align-self-center size-md="6" size-lg="6" size-xs="6">
-        <ion-card [routerLink]="['/','attendance']" style="background-color: #009688 !important">
+        <ion-card [routerLink]="['/','attendance']" style="background-color: var(--ion-com-primary-color);">
           <div style="display: inline-block; text-align: center;" padding>
             <fa-icon icon="fingerprint" slot="end" size="2x"></fa-icon>
-            <p style="color: #ffff !important">Attendance</p>
+            <p style="color: var(--ion-com-text-color) !important">Attendance</p>
           </div>
         </ion-card>
       </ion-col>
   
       <ion-col text-center align-self-center size-md="6" size-lg="6" size-xs="6">
-        <ion-card [routerLink]="['/','checkincheckout']" style="background-color: #B1386C !important">
+        <ion-card [routerLink]="['/','checkincheckout']" style="background-color: var(--ion-com-secondary-color);">
           <div style="display: inline-block; text-align: center;" padding>
             <fa-icon icon="map-marked-alt" slot="end" size="2x"></fa-icon>
-            <p style="color: #ffff !important">Visit</p>
+            <p style="color: var(--ion-com-text-color) !important">Visit</p>
           </div>
         </ion-card>
       </ion-col>
   
       <ion-col text-center align-self-center size-md="6" size-lg="6" size-xs="6">
-        <ion-card [routerLink]="['/','visit-list']" style="background-color: #B1386C !important">
+        <ion-card [routerLink]="['/','visit-list']" style="background-color:var(--ion-com-secondary-color);">
           <div style="display: inline-block; text-align: center;" padding>
             <fa-icon icon="route" slot="end" size="2x"></fa-icon>
-            <p style="color: #ffff !important">Visit List</p>
+            <p style="color: var(--ion-com-text-color) !important">Visit List</p>
           </div>
         </ion-card>
       </ion-col>
   
       <ion-col text-center align-self-center size-md="6" size-lg="6" size-xs="6">
-        <ion-card [routerLink]="['/','settings']" style="background-color: #009688 !important">
+        <ion-card [routerLink]="['/','settings']" style="background-color:var(--ion-com-primary-color);">
           <div style="display: inline-block; text-align: center;" padding>
             <fa-icon icon="cogs" slot="end" size="2x"></fa-icon>
-            <p style="color: #ffff !important">Settings</p>
+            <p style="color: var(--ion-com-text-color) !important">Settings</p>
           </div>
         </ion-card>
       </ion-col>
   
       <ion-col text-center align-self-center size-md="6" size-lg="6" size-xs="6">
-        <ion-card [routerLink]="['/','fuelentry']" style="background-color: #009688 !important">
+        <ion-card [routerLink]="['/','fuelentry']" style="background-color: var(--ion-com-primary-color);">
           <div style="display: inline-block; text-align: center;" padding>
             <fa-icon icon="gas-pump" slot="end" size="2x"></fa-icon>
-            <p style="color: #ffff !important">Fuel</p>
+            <p style="color: var(--ion-com-text-color) !important">Fuel</p>
           </div>
         </ion-card>
       </ion-col>
   
       <ion-col text-center align-self-center size-md="6" size-lg="6" size-xs="6">
-        <ion-card [routerLink]="['/','visit-list-conveyance']" style="background-color: #B1386C !important">
+        <ion-card [routerLink]="['/','visit-list-conveyance']" style="background-color: var(--ion-com-secondary-color);">
           <div style="display: inline-block; text-align: center;" padding>
             <fa-icon icon="money-check" slot="end" size="2x"></fa-icon>
-            <p style="color: #ffff !important">Conveyance</p>
+            <p style="color: var(--ion-com-text-color) !important">Conveyance</p>
           </div>
         </ion-card>
       </ion-col>

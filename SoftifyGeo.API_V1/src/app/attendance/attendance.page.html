@@ -1,11 +1,11 @@
 <ion-header>
-  <ion-toolbar class="ion-toolbar">
+  <ion-toolbar class="ion-com-toolbar">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
       <a (click)="authService.logout()">
-        <ion-icon name="power" slot="end" style="color: white;"></ion-icon>
+        <ion-icon name="power" slot="end" style="color: var(--ion-com-text-color);"></ion-icon>
       </a>
     </ion-buttons>
     <ion-title><small>Attendance Entry</small> </ion-title>
@@ -53,7 +53,7 @@
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar class="ion-toolbar">
+  <ion-toolbar class="ion-com-toolbar">
     <ion-button fill="clear" expand="full" color="light" *ngIf="attendService.CheckStatus === 'CheckIn'"
       (click)="getPicture()">
       <ion-icon slot="start" name="camera"></ion-icon>
