@@ -46,15 +46,12 @@ export class AttendancePage {
     private camera: Camera, private file: File,
     public authService: AuthService
   ) {
-    this.attendService.CheckInOutStatus();
-    this.gpsService.requestGPSPermission();
-    this.locationCoords =  this.gpsService.getLocationCoordinates();
+
   }
 
   ionViewWillEnter() {
     this.attendService.CheckInOutStatus();
-    this.gpsService.requestGPSPermission();
-    this.locationCoords =  this.gpsService.getLocationCoordinates();
+    this.getGeolocation();
   }
 
   /* End : GEO  */
@@ -88,32 +85,36 @@ export class AttendancePage {
   }
 
   getPicture() {
-    if (this.ValidationMessage()) {
-      this.getGeolocation();
-      let options: CameraOptions = {
-        quality: 100,
-        sourceType: this.camera.PictureSourceType.CAMERA,
-        saveToPhotoAlbum: false,
-        correctOrientation: true,
-        targetHeight: 800, targetWidth: 800
+    if (navigator.onLine) {
+      if (this.ValidationMessage()) {
+        this.getGeolocation();
+        let options: CameraOptions = {
+          quality: 100,
+          sourceType: this.camera.PictureSourceType.CAMERA,
+          saveToPhotoAlbum: false,
+          correctOrientation: true,
+          targetHeight: 800, targetWidth: 800
+        }
+        this.camera.getPicture(options).then(imagePath => {
+          this.images = [];
+          let newEntry = {
+            name: 'attendance',
+            path: this.file.dataDirectory + name,
+            filePath: imagePath
+          };
+          this.images = [newEntry, ...this.images];
+          this.file.resolveLocalFilesystemUrl(this.images[0].filePath)
+            .then(entry => {
+              (<FileEntry>entry).file(file =>
+                this.readFile(file)
+              );
+            }).catch(err => {
+              this.toastService.message('Error while reading file.');
+            });
+        });
       }
-      this.camera.getPicture(options).then(imagePath => {
-        this.images = [];
-        let newEntry = {
-          name: 'attendance',
-          path: this.file.dataDirectory + name,
-          filePath: imagePath
-        };
-        this.images = [newEntry, ...this.images];
-        this.file.resolveLocalFilesystemUrl(this.images[0].filePath)
-          .then(entry => {
-            (<FileEntry>entry).file(file =>
-              this.readFile(file)
-            );
-          }).catch(err => {
-            this.toastService.message('Error while reading file.');
-          });
-      });
+    } else {
+      this.toastService.showLoader('please check internet connection !!');
     }
   }
 

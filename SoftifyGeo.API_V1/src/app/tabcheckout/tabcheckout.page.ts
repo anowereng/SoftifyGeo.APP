@@ -42,15 +42,19 @@ export class TabcheckoutPage {
   }
 
   GetLastCheckInCustomer() {
-    this.checkOutService.getLastCheckOutInfo().subscribe(result => {
-      if (result[0]) {
-        this.checkInInfo = result[0];
-      } else {
-        this.checkInInfo = { CustName: '', CustType: '', CheckInLatitude: '', CheckInlongitude: '', CheckInAddress: '' };
-      }
-    }, error => {
-      this.toastService.message(error);
-    });
+    if (navigator.onLine) {
+      this.checkOutService.getLastCheckOutInfo().subscribe(result => {
+        if (result[0]) {
+          this.checkInInfo = result[0];
+        } else {
+          this.checkInInfo = { CustName: '', CustType: '', CheckInLatitude: '', CheckInlongitude: '', CheckInAddress: '' };
+        }
+      }, error => {
+        this.toastService.message(error);
+      });
+    } else {
+      this.toastService.showLoader('please check internet connection !!');
+    }
   }
 
   UpdateCheckOut() {

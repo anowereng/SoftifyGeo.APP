@@ -33,31 +33,25 @@ export class TabcheckinPage {
     accuracy: '',
     timestamp: '',
     address: '',
-    description:''
+    description: ''
   };
   constructor(public navCtrl: NavController, public checkInOutService: CheckincheckoutService,
-              public toastService: ToastService,
-              public checkInService: CheckInService,
-              private camera: Camera, private file: File,
-              private loadservice: LoadingService, public authservice: AuthService,
-              private router: Router, public gpsService: GPSPermissionService,
+    public toastService: ToastService,
+    public checkInService: CheckInService,
+    private camera: Camera, private file: File,
+    private loadservice: LoadingService, public authservice: AuthService,
+    private router: Router, public gpsService: GPSPermissionService,
 
   ) {
-    this.ResetData();
-    this.GetReadyForCheckIn();
-    this.checkIn.CheckInDescription = '';
-    this.gpsService.requestGPSPermission();
-    this.locationCoords =  this.gpsService.getLocationCoordinates();
   }
 
   ionViewDidEnter() {
     this.ResetData();
     this.GetReadyForCheckIn();
     this.checkIn.CheckInDescription = '';
-    this.gpsService.requestGPSPermission();
-    this.locationCoords =  this.gpsService.getLocationCoordinates();
+    this.getGeolocation();
   }
-  
+
   defaultData(): CheckIn {
     return {
       CustType: 'old',
@@ -73,9 +67,9 @@ export class TabcheckinPage {
   getGeolocation() {
     this.gpsService.requestGPSPermission();
     this.locationCoords = this.gpsService.getLocationCoordinates();
-    this.checkIn.CheckInLatitude =   this.locationCoords.latitude;
-    this.checkIn.CheckInLongitude =   this.locationCoords.longitude;
-    this.checkIn.CheckInAddress =   this.locationCoords.address;
+    this.checkIn.CheckInLatitude = this.locationCoords.latitude;
+    this.checkIn.CheckInLongitude = this.locationCoords.longitude;
+    this.checkIn.CheckInAddress = this.locationCoords.address;
   }
 
   SearchData(event) {
@@ -112,32 +106,37 @@ export class TabcheckinPage {
   }
 
   getPicture() {
-    if (this.ValidationMessage()) {
-      var options: CameraOptions = {
-        quality: 100,
-        sourceType: this.camera.PictureSourceType.CAMERA,
-        saveToPhotoAlbum: false,
-        correctOrientation: true,
-        targetHeight: 1200, targetWidth: 1200
-      };
-      this.camera.getPicture(options).then(imagePath => {
-        this.images = [];
-        let newEntry = {
-          name: 'checkin',
-          path: this.file.dataDirectory + name,
-          filePath: imagePath
+    if (navigator.onLine) {
+      if (this.ValidationMessage()) {
+        var options: CameraOptions = {
+          quality: 100,
+          sourceType: this.camera.PictureSourceType.CAMERA,
+          saveToPhotoAlbum: false,
+          correctOrientation: true,
+          targetHeight: 1200, targetWidth: 1200
         };
-        this.images = [newEntry, ...this.images];
-        this.file.resolveLocalFilesystemUrl(this.images[0].filePath)
-          .then(entry => {
-            (<FileEntry>entry).file(file =>
-              this.readFile(file)
-            );
-          }).catch(err => {
-            this.toastService.message('Error while reading file.');
-          });
-      });
+        this.camera.getPicture(options).then(imagePath => {
+          this.images = [];
+          let newEntry = {
+            name: 'checkin',
+            path: this.file.dataDirectory + name,
+            filePath: imagePath
+          };
+          this.images = [newEntry, ...this.images];
+          this.file.resolveLocalFilesystemUrl(this.images[0].filePath)
+            .then(entry => {
+              (<FileEntry>entry).file(file =>
+                this.readFile(file)
+              );
+            }).catch(err => {
+              this.toastService.message('Error while reading file.');
+            });
+        });
+      }
+    } else {
+      this.toastService.showLoader('please check internet connection !!');
     }
+
   }
 
   async uploadImageData(formData: FormData) {

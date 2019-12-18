@@ -34,8 +34,6 @@ export class CheckincheckoutPage {
     private router: Router,
     private loadservice: LoadingService
   ) {
-    this.GetReadyForCheckIn();
-    this.GetVisitDay();
   }
 
   ionViewWillEnter() {
@@ -49,53 +47,62 @@ export class CheckincheckoutPage {
   }
 
   GetReadyForCheckIn() {
-    this.loadservice.present();
-    this.IsCheckInReady = false;
-    this.checkInService.GetReadyForCheckIn().subscribe(result => {
-      this.IsCheckInReady = Boolean(result);
-      if (result === false) {
-        this.toastService.message('Please Check Out  !!');
-      }
-    }, error => {
-      this.toastService.message(error);
-    });
-    this.loadservice.dismiss();
+    if (navigator.onLine) {
+      this.loadservice.present();
+      this.IsCheckInReady = false;
+      this.checkInService.GetReadyForCheckIn().subscribe(result => {
+        this.IsCheckInReady = Boolean(result);
+        if (result === false) {
+          this.toastService.message('Please Check Out  !!');
+        }
+      }, error => {
+        this.toastService.message(error);
+      });
+      this.loadservice.dismiss();
+    } else {
+      this.toastService.showLoader('please check internet connection !!');
+    }
   }
 
   GetVisitDay() {
-    this.loadservice.present();
-    this.IsCheckInReady = false;
-    this.checkInService.GetVisitDataDay().subscribe(result => {
-      this.visitday = result[0];
-      if (result === false) {
-        this.toastService.message('Please Check Out  !!');
-      }
-    }, error => {
-      this.toastService.message(error);
-    });
-    this.loadservice.dismiss();
-  }
-
-
-
-  GetRouteForCheckInOut(flag) {
-    if (this.IsCheckInReady === false) {
-      if (flag === 'checkout') {
-        this.router.navigate(['/tabcheckout']);
-      } else {
-        this.toastService.message('please check out ');
-      }
-    } else if (this.IsCheckInReady === true) {
-      if (flag === 'checkin') {
-        this.router.navigate(['/tabcheckin']);
-      } else {
-        this.toastService.message(' already check out, please check in ');
-      }
+    if (navigator.onLine) {
+      this.loadservice.present();
+      this.IsCheckInReady = false;
+      this.checkInService.GetVisitDataDay().subscribe(result => {
+        this.visitday = result[0];
+        if (result === false) {
+          this.toastService.message('Please Check Out  !!');
+        }
+      }, error => {
+        this.toastService.message(error);
+      });
+      this.loadservice.dismiss();
+    } else {
+      this.toastService.showLoader('please check internet connection !!');
     }
   }
 
 
 
+  GetRouteForCheckInOut(flag) {
+    if (navigator.onLine) {
+      if (this.IsCheckInReady === false) {
+        if (flag === 'checkout') {
+          this.router.navigate(['/tabcheckout']);
+        } else {
+          this.toastService.message('please check out ');
+        }
+      } else if (this.IsCheckInReady === true) {
+        if (flag === 'checkin') {
+          this.router.navigate(['/tabcheckin']);
+        } else {
+          this.toastService.message(' already check out, please check in ');
+        }
+      }
+    } else {
+      this.toastService.showLoader('please check internet connection !!');
+    }
+  }
 }
 
 

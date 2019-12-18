@@ -16,21 +16,30 @@ export class AttendanceService {
 
   constructor(private http: HttpClient, private toastService: ToastService) { }
   CheckInOutStatus() {
-    this.http.get(this.url + '/LocationAttendance').subscribe(response => {
-      this.CheckStatus = response;
-      console.log(response);
-    }, e => {
-      this.toastService.message(e);
-    });
+    if (navigator.onLine) {
+      this.http.get(this.url + '/LocationAttendance').subscribe(response => {
+        this.CheckStatus = response;
+        console.log(response);
+      }, e => {
+        console.log(e);
+      });
+    }
   }
 
-   postItem(model: any) {
-    console.log(model);
-    return this.http.post(this.url + '/LocationAttendance/AttendanceSave', model);
+  postItem(model: any) {
+    if (navigator.onLine) {
+      return this.http.post(this.url + '/LocationAttendance/AttendanceSave', model);
+    } else {
+      this.toastService.message(' Please Check Internet Connection !!! ');
+    }
   }
 
-   uploadImage(formData: FormData) {
-    return this.http.post(this.url + '/UploadImage/Upload?pagename=attendance', formData);
+  uploadImage(formData: FormData) {
+    if (navigator.onLine) {
+      return this.http.post(this.url + '/UploadImage/Upload?pagename=attendance', formData);
+    } else {
+      this.toastService.message(' Please Check Internet Connection !!! ');
+    }
   }
 }
 
