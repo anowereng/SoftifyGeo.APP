@@ -1,0 +1,39 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col text-center size-md="12" size-lg="12" size-xs="12">
+        <ion-searchbar [(ngModel)]="visitModel.searchTerm" (ionChange)="fuellist()"></ion-searchbar>
+      </ion-col>
+    </ion-row>
+    <div *ngIf="loading" text-center size-md="4" size-lg="4" size-xs="4">
+      <ion-spinner name="bubbles"></ion-spinner> <small>loading...</small>
+    </div>
+    <div *ngIf="customerlist.length===0 && loading==false" text-center size-md="4" size-lg="4" size-xs="4">
+      <small>data not found...</small>
+    </div>
+
+  </ion-grid>
+
+  <ion-virtual-scroll [items]="customerlist">
+    <ion-card *virtualItem="let data" color="light">
+      <ion-card-content style="padding-left:80px">
+        <div class="ribbon ribbon-top-left" *ngIf="data.isPaid>0">
+          <span style="padding-left: 10px;"> Paid</span>
+        </div>
+        <ion-label text-wrap>
+          <p><small>
+              <ion-icon name="calendar"></ion-icon> Issue Fuel : <strong>{{ data.dtFuel }}</strong>
+            </small></p>
+          <p><small>
+              {{ data.currencytext}} Amount : {{ data.FuelAmount }}
+            </small></p>
+          <p><small>
+              <ion-icon name="reorder"></ion-icon> Description : {{ data.Description }}
+            </small></p>
+
+        </ion-label>
+      </ion-card-content>
+    </ion-card>
+  </ion-virtual-scroll>
+
+</ion-content>

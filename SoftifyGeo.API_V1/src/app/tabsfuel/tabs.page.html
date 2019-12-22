@@ -1,0 +1,31 @@
+
+<ion-header>
+  <ion-toolbar class="ion-com-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+        <a (click)="authservice.logout()">
+          <ion-icon name="power" slot="end" style="color: var(--ion-com-text-color);"></ion-icon>
+        </a>
+      </ion-buttons>
+    <ion-title><small> Fuel Entry /  List </small></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-tabs>
+    <ion-tab-bar slot="top">
+      <ion-tab-button tab="tabfuelentry">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+        <ion-label>Fuel Entry</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="tabfuellist">
+        <ion-icon name="log-out"></ion-icon>
+        <ion-label>Fuel List</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-content>
+
