@@ -28,39 +28,18 @@ export class FuelListPage {
     this.fuellist();
   }
 
-  // fuellist() {
-  //   if (this.visitModel) {
-  //     this.loading = true;
-  //     this.fuelservice.loadfuel(this.visitModel.searchTerm, this.visitModel).subscribe(
-  //       response => {
-  //         this.customerlist = response; this.loading = false;
-  //       }, error => {
-  //         this.toastService.message(error);
-  //       });
-  //   }
-  // }
-
-  // SearchData() {
-  //   console.log(this.visitModel);
-  //   if (this.visitModel) {
-  //     this.loading = true;
-  //     this.visitService.getAllVisitCustomer(this.visitModel.searchTerm, this.visitModel).subscribe(
-  //       response => {
-  //         this.customerlist = response; this.loading = false;
-  //       }, error => {
-  //         this.toastService.message(error);
-  //       });
-  //   }
-  // }
-
   fuellist() {
-    this.loading = true;
-    this.fuelservice.loadfuel(this.visitModel.searchTerm).subscribe(
-      response => {
-        this.customerlist = response; this.loading = false;
-      }, error => {
-        this.toastService.message(error);
-      });
+    if (navigator.onLine) {
+      this.loading = true;
+      this.fuelservice.loadfuel(this.visitModel.searchTerm).subscribe(
+        response => {
+          this.customerlist = response; this.loading = false;
+        }, error => {
+          this.toastService.message(error);
+        });
+    } else {
+      this.toastService.showLoader('please check internet connection !!');
+    }
   }
 
 

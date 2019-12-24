@@ -13,7 +13,8 @@ const TOKEN_KEY = 'access_token';
 export class UserService {
 
   public userId: any;
-  constructor(private storage: Storage, private helper: JwtHelperService) {
+  url = environment.url;
+  constructor(private storage: Storage, private helper: JwtHelperService, private http: HttpClient) {
     this.getUserId();
   }
   ionViewDidEnter() {
@@ -23,8 +24,12 @@ export class UserService {
     this.storage.get(TOKEN_KEY).then(token => {
       if (token) {
         this.userId = this.helper.decodeToken(token).nameid;
-        console.log('userservice' + this.userId);
       }
     });
   }
+
+  UpdateProfile(model: any) {
+    return this.http.post(this.url + '/Login/UpdateProfile', model);
+  }
+
 }

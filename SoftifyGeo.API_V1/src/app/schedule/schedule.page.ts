@@ -18,13 +18,6 @@ const STORAGE_KEY = 'my_images';
 })
 export class SchedulePage implements OnInit {
 
-  // images = [];
-  // url = environment.url;
-
-  // constructor(private camera: Camera, private file: File, private http: HttpClient, private webview: WebView,
-  //   private actionSheetController: ActionSheetController, private toastController: ToastController,
-  //   private storage: Storage, private plt: Platform, private loadingController: LoadingController,
-  //   private ref: ChangeDetectorRef, private filePath: FilePath) { }
 
   ngOnInit() {
   }

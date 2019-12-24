@@ -9,56 +9,110 @@
 
 
 <ion-content padding>
-  
+
 
   <ion-grid fixed>
     <ion-row>
       <ion-col size="12">
         <ion-list>
+
           <ion-item>
             <ion-label size="12" class="text-align:center" class="ion-text-center">
               <strong>Profile Information </strong>
             </ion-label>
           </ion-item>
 
+          <div style="padding-top: 10px;">
+            <ion-col size="7" offset="4">
+              <img src="../assets/icon/user.png" height="50">
+            </ion-col>
+          </div>
+
           <ion-item>
-            <ion-col size="4">
+            <ion-col size="5">
               <ion-label class="ion-text-end">
-                <strong><small>User Name : </small></strong>
+                <strong><small>Name : </small></strong>
               </ion-label>
             </ion-col>
-            <ion-col size="8">
+            <ion-col size="7">
               <ion-label class="ion-text-start">
-                <strong><small>Nurul Kashem </small></strong>
+                <strong><small>{{userinfo.given_name}} </small></strong>
               </ion-label>
             </ion-col>
           </ion-item>
 
           <ion-item>
-            <ion-col size="4">
-              <ion-label class="ion-text-end">
-                <strong><small>Dis.Name : </small></strong>
-              </ion-label>
-            </ion-col>
-            <ion-col size="8">
-              <ion-label class="ion-text-start">
-                <strong><small> Mohammed Nurul Kashem </small></strong>
-              </ion-label>
-            </ion-col>
-          </ion-item>
-
-          <ion-item>
-            <ion-col size="4">
+            <ion-col size="5">
               <ion-label class="ion-text-end">
                 <strong><small>Designation : </small></strong>
               </ion-label>
             </ion-col>
-            <ion-col size="8">
+            <ion-col size="7">
               <ion-label class="ion-text-start">
-                <strong><small> ASST MANAGER, ACCOUNTS</small></strong>
+                <strong><small> {{userinfo.role}}</small></strong>
               </ion-label>
             </ion-col>
           </ion-item>
+
+          <ion-item *ngIf="!IsPasswordChange">
+            <ion-col size="5">
+              <ion-label class="ion-text-end">
+                <strong><small>Password : </small></strong>
+              </ion-label>
+            </ion-col>
+            <ion-col size="5">
+              <ion-label class="ion-text-start">
+                <strong><small> ********** </small></strong>
+              </ion-label>
+            </ion-col>
+            <ion-col size="2">
+              <ion-icon name="create" (click)="PasswordChange()"></ion-icon>
+            </ion-col>
+          </ion-item>
+
+          <div *ngIf="IsPasswordChange">
+            <ion-item>
+              <ion-col size="5">
+                <ion-label class="ion-text-end">
+                  <strong><small>Old : </small></strong>
+                </ion-label>
+              </ion-col>
+
+              <ion-col size="7">
+                <strong><small>
+                    <ion-input name="OldPassword" [type]="isTextFieldType ? 'text' : 'password'"
+                      [(ngModel)]="user.OldPassword" required placeholder="type old password"></ion-input>
+                  </small></strong>
+              </ion-col>
+            </ion-item>
+
+            <ion-item>
+              <ion-col size="5">
+                <ion-label class="ion-text-end">
+                  <strong><small>New : </small></strong>
+                </ion-label>
+              </ion-col>
+              <ion-col size="7">
+                <strong><small>
+                    <ion-input name="NewPassword" [type]="isTextFieldType ? 'text' : 'password'"
+                      [(ngModel)]="user.NewPassword" required placeholder="type new password"></ion-input>
+                  </small></strong>
+              </ion-col>
+            </ion-item>
+
+            <div style="text-align: center; margin-top: 30px;">
+              <ion-col size="12">
+                <small>
+                  <ion-checkbox color="primary" (click)="togglePasswordFieldType()" [(ngModel)]="user.isTextFieldType">
+                  </ion-checkbox>
+                </small>
+                <small style="margin-left: 10px;">Show Password</small>
+              </ion-col>
+              <!-- <ion-col size="10">
+              <ion-label><small>Show Password</small></ion-label>
+            </ion-col> -->
+            </div>
+          </div>
         </ion-list>
       </ion-col>
 
@@ -66,3 +120,26 @@
 
   </ion-grid>
 </ion-content>
+
+<ion-footer *ngIf="IsPasswordChange">
+  <ion-toolbar class="ion-com-toolbar">
+
+    <!-- <ion-button fill="clear" color="light"  (click)="UpdatePassword()" start>
+        <ion-icon name="log-out" slot="end"></ion-icon>
+        Update
+      </ion-button>
+      <ion-button fill="clear" color="light" (click)="CancelUpdate()" end>
+        <ion-icon name="hand" slot="end"></ion-icon>
+        Cancel
+      </ion-button> -->
+    <ion-button slot="start" fill="clear" style="color: var(--ion-com-text-color);" (click)="UpdatePassword()">
+      <ion-icon name="log-out" slot="end"></ion-icon>
+      Update
+    </ion-button>
+    <ion-button slot="end" fill="clear" style="color: var(--ion-com-text-color);" (click)="CancelUpdate()">
+      <ion-icon name="hand" slot="exit"></ion-icon>
+      Cancel
+    </ion-button>
+
+  </ion-toolbar>
+</ion-footer>

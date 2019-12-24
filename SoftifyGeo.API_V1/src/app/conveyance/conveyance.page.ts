@@ -28,9 +28,9 @@ export class ConveyancePage {
   };
 
   constructor(
-              public navCtrl: NavController, public convservice: ConveyanceService,
-              public loadingService: LoadingService, public toastService: ToastService,
-              private router: ActivatedRoute, private formBuilder: FormBuilder, private routeRed: Router
+    public navCtrl: NavController, public convservice: ConveyanceService,
+    public loadingService: LoadingService, public toastService: ToastService,
+    private router: ActivatedRoute, private formBuilder: FormBuilder, private routeRed: Router
   ) {
     this.id = this.router.snapshot.paramMap.get('id');
     this.ConveyanceType();
@@ -101,22 +101,26 @@ export class ConveyancePage {
   }
 
   GetConveyanceInfo() {
-    if (this.id > 0) {
-      this.convservice.getConveyData(this.id).subscribe(
-        response => {
-          if (response[0]) {
-            this.model.conveyTypeId = response[0].conveyTypeId.toString();
-            this.conveyAmount = response[0].conveyAmount;
-            this.model.conveyAmount = response[0].conveyAmount;
-            this.model.ConveyDescription = response[0].ConveyDescription;
-            this.ConveyDescription = response[0].ConveyDescription;
-            this.SetAmount(response[0]);
-          }
-        }, error => {
-          this.toastService.message(error);
-        });
+    if (navigator.onLine) {
+      if (this.id > 0) {
+        this.convservice.getConveyData(this.id).subscribe(
+          response => {
+            if (response[0]) {
+              this.model.conveyTypeId = response[0].conveyTypeId.toString();
+              this.conveyAmount = response[0].conveyAmount;
+              this.model.conveyAmount = response[0].conveyAmount;
+              this.model.ConveyDescription = response[0].ConveyDescription;
+              this.ConveyDescription = response[0].ConveyDescription;
+              this.SetAmount(response[0]);
+            }
+          }, error => {
+            this.toastService.message(error);
+          });
+      } else {
+        this.toastService.message('visit id not found in database !!');
+      }
     } else {
-      this.toastService.message('visit id not found in database !!');
+      this.toastService.showLoader('please check internet connection !!');
     }
   }
 

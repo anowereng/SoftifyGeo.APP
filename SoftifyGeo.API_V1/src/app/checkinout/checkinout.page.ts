@@ -89,11 +89,11 @@ export class CheckInOutPage {
     };
   }
   getGeolocation() {
-      this.gpsService.requestGPSPermission();
-      this.locationCoords = this.gpsService.getLocationCoordinates();
-      this.checkIn.CheckInLatitude = this.locationCoords.latitude;
-      this.checkIn.CheckInLongitude = this.locationCoords.longitude;
-      this.checkIn.CheckInAddress = this.locationCoords.address;
+    this.gpsService.requestGPSPermission();
+    this.locationCoords = this.gpsService.getLocationCoordinates();
+    this.checkIn.CheckInLatitude = this.locationCoords.latitude;
+    this.checkIn.CheckInLongitude = this.locationCoords.longitude;
+    this.checkIn.CheckInAddress = this.locationCoords.address;
   }
 
   SearchData(event) {
@@ -197,31 +197,31 @@ export class CheckInOutPage {
   /* End:  ======== Image Upload Area ======== */
 
   SaveCheckInCustomer(formData: FormData) {
-    this.getGeolocation();
-    this.checkIn.CheckInLatitude = this.locationCoords.latitude;
-    this.checkIn.CheckInLongitude = this.locationCoords.longitude;
-    this.checkIn.CheckInAddress = this.locationCoords.address;
-    this.checkIn.CheckInDescription = this.locationCoords.description;
+    if (navigator.onLine) {
+      this.getGeolocation();
+      this.checkIn.CheckInLatitude = this.locationCoords.latitude;
+      this.checkIn.CheckInLongitude = this.locationCoords.longitude;
+      this.checkIn.CheckInAddress = this.locationCoords.address;
+      this.checkIn.CheckInDescription = this.locationCoords.description;
 
-    if (this.ValidationMessage()) {
-      this.checkInService.postItem(this.checkIn).subscribe(
-        () => {
-          console.log(this.checkIn);
-          this.toastService.message('Record Saved Successfully');
-          this.uploadImageData(formData);
-          this.ResetData();
-        }, error => {
-          this.toastService.message(error);
-        });
+      if (this.ValidationMessage()) {
+        this.checkInService.postItem(this.checkIn).subscribe(
+          () => {
+            console.log(this.checkIn);
+            this.toastService.message('Record Saved Successfully');
+            this.uploadImageData(formData);
+            this.ResetData();
+          }, error => {
+            this.toastService.message(error);
+          });
+      }
+    } else {
+      this.toastService.showLoader('please check internet connection !!');
     }
   }
 
   ValidationMessage(): boolean {
     let flag = true;
-    // if (this.IsCheckInReady === false) {
-    //   flag = false;
-    //   this.toastService.message('Please Check Out First !!');
-    // }
     if (this.checkIn.CustId === 0 && this.checkIn.CustType === 'old') {
       flag = false;
       this.toastService.message('please select customer   !!');
@@ -246,16 +246,20 @@ export class CheckInOutPage {
   }
 
   GetReadyForCheckIn() {
-    this.IsCheckInReady = false;
-    this.checkInService.GetReadyForCheckIn().subscribe(result => {
-      this.ResetCheckOut();
-      this.IsCheckInReady = Boolean(result);
-      if (result === false) {
-        this.toastService.message('Please Check Out First !!');
-      }
-    }, error => {
-      this.toastService.message(error);
-    });
+    if (navigator.onLine) {
+      this.IsCheckInReady = false;
+      this.checkInService.GetReadyForCheckIn().subscribe(result => {
+        this.ResetCheckOut();
+        this.IsCheckInReady = Boolean(result);
+        if (result === false) {
+          this.toastService.message('Please Check Out First !!');
+        }
+      }, error => {
+        this.toastService.message(error);
+      });
+    } else {
+      this.toastService.showLoader('please check internet connection !!');
+    }
   }
 
   custTypeChange() {
@@ -278,19 +282,24 @@ export class CheckInOutPage {
   }
 
   UpdateCheckOut() {
-    this.checkOutModel.LocationCustId = this.checkInInfo.LocationCustId;
-    this.checkOutModel.CheckOutLatitude = this.locationCoords.latitude;
-    this.checkOutModel.CheckOutLongitude = this.locationCoords.longitude;
-    this.checkOutModel.CheckOutAddress = this.locationCoords.address;
-    this.checkOutModel.CheckOutDescription = this.locationCoords.description;
-    if (this.checkOutModel && this.checkOutModel.LocationCustId > 0) {
-      this.checkOutService.postCheckOut(this.checkOutModel).subscribe(() => {
-        this.toastService.message('CheckOut Updated Successfully');
-        this.router.navigate(['/home']);
-      }, error => {
-        this.toastService.message(error);
-      });
+    if (navigator.onLine) {
+      this.checkOutModel.LocationCustId = this.checkInInfo.LocationCustId;
+      this.checkOutModel.CheckOutLatitude = this.locationCoords.latitude;
+      this.checkOutModel.CheckOutLongitude = this.locationCoords.longitude;
+      this.checkOutModel.CheckOutAddress = this.locationCoords.address;
+      this.checkOutModel.CheckOutDescription = this.locationCoords.description;
+      if (this.checkOutModel && this.checkOutModel.LocationCustId > 0) {
+        this.checkOutService.postCheckOut(this.checkOutModel).subscribe(() => {
+          this.toastService.message('CheckOut Updated Successfully');
+          this.router.navigate(['/home']);
+        }, error => {
+          this.toastService.message(error);
+        });
+      }
+    } else {
+      this.toastService.showLoader('please check internet connection !!');
     }
+
   }
 
 }

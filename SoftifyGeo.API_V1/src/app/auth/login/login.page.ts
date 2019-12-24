@@ -27,7 +27,7 @@ export class LoginPage implements OnInit {
 
   onSubmit() {
     if (navigator.onLine) {
-      this.authService.login(this.loginForm.value).subscribe();
+       this.authService.login(this.loginForm.value).subscribe();
     } else {
       this.message.message('Please check internet connection...')
     }

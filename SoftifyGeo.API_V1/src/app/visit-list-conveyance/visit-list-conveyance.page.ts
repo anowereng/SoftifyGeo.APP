@@ -14,7 +14,7 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./visit-list-conveyance.page.scss'],
 })
 
-export class VisitListConveyancePage{
+export class VisitListConveyancePage {
 
   visitModel: any = {
     dtFrom: this.datpickerService.selectedDate(),
@@ -34,26 +34,23 @@ export class VisitListConveyancePage{
 
   }
 
-  // ngOnInit() {
-  //   this.datePickerObj = this.datpickerService.GetDatePickerObj();
-  //   this.SearchData();
-  // }
-  
-
   ionViewDidEnter() {
     this.datePickerObj = this.datpickerService.GetDatePickerObj();
     this.SearchData();
   }
   SearchData() {
-    console.log(this.visitModel);
-    if (this.visitModel) {
-      this.loading = true;
-      this.visitService.getAllVisitCustomer(this.visitModel.searchTerm, this.visitModel).subscribe(
-        response => {
-          this.customerlist = response; this.loading = false;
-        }, error => {
-          this.toastService.message(error);
-        });
+    if (navigator.onLine) {
+      if (this.visitModel) {
+        this.loading = true;
+        this.visitService.getAllVisitCustomer(this.visitModel.searchTerm, this.visitModel).subscribe(
+          response => {
+            this.customerlist = response; this.loading = false;
+          }, error => {
+            this.toastService.message(error);
+          });
+      }
+    } else {
+      this.toastService.showLoader('please check internet connection !!');
     }
   }
 

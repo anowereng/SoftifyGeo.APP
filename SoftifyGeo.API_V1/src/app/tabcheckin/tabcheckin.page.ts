@@ -36,11 +36,11 @@ export class TabcheckinPage {
     description: ''
   };
   constructor(public navCtrl: NavController, public checkInOutService: CheckincheckoutService,
-    public toastService: ToastService,
-    public checkInService: CheckInService,
-    private camera: Camera, private file: File,
-    private loadservice: LoadingService, public authservice: AuthService,
-    private router: Router, public gpsService: GPSPermissionService,
+              public toastService: ToastService,
+              public checkInService: CheckInService,
+              private camera: Camera, private file: File,
+              private loadservice: LoadingService, public authservice: AuthService,
+              private router: Router, public gpsService: GPSPermissionService,
 
   ) {
   }
