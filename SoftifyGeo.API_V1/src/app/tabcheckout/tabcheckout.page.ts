@@ -3,8 +3,8 @@ import { CheckOutService } from '../services/checkout.service';
 import { ToastService } from '../services/toast.service';
 import { CheckOut } from '../_models/Checkout';
 import { LocationCords } from '../_models/location';
-import { Router } from '@angular/router';
 import { GPSPermissionService } from '../services/gps-permission.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tabcheckout',
@@ -23,7 +23,7 @@ export class TabcheckoutPage {
   };
   constructor(
               private checkOutService: CheckOutService, private toastService: ToastService,
-              private latLong: GPSPermissionService, private router: Router
+              private latLong: GPSPermissionService, private navCtrl: NavController
   ) { }
 
   ionViewDidEnter() {
@@ -67,7 +67,7 @@ export class TabcheckoutPage {
     if (this.checkOutModel && this.checkOutModel.LocationCustId > 0) {
       this.checkOutService.postCheckOut(this.checkOutModel).subscribe(() => {
         this.toastService.message('CheckOut Updated Successfully');
-        this.router.navigate(['/']);
+        this.navCtrl.navigateRoot('/tabs/home');
       }, error => {
         this.toastService.message(error);
       });

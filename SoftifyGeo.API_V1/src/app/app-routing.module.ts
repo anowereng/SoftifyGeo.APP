@@ -26,7 +26,9 @@ const routes: Routes = [
   { path: 'visit-list-conveyance', loadChildren: './visit-list-conveyance/visit-list-conveyance.module#VisitListConveyancePageModule', canActivate: [AuthGuardService] },
   { path: 'conveyance/:id', loadChildren: './conveyance/conveyance.module#ConveyancePageModule', canActivate: [AuthGuardService] },
   { path: 'visit-details/:id', loadChildren: './visit-details/visit-details.module#VisitDetailsPageModule', canActivate: [AuthGuardService] },
-  { path: 'checkinout', loadChildren: () => import('./checkinout/checkinout.module').then(m => m.CheckInOutPageModule), canActivate: [AuthGuardService] }
+  { path: 'checkinout', loadChildren: () => import('./checkinout/checkinout.module').then(m => m.CheckInOutPageModule), canActivate: [AuthGuardService] },
+
+
 ];
 
 @NgModule({

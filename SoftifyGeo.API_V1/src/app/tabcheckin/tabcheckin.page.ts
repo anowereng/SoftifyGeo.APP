@@ -13,7 +13,6 @@ import { finalize } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import { isUndefined } from 'util';
 
-import { Router } from '@angular/router';
 import { GPSPermissionService } from '../services/gps-permission.service';
 import { LocationCords } from '../_models/location';
 @Component({
@@ -40,12 +39,12 @@ export class TabcheckinPage {
               public checkInService: CheckInService,
               private camera: Camera, private file: File,
               private loadservice: LoadingService, public authservice: AuthService,
-              private router: Router, public gpsService: GPSPermissionService,
+              public gpsService: GPSPermissionService,
 
   ) {
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
     this.ResetData();
     this.GetReadyForCheckIn();
     this.checkIn.CheckInDescription = '';
@@ -136,7 +135,7 @@ export class TabcheckinPage {
     } else {
       this.toastService.showLoader('please check internet connection !!');
     }
-
+   
   }
 
   async uploadImageData(formData: FormData) {
@@ -148,7 +147,7 @@ export class TabcheckinPage {
     }, error => {
       this.toastService.message(error);
     });
-    this.router.navigate(['/']);
+    this.navCtrl.navigateRoot('/tabs/home');
   }
 
 
