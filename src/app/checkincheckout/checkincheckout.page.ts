@@ -34,6 +34,7 @@ export class CheckincheckoutPage {
     private router: Router,
     private loadservice: LoadingService
   ) {
+
   }
 
   ionViewWillEnter() {

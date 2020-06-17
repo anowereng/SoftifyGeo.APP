@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { ToastService } from './toast.service';
-const TOKEN_KEY = 'access_token';
+
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,29 +16,37 @@ export class AttendanceService {
   UserId: any;
   CheckStatus: any;
 
-  constructor(private http: HttpClient, private toastService: ToastService) { }
+  constructor(private http: HttpClient, private toastService: ToastService,
+              ) {
+  }
   CheckInOutStatus() {
     if (navigator.onLine) {
-      this.http.get(this.url + '/LocationAttendance').subscribe(response => {
-        this.CheckStatus = response;
-        console.log(response);
-      }, e => {
-        console.log(e);
-      });
+      if (this.url.length > 3) {
+        this.http.get(this.url + '/LocationAttendance').subscribe(response => {
+          this.CheckStatus = response;
+          console.log(response);
+        }, e => {
+          console.log(e);
+        });
+      }
     }
   }
 
   postItem(model: any) {
     if (navigator.onLine) {
-      return this.http.post(this.url + '/LocationAttendance/AttendanceSave', model);
-    } else {
-      this.toastService.message(' Please Check Internet Connection !!! ');
+      if (this.url.length > 3) {
+        return this.http.post(this.url + '/LocationAttendance/AttendanceSave', model);
+      } else {
+        this.toastService.message(' Please Check Internet Connection !!! ');
+      }
     }
   }
 
   uploadImage(formData: FormData) {
     if (navigator.onLine) {
-      return this.http.post(this.url + '/UploadImage/Upload?pagename=attendance', formData);
+      if (this.url.length > 3) {
+        return this.http.post(this.url + '/UploadImage/Upload?pagename=attendance', formData);
+      }
     } else {
       this.toastService.message(' Please Check Internet Connection !!! ');
     }

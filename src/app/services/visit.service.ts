@@ -7,7 +7,7 @@ export class VisitService {
   url = environment.url;
   constructor(private http: HttpClient) {
   }
-// [demo]
+  // [demo]
   postItem(model: CheckIn) {
     return this.http.post(this.url + '/CustomerChekIn/CheckIn', model).pipe(
       catchError(e => {
@@ -16,21 +16,18 @@ export class VisitService {
     );
   }
 
-  loadUsers(  pageindex: any, pagesize: any, searchterm: any) {
+  loadUsers(pageindex: any, pagesize: any, searchterm: any) {
     return this.http.get(this.url + `/visit/GetVisitList?pageindex=${pageindex}&pagesize=${pagesize}&searchdata=${searchterm}`);
   }
 
   getAllVisitCustomer(searchtext: any, model: any) {
-
-    console.log(model);
-          // tslint:disable-next-line: max-line-length
+    // tslint:disable-next-line: max-line-length
     return this.http.get(this.url + `/visit/GetAllVisitCustomer?searchdata=${searchtext}&custtype=${model.type}&dtfrom=${model.dtFrom}&dtto=${model.dtTo}`);
   }
 
   getVisitDetailsByLocCustId(id: number) {
     return this.http.get(this.url + `/visit/getVisitDetailsByLocCustId?id=${id}`);
   }
-
 
 }
 

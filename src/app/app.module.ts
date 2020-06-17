@@ -8,7 +8,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AuthModule } from  './auth/auth.module';
+import { AuthModule } from './auth/auth.module';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -26,15 +26,17 @@ import { environment } from '../environments/environment';
 import { LoadingService } from './services/loading.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
-import {AppVersion} from '@ionic-native/app-version/ngx';
+import { AppVersion } from '@ionic-native/app-version/ngx';
+import { Connection } from 'src/environments/connection';
+import { CheckInService } from './services/checkin.service';
 
 export function jwtOptionsFactory(storage) {
   return {
     tokenGetter: () => {
       return storage.get('access_token');
     },
-    whitelistedDomains: ['localhost:5000', '202.86.220.142:5196', 'localhost:57093' ]
-  }
+    whitelistedDomains:  ['softifytech.com', environment.host, 'localhost:57093', 'localhost:8100', 'localhost:8200', 'localhost:5000']
+  };
 }
 
 library.add(fas, far, fab);
@@ -42,7 +44,7 @@ library.add(fas, far, fab);
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
-     AuthModule, FontAwesomeModule,
+    AuthModule, FontAwesomeModule,
     IonicStorageModule.forRoot(),
     JwtModule.forRoot({
       jwtOptionsProvider: {
@@ -57,8 +59,9 @@ library.add(fas, far, fab);
     SplashScreen,
     Network, AppVersion,
     ToastService, ErrorInterceptorProvider, LoadingService, Geolocation, NativeGeocoder,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    Connection
+    , { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

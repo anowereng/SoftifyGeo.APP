@@ -28,7 +28,6 @@ const routes: Routes = [
   { path: 'visit-details/:id', loadChildren: './visit-details/visit-details.module#VisitDetailsPageModule', canActivate: [AuthGuardService] },
   { path: 'checkinout', loadChildren: () => import('./checkinout/checkinout.module').then(m => m.CheckInOutPageModule), canActivate: [AuthGuardService] },
 
-
 ];
 
 @NgModule({
