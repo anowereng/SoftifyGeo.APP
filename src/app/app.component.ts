@@ -7,6 +7,7 @@ import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
 import { TabsPage } from './tabs/tabs.page';
 import { AppVersion } from '@ionic-native/app-version/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,9 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+
+  gps_update_link: string = 'http://103.148.10.251:5196/api/BackgroundLocation';
+
   navigate: any; rootPage: any = TabsPage;
 
   public app_version: string;
@@ -23,13 +27,12 @@ export class AppComponent {
     private statusBar: StatusBar,
     private authService: AuthService,
     private router: Router,
-    private appVersion: AppVersion
+    private appVersion: AppVersion,
+    private backgroundMode: BackgroundMode
   ) {
     this.sideMenu();
     this.initializeApp();
-
   }
-
 
   initializeApp() {
     this.platform.ready().then(() => {
@@ -37,6 +40,10 @@ export class AppComponent {
       this.splashScreen.hide();
       this.authService.authenticationState.subscribe(state => {
         if (state) {
+          this.backgroundMode.enable();
+          this.backgroundMode.on("activate").subscribe(() => {
+            this.backgroundMode.disableWebViewOptimizations();
+          });
           this.router.navigate(['tabs/home']);
         } else {
           this.router.navigate(['login']);

@@ -11,7 +11,15 @@ import { LoadingService } from './loading.service';
 import { Connection } from 'src/environments/connection';
 import { ConnectionModel } from '../_models/connection';
 import { environment } from 'src/environments/environment';
-
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import {
+  BackgroundGeolocation,
+  BackgroundGeolocationConfig,
+  BackgroundGeolocationResponse,
+  BackgroundGeolocationEvents,
+  BackgroundGeolocationMode,
+} from '@ionic-native/background-geolocation/ngx';
+import { BackgroundGpsService } from '../services/backgroundgps.service';
 const TOKEN_KEY = 'access_token';
 
 @Injectable({
@@ -27,7 +35,11 @@ export class AuthService {
 
   constructor(private http: HttpClient, private helper: JwtHelperService, private storage: Storage,
               private plt: Platform, private toastService: ToastService,
-              private loadservice: LoadingService, public connection: Connection) {
+              private loadservice: LoadingService, public connection: Connection,
+              private backgroundGeolocation: BackgroundGeolocation,
+              private backgroundMode: BackgroundMode,
+  
+  ) {
     this.plt.ready().then(() => {
       this.checkToken();
       // console.log('checkToken()=>'+this.authenticationState.value);
@@ -83,6 +95,8 @@ export class AuthService {
 
   logout() {
     this.storage.remove(TOKEN_KEY).then(() => {
+      this.backgroundMode.disable();
+      this.backgroundGeolocation.stop();
       this.authenticationState.next(false);
     });
   }

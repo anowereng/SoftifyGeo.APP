@@ -29,7 +29,8 @@ import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@io
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { Connection } from 'src/environments/connection';
 import { CheckInService } from './services/checkin.service';
-
+import { BackgroundGeolocation } from "@ionic-native/background-geolocation/ngx";
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 export function jwtOptionsFactory(storage) {
   return {
     tokenGetter: () => {
@@ -58,7 +59,8 @@ library.add(fas, far, fab);
     StatusBar,
     SplashScreen,
     Network, AppVersion,
-    ToastService, ErrorInterceptorProvider, LoadingService, Geolocation, NativeGeocoder,
+    ToastService, ErrorInterceptorProvider, LoadingService, Geolocation, NativeGeocoder, BackgroundMode ,
+    BackgroundGeolocation,
     Connection
     , { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

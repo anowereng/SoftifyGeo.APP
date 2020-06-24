@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HomePage } from './home.page';
+import { BackgroundGpsService } from '../services/backgroundgps.service';
 
 @NgModule({
   imports: [
@@ -19,6 +20,6 @@ import { HomePage } from './home.page';
       }
     ])
   ],
-  declarations: [HomePage]
+  declarations: [HomePage], providers: [BackgroundGpsService]
 })
 export class HomePageModule {}
