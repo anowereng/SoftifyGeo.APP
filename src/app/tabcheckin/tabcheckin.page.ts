@@ -108,11 +108,11 @@ export class TabcheckinPage {
     if (navigator.onLine) {
       if (this.ValidationMessage()) {
         var options: CameraOptions = {
-          quality: 100,
+          quality: 80,
           sourceType: this.camera.PictureSourceType.CAMERA,
           saveToPhotoAlbum: false,
           correctOrientation: true,
-          targetHeight: 1200, targetWidth: 1200
+          targetHeight: 600, targetWidth: 600
         };
         this.camera.getPicture(options).then(imagePath => {
           this.images = [];

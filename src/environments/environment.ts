@@ -7,8 +7,9 @@ export const environment = {
   production: false,
     //url: 'http://localhost:57093/api'
     //url:'http://202.86.220.142:5196/api'
-  url: 'http://103.148.10.251:5196/api',
-  host: '103.148.10.251:5196'
+   url: 'http://acltrackerapi.softifytech.com/api',
+  //url: 'http://api.softifytech.com/SoftifyGEO/api',
+   // url: 'http://103.148.10.251:5196/api'
 };
 
 /*

@@ -35,7 +35,7 @@ export class VisitListPage implements OnInit {
   ngOnInit() {
     this.datePickerObj = this.datpickerService.GetDatePickerObj();
   }
-  SearchData(event) {
+  SearchData() {
     console.log(this.visitModel);
     if (this.visitModel) {
       this.loading = true;

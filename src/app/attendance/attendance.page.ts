@@ -89,11 +89,11 @@ export class AttendancePage {
       if (this.ValidationMessage()) {
         this.getGeolocation();
         let options: CameraOptions = {
-          quality: 100,
+          quality: 80,
           sourceType: this.camera.PictureSourceType.CAMERA,
           saveToPhotoAlbum: false,
           correctOrientation: true,
-          targetHeight: 800, targetWidth: 800
+          targetHeight: 600, targetWidth: 600
         }
         this.camera.getPicture(options).then(imagePath => {
           this.images = [];

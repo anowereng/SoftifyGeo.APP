@@ -132,10 +132,11 @@ export class CheckInOutPage {
   getPicture() {
     if (this.ValidationMessage()) {
       var options: CameraOptions = {
-        quality: 100,
+        quality: 80,
         sourceType: this.camera.PictureSourceType.CAMERA,
         saveToPhotoAlbum: false,
-        correctOrientation: true
+        correctOrientation: true,
+        targetHeight: 600, targetWidth: 600
       };
       this.camera.getPicture(options).then(imagePath => {
         this.images = [];

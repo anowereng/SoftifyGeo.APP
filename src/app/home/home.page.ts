@@ -29,12 +29,12 @@ export class HomePage {
   ) {
     this.userinfo = this.authService.getUserInfo();
     console.log(this.userinfo);
-    this.startBackground();
+    // this.startBackground();
   }
 
   logout() {
-    this.backgroundMode.disable();
-    this.backgroundGeolocation.stop();
+    // this.backgroundMode.disable();
+    // this.backgroundGeolocation.stop();
     this.authService.logout();
   }
 

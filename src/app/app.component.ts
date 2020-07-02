@@ -16,7 +16,7 @@ import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 })
 export class AppComponent {
 
-  gps_update_link: string = 'http://103.148.10.251:5196/api/BackgroundLocation';
+  gps_update_link: string = 'http://acltrackerapi.softifytech.com/api/BackgroundLocation';
 
   navigate: any; rootPage: any = TabsPage;
 
@@ -40,10 +40,10 @@ export class AppComponent {
       this.splashScreen.hide();
       this.authService.authenticationState.subscribe(state => {
         if (state) {
-          this.backgroundMode.enable();
-          this.backgroundMode.on("activate").subscribe(() => {
-            this.backgroundMode.disableWebViewOptimizations();
-          });
+          // this.backgroundMode.enable();
+          // this.backgroundMode.on("activate").subscribe(() => {
+          //   this.backgroundMode.disableWebViewOptimizations();
+          // });
           this.router.navigate(['tabs/home']);
         } else {
           this.router.navigate(['login']);

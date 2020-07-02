@@ -36,7 +36,8 @@ export function jwtOptionsFactory(storage) {
     tokenGetter: () => {
       return storage.get('access_token');
     },
-    whitelistedDomains:  ['softifytech.com', environment.host, 'localhost:57093', 'localhost:8100', 'localhost:8200', 'localhost:5000']
+    // tslint:disable-next-line: max-line-length
+    whitelistedDomains:  ['acltrackerapi.softifytech.com' , 'localhost:57093', 'localhost:8100', 'localhost:5000']
   };
 }
 
