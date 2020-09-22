@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, QueryList, ViewChild } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { AlertController, IonRouterOutlet, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthService } from './services/auth.service';
@@ -21,6 +21,8 @@ export class AppComponent {
   navigate: any; rootPage: any = TabsPage;
 
   public app_version: string;
+  backButtonSubscription;
+  @ViewChild(IonRouterOutlet, {static: true}) routerOutlet: IonRouterOutlet;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -28,12 +30,28 @@ export class AppComponent {
     private authService: AuthService,
     private router: Router,
     private appVersion: AppVersion,
-    private backgroundMode: BackgroundMode
+    private backgroundMode: BackgroundMode,
+    private alertCtrl: AlertController,
   ) {
     this.sideMenu();
     this.initializeApp();
   }
-
+  ngAfterViewInit() {
+    // this.backButtonSubscription = this.platform.backButton.subscribe(() => {
+    //   navigator['app'].exitApp();
+    // });
+    this.platform.backButton.subscribe(() => {
+      if (this.routerOutlet && this.routerOutlet.canGoBack()) {
+        this.routerOutlet.pop();
+      }
+       else if (this.router.url === '/home' || this.router.url === 'tabs/home') {
+        this.presentAlertConfirm();
+       }
+      else {
+        navigator['app'].exitApp();
+      }
+    });
+  }
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
@@ -60,7 +78,31 @@ export class AppComponent {
         console.log(error);
       });
   }
+  async presentAlertConfirm() {
+    const alert = await this.alertCtrl.create({
+      header: 'Confirm!',
+      message: 'Do you want to exit the app?',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Okay',
+          handler: () => {
+            console.log('Confirm Okay');
+            navigator['app'].exitApp();
+          }
+        }
+      ]
+    });
 
+    await alert.present();
+  }
+  ngOnDestroy() {
+    this.backButtonSubscription.unsubscribe();
+  }
   sideMenu() {
     this.navigate =
       [
